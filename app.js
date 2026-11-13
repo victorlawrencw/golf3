@@ -236,8 +236,9 @@ var createScene = function () {
     //load default course :)
     if (courseloc == undefined) { courseloc = 'https://github.com/victorlawrencw/golf3/raw/refs/heads/main/boredApes.glb' }
     if (courseloc.indexOf('/') > -1) {
+        var rooturl = courseloc.slice(0, courseloc.lastIndexOf('/') + 1);
         var filename = courseloc.slice(courseloc.lastIndexOf('/') + 1);
-        assetsManager.addMeshTask("NEWSCENE", "", courseloc, filename);
+        assetsManager.addMeshTask("NEWSCENE", "", rooturl, filename);
     }
     else {
         courseloc == cc;
