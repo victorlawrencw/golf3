@@ -559,8 +559,6 @@
 	Parse.initialize(appId);
 	Parse.serverURL = serverUrl;
 	
-	Parse.start({serverUrl, appId})
-	
 	//IF USER IS ALREADY LOGGED IN... Ill set the login/signup button to work as user menu opener, where the owner of account can check their game files.
 	if(Parse.User.current()){
 		const aclx = new Parse.ACL();
