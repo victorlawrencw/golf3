@@ -234,7 +234,7 @@ var createScene = function () {
     assetsManager.autoHideLoadingUI = false;
 
     //load default course :)
-    if (courseloc == undefined) { courseloc = 'https://github.com/victorlawrencw/golf3/raw/refs/heads/main/boredApes.glb' }
+    if (courseloc == undefined) { courseloc = 'https://golf3.onrender.com/boredApes.glb' }
     if (courseloc.indexOf('/') > -1) {
         var rooturl = courseloc.slice(0, courseloc.lastIndexOf('/'));
         var filename = courseloc.slice(courseloc.lastIndexOf('/') + 1);
@@ -342,11 +342,11 @@ var createScene = function () {
                     break;
             }
 
-            let trail = new BABYLON.TrailMesh('trail', ball, scene, startbbx, 10, true);
+            let trail = new BABYLON.TrailMesh('trail', ball, scene, startbbx, 20, true);
 
             let trailM = new BABYLON.StandardMaterial('trailm', scene);
             trailM.diffuseColor = new BABYLON.Color3(0.8, 0.7, 0.7); //A PERFECT GRAY!
-            trailM.alpha = 0.05; //SWEET IN THE MIDDLE
+            trailM.alpha = 0.08; //SWEET IN THE MIDDLE
 
             ball.enableEdgesRendering(0.99);
             ball.edgesColor = new BABYLON.Color4(0.2, 0.2, 0.2, 0.5);
@@ -401,7 +401,7 @@ var createScene = function () {
                         {
                             let iom = mname.indexOf("bouncer");
                             let bouncerx = m;
-                            let restitution = 1;
+                            let restitution = 3;
                             if (mname.length > iom + 7) restitution = Number(mname.slice(iom + 7, iom + 8)) * 0.1;
                             m.physicsImpostor = new BABYLON.PhysicsImpostor(bouncerx, BABYLON.PhysicsImpostor.MeshImpostor, { mass: 1, restitution: restitution, friction: 0 }, scene)
                         }
@@ -549,8 +549,6 @@ var createScene = function () {
             engine.switchFullscreen(true)
             showToast('fullscreen-ed', 1, 2000);
         }
-
-        let startTime = Date.now();
 
         var pullmat = new BABYLON.StandardMaterial("null", scene);
         pullmat.alpha = 0;
@@ -713,7 +711,7 @@ var createScene = function () {
             ge("won").style.display = "block";
             //Calculate finish time
             const stt = parseInt(sessionStorage.getItem('start time'));
-            const endtime = new Date.now() - stt;
+            const endtime = ((Date.now() - stt)/1000).toFixed(2);
             console.log(endtime);
 
             
@@ -726,12 +724,12 @@ var createScene = function () {
                 //USER WIN
                 //Calculate finish time
                 const stt = parseInt(sessionStorage.getItem('start time'));
-                const endtime = new Date.now() - stt;
+                const endtime = ((Date.now() - stt)/1000).toFixed(2);
                 console.log(endtime)
 
                 ge("won").style.display = "block";
                 ge("winimage").style.display = "block";
-                ge('wintime').innerHTML = 'Time :- '+endtime;
+                ge('wintime').innerHTML = 'Time :- '+endtime+' seconds';
 
                 //GET AND SET DATA FOR WIN ON SERVER SIDE AND CLIENT SIDE
                 let dB = JSON.parse(ls.getItem('dB'));
@@ -1160,7 +1158,7 @@ var createScene = function () {
                     fileInfo.set('name', random_name+'.glb');
                     fileInfo.set('owner_name', Parse.User.current().get("username"));
                     //Will change it to server time later
-                    fileInfo.set('date', new Date.now());
+                    fileInfo.set('date', Date.now());
                     fileInfo.set('thumbnail', ximg);
                     fileInfo.set('url', cc);
 
