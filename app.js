@@ -221,6 +221,9 @@ var createScene = function () {
     water.position.y = 0;
     water.material = watermat;
 
+    
+    const shadowGenerator = new BABYLON.ShadowGenerator(1024, elight);
+
     const generateRandomString = (length = 10) => Math.random().toString(20).substr(2, length);
     const random_name = generateRandomString(200) + '.glb';
 
@@ -471,7 +474,6 @@ var createScene = function () {
                             setTimeout(function () {
                                 shba = gM('ball');
                                 //SHADOWS
-                                const shadowGenerator = new BABYLON.ShadowGenerator(1024, elight);
                                 //shadowGenerator.getShadowMap().renderList.push(shba);
                                 shadowGenerator.addShadowCaster(shba);
                                 shadowGenerator.addShadowCaster(gM('course'));
