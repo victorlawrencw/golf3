@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "ammo": "^3.0.3",
+    "babylonjs": "^5.34.0",
+    "babylonjs-loaders": "^5.34.0",
+    "babylonjs-materials": "^5.34.0",
+    "oimo": "^1.0.9"
+  }
+}

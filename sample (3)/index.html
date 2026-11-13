@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <title>Babylon.js sample code</title>
+
+        <!-- Babylon.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
+        <script src="https://preview.babylonjs.com/ammo.js"></script>
+        <script src="https://preview.babylonjs.com/cannon.js"></script>
+        <script src="https://preview.babylonjs.com/Oimo.js"></script>
+        <script src="https://preview.babylonjs.com/earcut.min.js"></script>
+        <script src="https://preview.babylonjs.com/babylon.js"></script>
+        <script src="https://preview.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>
+        <script src="https://preview.babylonjs.com/proceduralTexturesLibrary/babylonjs.proceduralTextures.min.js"></script>
+        <script src="https://preview.babylonjs.com/postProcessesLibrary/babylonjs.postProcess.min.js"></script>
+        <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.js"></script>
+        <script src="https://preview.babylonjs.com/serializers/babylonjs.serializers.min.js"></script>
+        <script src="https://preview.babylonjs.com/gui/babylon.gui.min.js"></script>
+        <script src="https://preview.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
+
+        <style>
+            html, body {
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            #renderCanvas {
+                width: 100%;
+                height: 100%;
+                touch-action: none;
+            }
+        </style>
+    </head>
+<body>
+    <canvas id="renderCanvas"></canvas>
+    <script>
+        var canvas = document.getElementById("renderCanvas");
+
+        var engine = null;
+        var scene = null;
+        var sceneToRender = null;
+        var createDefaultEngine = function() { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true,  disableWebGL2Support: false}); };
+        var createScene = function () {
+        
+            // This creates a basic Babylon Scene object (non-mesh)
+            var scene = new BABYLON.Scene(engine);
+        
+            scene.clearColor = new BABYLON.Color3(0.2, 0.59, 0.67);
+        
+            //This creates an arcRotate camera
+            var camera = new BABYLON.ArcRotateCamera("camera", BABYLON.Tools.ToRadians(128), BABYLON.Tools.ToRadians(75), 5, BABYLON.Vector3.Zero(), scene);
+        
+            // This attaches the camera to the canvas
+            camera.attachControl(canvas, true);
+        
+            camera.lowerRadiusLimit = 3;
+        
+            //This creates a direction light
+            var dirLight = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(0.25, -1, -1), scene);
+            dirLight.intensity = 1.5;
+        
+            BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/PirateJC/assets/master/pirateFort/", "cannon.glb", scene, function(newMeshes){
+                newMeshes[0].getChildMeshes()[0].metadata = "cannon";
+                newMeshes[0].material.alpha = 0.3;
+                scene.onPointerDown = function castRay(){
+                    var ray = scene.createPickingRay(scene.pointerX, scene.pointerY, BABYLON.Matrix.Identity(), camera);	
+        
+                    var hit = scene.pickWithRay(ray)
+                    if (hit.pickedMesh && hit.pickedMesh.metadata == "cannon"){
+                        createGUIButton();
+                    }
+                }   
+            });
+        
+        function createGUIButton(){
+            //Creates a gui label to display the cannon
+            let guiCanvas = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+            let guiButton = BABYLON.GUI.Button.CreateSimpleButton("guiButton", "Cannon Selected");
+            guiButton.width = "150px"
+            guiButton.height = "40px";
+            guiButton.color = "white";
+            guiButton.cornerRadius = 5;
+            guiButton.background = "green";
+            guiButton.onPointerUpObservable.add(function() {
+                guiCanvas.dispose();
+            });
+            guiButton.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
+            guiCanvas.addControl(guiButton);
+        }
+        
+            return scene;
+        
+        };
+                window.initFunction = async function() {
+                    
+                    
+                    var asyncEngineCreation = async function() {
+                        try {
+                        return createDefaultEngine();
+                        } catch(e) {
+                        console.log("the available createEngine function failed. Creating the default engine instead");
+                        return createDefaultEngine();
+                        }
+                    }
+
+                    window.engine = await asyncEngineCreation();
+        if (!engine) throw 'engine should not be null.';
+        window.scene = createScene();};
+        initFunction().then(() => {sceneToRender = scene        
+            engine.runRenderLoop(function () {
+                if (sceneToRender && sceneToRender.activeCamera) {
+                    sceneToRender.render();
+                }
+            });
+        });
+
+        // Resize
+        window.addEventListener("resize", function () {
+            engine.resize();
+        });
+    </script>
+</body>
+</html>

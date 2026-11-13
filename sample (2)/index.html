@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <title>Babylon.js sample code</title>
+
+        <!-- Babylon.js -->
+        <script src="../js/pep.min.js"></script>
+        <script src="../js/dat.gui.min.js"></script>
+        <script src="../js/ammo.js"></script>
+        <script src="../js/cannon.js"></script>
+        <script src="../js/Oimo.js"></script>
+        <script src="../js/earcut.min.js"></script>
+        <script src="../js/babylon.js"></script>
+        <script src="../js/babylonjs.materials.min.js"></script>
+        <script src="../js/babylonjs.proceduralTextures.min.js"></script>
+        <script src="../js/babylonjs.postProcess.min.js"></script>
+        <script src="../js/babylonjs.loaders.js"></script>
+        <script src="../js/babylonjs.serializers.min.js"></script>
+        <script src="../js/babylon.gui.min.js"></script>
+        <script src="../js/babylon.inspector.bundle.js"></script>
+    
+        <style>
+            html, body {
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            #renderCanvas {
+                width: 100%;
+                height: 100%;
+                touch-action: none;
+            }
+            #ccursor{
+                width: 40px;
+                height: 40px;
+                position: fixed;
+                border:5px solid #000000;
+                border-radius: 100%;
+                z-index: 1000;
+            }
+        </style>
+    </head>
+<body>
+    <div id="ccursor"></div>
+    <canvas id="renderCanvas"></canvas>
+    <script>
+        var canvas = document.getElementById("renderCanvas");
+/*
+        window.onmousemove=(event) => {
+            var px=event.clientX;
+            var py=event.clientY;
+            //console.log(px);
+            document.getElementById("ccursor").style.display="block";        
+            document.getElementById("ccursor").style.left=px+"px";
+            document.getElementById("ccursor").style.top=py+"px";        
+        }
+        canvas.onmousedown = function(){
+            window.onmousemove=(event) => {
+            var px=event.clientX;
+            var py=event.clientY;
+            //console.log(px);
+            document.getElementById("ccursor").style.display="block";        
+            document.getElementById("ccursor").style.left=px+"px";
+            document.getElementById("ccursor").style.top=py+"px";        
+        }
+        }
+        window.onmouseout=(eee) => {
+            document.getElementById("ccursor").style.display="none";        
+        }
+*/
+
+        var engine = null;
+        var scene = null;
+        var actt;
+        var sceneToRender = null;
+        var createDefaultEngine = function() { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true,  disableWebGL2Support: false}); };
+        var createScene = function () {
+            var scene = new BABYLON.Scene(engine);
+        
+            var light = new BABYLON.PointLight("Omni", new BABYLON.Vector3(0, 100, 100), scene);
+            var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0.8, 100, new BABYLON.Vector3.Zero(), scene);
+            camera.attachControl(canvas, true);
+        
+            var ground = BABYLON.Mesh.CreateGround("ground", 500, 500, 10, scene);
+        
+            var box = BABYLON.Mesh.CreateBox("box", 4.0, scene);
+            box.position.z = 5;
+            box.position.y = 2;
+            //box.scaling.z = 2;
+            var matBox = new BABYLON.StandardMaterial("matBox", scene);
+            matBox.diffuseColor = new BABYLON.Color3(1.0, 0.1, 0.1);
+            box.material = matBox;
+            box.isPickable = false; 
+        
+            var box2 = BABYLON.Mesh.CreateBox("box2", 8.0, scene);
+            box2.position = new BABYLON.Vector3(-20, 4, 0); 
+            var matBox2 = new BABYLON.StandardMaterial("matBox2", scene);
+            matBox2.diffuseColor = new BABYLON.Color3(0.1, 0.1, 1);
+            box2.material = matBox2;
+
+            var box3 = box2.clone();
+            box3.position.x -= 20;
+ 
+            var box4 = BABYLON.Mesh.CreateBox("box4", 8.0, scene);
+            box4.position = new BABYLON.Vector3(0, 4, 30); 
+            var matBox4 = new BABYLON.StandardMaterial("matBox4", scene);
+            matBox4.diffuseColor = new BABYLON.Color3(0.1, 1, 0.1);
+            matBox.specular = new BABYLON.Color3(0.1,0.4,0.1);
+            matBox.specularPower=0.3;
+            box4.material = matBox4;
+
+            var shadowmat = new BABYLON.StandardMaterial('shadow', scene);
+            shadowmat.diffuseColor = new BABYLON.Color3(.1,.1,.1);
+            shadowmat.specularColor=new BABYLON.Color3(0,0,0);
+            shadowmat.specularPower=0.05;
+            shadowmat.alpha=0.5;
+
+			  for(var x=0; x <5; x++){
+                var putt =new BABYLON.MeshBuilder.CreateBox("putt"+x.toString(),{size:1, flat:true, updatable:false},scene);
+                putt.material=matBox;
+                putt.isPickable=false;
+                putt.scaling.x=1.2;
+                putt.scaling.z=1.2;
+                putt.scaling.y=0.8;
+                putt.parent = box;
+			  }
+
+              var position_disk = new BABYLON.MeshBuilder.CreateDisc('position', {tessellation:16, radius:1}, scene);
+                    position_disk.rotation.x = Math.PI/2;
+                    position_disk.enableEdgesRendering();
+                    position_disk.edgesWidth=5;
+                    position_disk.edgesColor=new BABYLON.Color4(1,1,1,1);  
+                    position_disk.isVisible=false;
+                    //position_disk.position=box.position.add(new BABYLON.Vector3(0,-0.04,0));
+                    position_disk.material = shadowmat;
+                    position_disk.isPickable=false;
+
+            var bbb = new BABYLON.Vector3(0,0,0);
+        
+            function mousemovef(){
+        	    var pickResult = scene.pick(scene.pointerX, scene.pointerY);
+                var distance=BABYLON.Vector3.Distance(pickResult.pickedPoint, box.position);
+
+                //for(){}
+        	    if (pickResult.hit) {
+                    if(distance<20){
+                                    position_disk.isVisible=true;
+                                    position_disk.dispose();
+                                    position_disk = new BABYLON.MeshBuilder.CreateDisc('position_disk', {tessellation:16, radius:10, arc:distance/20, sideOrientation:2}, scene);
+                                    position_disk.rotation.x = Math.PI/2;
+                                    position_disk.material=shadowmat;
+                                    position_disk.position.y=-2;
+                                    position_disk.enableEdgesRendering();
+                                    position_disk.edgesWidth=5;
+                                    position_disk.isPickable=false;
+                                    position_disk.parent = box;
+                                    position_disk.edgesColor=new BABYLON.Color4(1,1,1,1);
+                                    position_disk.rotation.z = Math.PI/2;
+
+                    for(var pn = 0; pn < 5; pn++){
+                    scene.getMeshByName("putt"+pn.toString()).isVisible= true;
+                    scene.getMeshByName("putt"+pn.toString()).position.z=distance*(0.18*(pn+1));
+                    }
+                    }
+
+                    //loc.position.y = 1;
+
+                   // console.log(new BABYLON.Vector3.Center(pickResult.pickedPoint, box.position).multiplyByFloats(0.9,0.9,0.9));
+                   // console.log(BABYLON.Vector3.Distance(pickResult.pickedPoint, box.position));
+
+        		    var diffX = pickResult.pickedPoint.x - box.position.x;
+        		    var diffY = pickResult.pickedPoint.z - box.position.z;
+        		    box.rotation.y = Math.atan2(diffX,diffY);			          
+            	}	
+            }
+        
+            scene.onPointerDown = function(){
+               // console.log(BABYLON.Vector3.Distance(scene.pick(scene.pointerX, scene.pointerY).pickedPoint, box.position));
+                if(BABYLON.Vector3.Distance(scene.pick(scene.pointerX, scene.pointerY).pickedPoint, box.position) < 10){
+            actt = true;
+            console.log(scene.pick(scene.pointerX, scene.pointerY));
+                }
+            }
+
+scene.onPointerUp = function(){
+actt=false;
+camera.attachControl(canvas, true);
+if(scene.getMeshByName("putt4").position.z > 5){}
+for(var pn = 0; pn < 5; pn++){
+                    scene.getMeshByName("putt"+pn.toString()).position.z=0;
+                    scene.getMeshByName("putt"+pn.toString()).isVisible = false;
+                    }
+}
+
+
+            scene.onPointerMove = function () {
+                var pickResultx = scene.pick(scene.pointerX, scene.pointerY);
+                console.log(pickResultx.pickedPoint);
+                var distancex=BABYLON.Vector3.Distance(pickResultx.pickedPoint, box.position);
+if(actt == true && distancex<4){
+    setTimeout(function(){camera.detachControl(canvas); mousemovef()}, 0);
+            } 
+        };
+
+            function vecToLocal(vector, mesh){
+                var m = mesh.getWorldMatrix();
+                var v = BABYLON.Vector3.TransformCoordinates(vector, m);
+        		return v;		 
+            }
+        
+            function castRay(){       
+                var origin = box.position;
+        	
+        	    var forward = new BABYLON.Vector3(0,0,1);		
+        	    forward = vecToLocal(forward, box);
+        	
+        	    var direction = forward.subtract(origin);
+        	    direction = BABYLON.Vector3.Normalize(direction);
+        	
+        	    var length = 100;
+        	
+        	    var ray = new BABYLON.Ray(origin, direction, length);
+        
+                var hit = scene.pickWithRay(ray);
+        
+                if (hit.pickedMesh){
+        		   hit.pickedMesh.scaling.y += 0.01;
+        	    }
+            }
+         
+            scene.registerBeforeRender(function () {
+                castRay();
+            });
+        
+            return scene;
+        }
+                window.initFunction = async function() {
+                    
+                    
+                    var asyncEngineCreation = async function() {
+                        try {
+                        return createDefaultEngine();
+                        } catch(e) {
+                        console.log("the available createEngine function failed. Creating the default engine instead");
+                        return createDefaultEngine();
+                        }
+                    }
+
+                    window.engine = await asyncEngineCreation();
+        if (!engine) throw 'engine should not be null.';
+        window.scene = createScene();}
+        initFunction().then(() => {sceneToRender = scene        
+            engine.runRenderLoop(function () {
+                if (sceneToRender && sceneToRender.activeCamera) {
+                    sceneToRender.render();
+                }
+            });
+        });
+
+        // Resize
+        window.addEventListener("resize", function () {
+            engine.resize();
+        });
+    </script>
+</body>
+</html>

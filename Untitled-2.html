@@ -1,0 +1,97 @@
+<html>
+  <head>
+    <!-- Moralis SDK code -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+  </head>
+  <body>
+    <h1>Moralis Gas Stats</h1>
+
+    <button id="btn-login">Moralis Login</button>
+    <button id="btn-logout">Logout</button>
+    <button id="btn-get-stats">Refresh Stats</button>
+<form onsubmit="getStatz()">
+    <input onchange="getStatz()" type="file" accept=".glb, .gltf" id="import">
+</form>
+    <script>
+      // connect to Moralis server
+      const serverUrl = "https://eppca2gyelel.usemoralis.com:2053/server";
+      const appId = "PCE4hCTlC8eWokBeSJIV5HVYGjsuC7fGB0Wf9yGl";
+      Moralis.start({ serverUrl, appId });
+
+      async function login() {
+        let user = Moralis.User.current();
+        if (!user) {
+          user = await Moralis.Web3.authenticate();
+        }
+        console.log("logged in user:", user);
+        getStats();
+      }
+/*
+var request = new XMLHttpRequest();
+            request.open('GET', "https://eppca2gyelel.usemoralis.com:2053/server/files/PCE4hCTlC8eWokBeSJIV5HVYGjsuC7fGB0Wf9yGl/25708ff255a7dd7ed6a7994559d4183a_testxx.glb", true);
+            request.send(null);
+            request.onreadystatechange = function (){
+                if (request.readyState === 4 && request.status === 200){
+                    var type = request.getResponseHeader('Content-Type');
+                    if (type.indexOf("text") !== 1) {
+                       let uiox = new Blob([request.responseText], {type:"model/gltf-binary"});
+                       const rrf = new Moralis.File("test.glb", uiox);
+                       rrf.save().then(function(){}, function(error){ console.log(error)})
+                    }
+                }
+            }
+*/
+console.log(Moralis.Cloud.run("overKill", {random_name: "nanny.glb", url:"https://ipfs.moralis.io:2053/ipfs/QmNMiZrAegupW8Uuz9vD4r2WX9iXD1XF3Dmk21PyBF14gM"}));
+
+/*
+var request = new XMLHttpRequest();
+            request.open('GET', "https://eppca2gyelel.usemoralis.com:2053/server/files/PCE4hCTlC8eWokBeSJIV5HVYGjsuC7fGB0Wf9yGl/25708ff255a7dd7ed6a7994559d4183a_testxx.glb", true);
+            request.send(null);
+            request.onreadystatechange = function (){
+                if (request.readyState === 4 && request.status === 200){
+                    var type = request.getResponseHeader('Content-Type');
+                    if (type.indexOf("text") !== 1) {
+                      console.log(request.responseText);
+                    }
+                }
+            }
+*/
+
+      async function logOut() {
+        await Moralis.User.logOut();
+        console.log("logged out");
+      }
+
+      // bind button click handlers
+      document.getElementById("btn-login").onclick = login;
+      document.getElementById("btn-logout").onclick = logOut;
+      document.getElementById("btn-get-stats").onclick = getStats;
+
+      function getStats() {
+        const user = Moralis.User.current();
+        if (user) {
+          getUserTransactions(user);
+        }
+      }
+
+      function getStatz(){
+        const file = document.getElementById('import').files[0];
+        const rrf = new Moralis.File("testxx.glb", file);
+        rrf.save().then(function(){console.log(rrf.url())}, function(error){ console.log(error)})
+      }
+      async function getUserTransactions(user) {
+        // create query
+        const query = new Moralis.Query("EthTransactions");
+        query.equalTo("from_address", user.get("ethAddress"));
+
+        // run query
+        const results = await query.find();
+        console.log("user transactions:", results);
+      }
+
+      //get stats on page load
+      getStats();
+    </script>
+  </body>
+</html>

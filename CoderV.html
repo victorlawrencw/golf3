@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en" xmlns= "http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=no, maximum-scale=1">
+	<meta http-equiv="Content-Language" content="en">
+
+	<title>CoderV</title>
+	<link rel="stylesheet" href="prefont.css" type="text/css">
+
+		<style>
+            *{font-family: ddt}
+            #top{
+                position: fixed;
+                width: 100%;
+                left: 0;
+                margin-left: 0;
+                height: 60px;
+                background-color: black;
+                z-index: 2;
+                display: flex;
+                flex-flow:row wrap;
+                justify-content:space-between;
+            }
+.topbuttons{
+    width: 50px;
+    height: 50px;
+    color:white;
+    font-size: 20px;
+    background-color: black;
+    margin-left:5px;
+    margin-right: 5px;
+}
+body{
+    background-color: black;
+    height: 100%;
+}
+button{outline:none; border: none; transition: 0.1s font-size; cursor: pointer;}
+button:hover{
+    font-size: 23px;
+}
+button:active{
+    font-size: 25px;
+}
+
+#main, #footer, #parallaxy{
+    width: 100%;
+    background: transparent;
+}
+#main{
+    min-height: 100%;
+    height:100%;
+    padding-top: 60px;
+}
+#footer{
+    border-top: 2px solid #ff8000;
+    min-height: 200px;
+}
+#parallaxy{
+    left: 0;
+    height: 100%;
+    position: fixed;
+    z-index: -1;
+}
+.boxes{
+    border-radius: 10px;
+    margin: 10px;
+    border: 20px;
+}
+.ut{
+    width: 45px;
+    height: 45px;
+}
+.ut:nth-of-type(0){
+    /*border-bottom: 2px solid #ff8000;*/
+}
+.ut:nth-of-type(1){
+    /*border-bottom: 2px solid #ff4791;*/
+}
+.col0{
+    border: 2px solid #ff8000;
+    color: #ff8000;
+}
+.col1{
+    border: 2px solid #ff4791;
+    color:#ff4791;
+}
+.col2{
+    border: 2px solid #00b7fd;
+    color: #00b7fd;
+}
+.col3{
+    border: 2px solid #00ff11;
+    color:#00ff11
+}
+.pbox{
+    width: 50px;
+    height: 50px;
+}
+/*
+.pbox:nth-of-type(1){
+    margin-left: 10px;
+}
+.pbox:nth-of-type(2){
+    margin-right: 10px;
+}*/
+#ptdiv, #pdiv{
+    position: absolute;
+    width: 100%;
+    bottom: 5px;
+    background: transparent;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    left: 0;
+    margin-left: 0;
+}
+#pdiv{
+    width: 98%;
+    height: 2px;
+    background-color: #00b7fd;
+}
+.texts{
+ text-indent: 10px;
+}
+.section{
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    margin: 5px;
+}
+#intro{
+    width: 100%;
+}
+.divs{
+    height: 2px;
+    width: 250px;
+}
+        </style>
+        </head>
+        <body>
+            <div id="parallaxy">
+                <div id="ptdiv">
+                <div style="border-top:2px solid #ff8000;" class="pbox"></div>
+                <div style="border-top:2px solid #ff4791;" class="pbox"></div>
+                </div>
+                <div id="pdiv"></div>
+            </div>
+<div id="top">
+    <button class="topbuttons" style="width:100px; color: #00b7fd;">CoderV</button>
+    <button class="topbuttons col0">A</button>
+    <button class="topbuttons col1">B</button>
+</div>
+<div id="main">
+    <div id="intr"></div>
+    <div class="divs"></div>
+<div class="texts"></div>
+<div class="section">
+<div class="boxes"></div>
+<div class="boxes"></div>
+<div class="boxes"></div>
+</div>
+</div>
+<div id="footer">
+
+</div>
+<script type="text/javascript">
+    let pbox = document.getElementsByClassName('pbox');
+    let ih = window.innerHeight;
+
+    window.onscroll = function(){
+        let scp = (window.pageYOffset/document.body.offsetHeight);
+        pbox[0].style.rotate = (scp*360)+'deg';
+        pbox[1].style.rotate = ('-'+scp*360)+'deg';
+        document.getElementById('ptdiv').style.bottom = (ih*scp)+'px';
+        document.getElementById('pdiv').style.bottom = (ih*0.5*scp)+'px';
+    }
+</script>
+        </body>
+        </html>

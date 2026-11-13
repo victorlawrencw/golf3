@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    body{background: #000000;}
+    #main, #topheader, #topnav{
+        width: 100%;
+    }
+    #leftw, #rightw{
+        color: #ffffff;
+        float: left;
+    }
+ #topnav{
+height: 50px;
+background: #000000;
+ }
+ #topheader{
+     margin-top: 10px;
+     display: inline-block;
+height: auto;
+background: #000000;
+ }
+ #linkz{
+     float:right;
+     text-align: right;
+     height: 50px;
+ }
+ .linksbtn{
+     width: 100px;
+     margin-left: 5px;
+     height: 50px;
+     background: #222222;
+     color: #ffffff;
+     border-radius: 10px;
+     font-size: 17px;
+     outline: none;
+     border: 2px solid #111111;
+     display: table-cell;
+ }
+ #logo{
+     font-size: 50px;
+     color: #ffffff;
+     float: left;
+/*width: 100px;*/
+height: 50px;
+ }
+#leftw{
+//display: table-cell;
+width: 50%;
+font-size: 50px;
+font-weight: bold;
+text-align: center;
+}
+#rightw{
+    font-size: 18px;
+    //display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+width: 50%;
+}
+#waves{
+    width: 100%;
+    height: 50px;
+}
+#main{
+    
+}
+</style>
+</head>
+<body>
+<div id="topnav">
+    <div id="logo">Dark Artz</div>
+    <div id="linkz">
+        <button class="linksbtn" onclick="window.locaion.assign('home.html')">Home</button>
+        <button class="linksbtn" onclick="">XXX</button>
+        <button class="linksbtn" onclick="">YYY</button>
+    </div>
+</div>
+<div id="topheader">
+    <div id="leftw"><p>Join millions of buyers <br>and sellers in the <br>NFT community.</p></div>
+    <div id="rightw">
+        <p><em style="float: left;">Top</em> Artists</p>
+        <ol>
+            <li>White Tiles</li>
+            <li>Tamed Beast</li>
+            <li>Saviour Complex</li>
+            <li>Pink Princesses</li>
+            <li>Abadoned Monarchy</li>
+        </ol>
+    </div>
+</div>
+
+<div><svg id="waves"></svg></div>
+
+<div id="main">
+   <div id="featured"></div>
+</div>
+</body>
+</html>

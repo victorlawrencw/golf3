@@ -1,0 +1,63 @@
+:root{
+    /**same colors for a different design*/
+    --sec:#222222;
+    --pri:#f9f9f9;
+    --pink: #ff479c;
+    --orange: #ff8000;
+    --yellow: #ffee00;
+    --blue: #00b7fd;
+    --green: #45e450;
+    --gray:#999999;
+    --xyb:3px -3px 0px 0px;
+    --mid:0px -6px 0px -3px;
+    --extrude: 10px 10px 0px 10px;
+    --extw: 11px 11px 0px 12px;
+}
+body{
+    color: var(--sec);
+}
+nav{
+    position: fixed;
+    width: 100%;
+    height: 50px;
+    background: transparent;
+    backdrop-filter: blur(10px);
+    display: flex;
+    z-index: 2;
+    flex-flow: row nowrap;
+}
+main{
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+}
+canvas{
+    width: 100%;
+    height: 100%;
+}
+button{
+    outline: none;
+    border: none;
+}
+#messages{
+    width: 90%;
+    max-width: 300px;
+    height: 50%;
+    max-height: 400px;
+    position: absolute;
+}
+#message.expanded{
+    height: 100%;
+    max-height: 100%;
+    background-color: var(--pri);
+}
+/***IM MAKING A 3D FLAT THEME***/
+nav button{
+    width: 50px;
+    height: 50px;
+}
+nav button:hover{
+    box-shadow: var(--extrude) ;
+}

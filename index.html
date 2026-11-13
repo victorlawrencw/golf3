@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=no, maximum-scale=1">
+	
+	<title>golf3.io - a Web3 Metaverse golf game built on Parse</title>
+	<link rel="stylesheet" href="prefont.css" type="text/css">
+	<link href="styles.css" type="text/css" rel="stylesheet"/>
+	
+	<!-- Parse SDK code
+	<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script--->
+	<script src="js/parse.js"></script>>
+	
+	<!-- Babylon.js -->
+	<script src="js/dat.gui.min.js"></script>
+	<script src="js/ammo.js"></script>
+	<script src="js/cannon.js"></script>
+	<script src="js/Oimo.js"></script>
+	<script src="js/earcut.min.js"></script>
+	<script src="js/gltf_validator.js"></script>
+	<script src="js/babylon.js"></script>
+	<script src="js/babylonjs.materials.js"></script>
+	<script src="js/babylonjs.postProcess.min.js"></script>
+	<script src="js/babylonjs.loaders.min.js"></script>
+	<script src="js/babylonjs.serializers.min.js"></script>
+	<script src="js/babylon.gui.min.js"></script>
+	<script src="js/babylon.inspector.bundle.js"></script>
+	<script src="js/gifshot.min.js"></script>
+	
+</head>
+<body onload="">
+	<script type="text/javascript">
+		/*CONSTANTS*/
+		const shapez = ["Sphere","Box","Cylinder"];
+		const puttz=["Classic","Boxes","Simple"];
+		const bools = ["true", "false"];
+		
+		//
+		let unloadedcs = true;
+		//let loadedc = ['var(--orange)', 'var(--orange)', '', '', '', '', '', '#00b7fd', '#00b7fd'];
+		
+		/**SIMPLIFIERS**/
+		function ge(id){
+			let gebi=document.getElementById(id);
+			return gebi
+		}
+		
+		function gcs(classx){
+			let gebi=document.getElementById(classx);
+			return gebi
+		}
+		
+		function toggler(curr, list){
+			let cuup;
+			let cu = list.indexOf(curr);
+			if(curr == list[list.length-1]){cuup = list[0]}
+			else{cuup = list[cu+1]}
+			return cuup;
+		}
+		
+		function showToast(message, mtype, ftime, callback){
+			let toasty= document.createElement('div');
+			document.body.appendChild(toasty);
+			toasty.className = "toasty";
+			
+			let col_array = ['3px 0 0px 1px var(--blue)','0 -3px 0 1px var(--pink)','-3px 0 0 1px var(--orange)','0 3px 0 1px var(--yellow)'];
+			switch(mtype){
+				case 0: toasty.style.boxShadow='0px 0px 0px 2px var(--white), ' + col_array[mtype]; toasty.style.cursor='pointer'; break;
+				case 1: toasty.style.boxShadow='0px 0px 0px 2px var(--white), ' + col_array[mtype]; toasty.style.cursor='pointer'; break;
+				case 2: toasty.style.boxShadow='0px 0px 0px 2px var(--white), ' + col_array[mtype]; toasty.style.cursor='pointer'; break; 
+				case 3:
+				{
+					let c = 0;
+					//loading stuffs
+					let loadingAnim = setInterval(function(){toasty.style.boxShadow='0px 0px 0px 2px var(--white), ' + col_array[c]; if(c<3){c++}else{c=0};  if(toasty.style.opacity=='0'){clearInterval(loadingAnim)}}, 100);
+				}
+				break
+			}
+			
+			toasty.onclick = function(){
+				toasty.style.opacity = '0%';
+				setTimeout(function(){toasty.remove()}, 500);
+				if(callback) callback();
+			};
+			toasty.onmouseover = function(){
+				toasty.style.fontSize = '23px'
+			}
+			toasty.onmouseout = function(){toasty.style.fontSize = '20px'}
+			
+			toasty.innerHTML = message;
+			toasty.style.opacity = '100%';
+			
+			setTimeout(function(){
+				toasty.style.opacity = "0%";
+				setTimeout(function(){toasty.remove()}, 500)
+			}, ftime);
+			return toasty
+		}
+		
+		//LOAD DATA FROM DEVICE
+		let ls = localStorage,
+		cc = ls.getItem("current_course"), 
+		name = ls.getItem("user_name"), 
+		so = ls.getItem("sound"), 
+		pp = ls.getItem("filter"), 
+		em = ls.getItem("expert_mode"), 
+		gshape = ls.getItem("golf_shape"),
+		putted = ls.getItem("puttz"),
+		dB = ls.getItem("dB"),
+		sskit = ls.getItem("shader_skit");
+		
+		{
+			//USER'S NAME
+			/*and if he/she is new, it will show a simple walkthrough box and ask for name*/
+			if(name==null){showToast('Intro&quest;', 2, 10000, function(){ge('name?').style.display='block'})}
+			//SOUND
+			if(so==null){ls.setItem("sound", "true");}
+			//EXPERT MODE
+			if(em==null){ls.setItem("expert_mode", "false")}
+			//GOLF BALL SHAPE
+			if(gshape==null){ls.setItem("golf_shape", "Sphere")}
+			//POST PROCESSES(must be written in wgsl)
+			if(pp==null){ls.setItem("filter", "")}
+			//GOLF COURSE
+			if(cc==null){ls.setItem("current_course", "https://ipfs.is/")}
+			//GOLF PUTT
+			if(putted == null){ls.setItem("puttz", "Classic")}
+			//DATABASE
+			if(dB == null){ls.setItem("dB", "{levels:[]}")}
+			//SHADERS SKIT/FILTER SKETCH
+			if(sskit==null){ls.setItem("shader_skit", "/&ast;&ast;SHADER STARTS HERE&ast;&ast;/")}
+		}
+		
+		//re-read the data
+		name = ls.getItem("name");
+		so = ls.getItem("sound");
+		em = ls.getItem("expert_mode");
+		gshape = ls.getItem("golf_shape");
+		cc = ls.getItem("current_course");
+		pp = ls.getItem("filter");
+		putted = ls.getItem("puttz");
+		dB = ls.getItem("dB");
+		sskit = ls.getItem("shader_skit");
+		let morgan;
+		
+		function switchtabs(tab){
+			for(let yu = 0; yu < document.getElementsByClassName("tabs").length; yu++){
+				if(document.getElementsByClassName("tabs")[yu].id == tab ){
+					if(ge(tab).style.display!=='block'){ge(tab).style.display = 'block'; ge(tab).focus()}else{ge(tab).style.display = 'none'; ge(tab).blur()}
+				}
+				else{
+					document.getElementsByClassName("tabs")[yu].style.display = "none";
+				}
+			}
+			//if(ge(tab).style.display!=='block'){ge(tab).style.display = 'block'; ge(tab).focus()}else{ge(tab).style.display = 'none'; ge(tab).blur()}
+		}
+		let isitoutside = function(){
+			
+		}
+		setInterval(isitoutside, 10);
+	</script>
+	<div id="menu">
+		<div id="top">
+			<button title="Import" onclick="switchtabs('import')" id="import-btn" class="buttons" >
+				<svg version="1.1" id="Capa_2" x="0px" y="0px"
+				width="40px" height="30px" viewBox="0 0 400 300" enable-background="new 0 0 720 1440" xml:space="preserve">
+				<defs></defs><g><path layer="1" fill="var(--white)" fill-opacity="1.0" stroke="var(--black)" stroke-width="16" stroke-opacity="1.0" stroke-miterlimit="10" d="M10.000003,10.09816C10.000003,10.09816,10.000003,289.4896,10.000003,289.4896C10.000003,289.4896,390.0,289.4896,390.0,289.4896C390.0,289.4896,389.74368,11.72435,390.0,10.09816C390.0,10.09816,263.33112,10.09816,263.33112,10.09816C263.33112,10.09816,263.33112,103.22983,263.33112,103.22983C263.33112,103.22983,136.66522,103.22983,136.66522,103.22983C136.66522,103.22983,136.66522,10.09816,136.66522,10.09816C136.66522,10.09816,9.377448,9.877289,10.000003,10.09816"/>
+					<path layer="1" fill="var(--white)" fill-opacity="0.0" stroke="var(--black)" stroke-width="16" stroke-opacity="1.0" stroke-miterlimit="10" d="M200.00005,136.7648C200.00005,136.7648,200.00005,242.32034,200.00005,242.32034C200.00005,242.32034,200.00005,189.54361,200.00005,189.54361C200.00005,189.54361,252.7778,189.54361,252.7778,189.54361C252.7778,189.54361,147.22226,189.54361,147.22226,189.54361"/>
+				</g></svg>
+			</button>
+			<!--THE GOLF3 INFO BUTTON, IM PLANNING ON MAKING THIS A RETURN HOME BUTTON.-->
+			<button title="info" onclick="switchtabs('info');" class="buttons" id="info-btn" >
+				<svg class="iconz" version="1.1" id="logo"  x="0px" y="0px"
+				width="100px" height="50px" viewBox="0 5 800 400" enable-background="new 0 0 720 1440" xml:space="preserve">
+				<defs></defs><g><path layer="1" fill="var(--green)" fill-opacity="1.0" stroke="var(--black)" stroke-width="10" stroke-opacity="1.0" stroke-miterlimit="10" d="M24.24094,330.1122C24.24094,330.1122,151.08633,330.1123,151.08633,330.1123C150.00621,65.38031,148.80818,64.33087,148.80818,64.33087C148.80818,64.33087,24.753273,64.33096,24.753273,64.33096C24.247818,196.35207,24.247818,196.35207,24.247818,196.35207C150.12238,197.15121,150.12238,197.15121,150.12238,197.15121"/>
+					<path layer="1" fill="#FFFF00" fill-opacity="1.0" stroke="var(--black)" stroke-width="10" stroke-opacity="1.0" stroke-miterlimit="10" d="M188.01651,149.18832C188.01651,149.18832,312.0835,149.18832,312.0835,149.18832C312.0835,149.18832,312.0835,326.43146,312.0835,326.43146C312.0835,326.43146,188.01651,326.43146,188.01651,326.43146C188.01651,326.43146,188.01651,149.18832,188.01651,149.18832"/>
+					<path layer="1" fill="#00B7FD" fill-opacity="1.0" stroke="var(--black)" stroke-width="10" stroke-opacity="1.0" stroke-miterlimit="10" d="M618.67554,69.68402C495.99115,69.68402,494.61066,69.68402,494.61066,69.68402C493.7788,333.55225,494.61066,335.54413,494.61066,335.54413C494.47845,203.56824,494.61066,211.47272,494.61066,211.47272C494.61066,211.47272,583.2278,211.47272,583.2278,211.47272"/>
+					<path layer="1" fill="#FF4796" fill-opacity="1.0" stroke="var(--black)" stroke-width="10" stroke-opacity="1.0" stroke-miterlimit="10" d="M347.234,67.29657C347.4756,332.99664,347.234,333.15674,347.234,333.15674C347.234,333.15674,471.30316,333.15674,471.30316,333.15674"/>
+					<path layer="1" fill="#FF4796" fill-opacity="1.0" stroke="var(--black)" stroke-width="10" stroke-opacity="1.0" stroke-miterlimit="10" d="M27.203491,291.9776C26.187874,311.54102,27.02496,311.4189,27.567848,333.07797"/>
+					<path layer="1" fill="var(--orange)" fill-opacity="1.0" stroke="var(--black)" stroke-width="10" stroke-opacity="1.0" stroke-miterlimit="10" d="M634.24097,69.68404C634.24097,69.68404,774.24084,69.68404,774.24084,69.68404C774.24084,69.68404,774.24084,199.68,774.24084,199.68C774.24084,199.68,654.24097,199.68,654.24097,199.68C654.24097,199.68,774.24084,199.68,774.24084,199.68C774.24084,199.68,774.24084,329.6853,774.24084,329.6853C774.24084,329.6853,634.24097,329.6853,634.24097,329.6853"/>
+				</g>
+			</svg>
+		</button>
+		<button title="settings" onclick="switchtabs('settings')" id="settings-btn" class="buttons">
+			<svg class="iconz" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+			width="35px" height="35px"
+			viewBox="0 0 50 50"
+			style=" fill:var(--white);" stroke-width="10" stroke-color="var(--black)"><path stroke-width="2" stroke="var(--black)" d="M47.16,21.221l-5.91-0.966c-0.346-1.186-0.819-2.326-1.411-3.405l3.45-4.917c0.279-0.397,0.231-0.938-0.112-1.282 l-3.889-3.887c-0.347-0.346-0.893-0.391-1.291-0.104l-4.843,3.481c-1.089-0.602-2.239-1.08-3.432-1.427l-1.031-5.886 C28.607,2.35,28.192,2,27.706,2h-5.5c-0.49,0-0.908,0.355-0.987,0.839l-0.956,5.854c-1.2,0.345-2.352,0.818-3.437,1.412l-4.83-3.45 c-0.399-0.285-0.942-0.239-1.289,0.106L6.82,10.648c-0.343,0.343-0.391,0.883-0.112,1.28l3.399,4.863 c-0.605,1.095-1.087,2.254-1.438,3.46l-5.831,0.971c-0.482,0.08-0.836,0.498-0.836,0.986v5.5c0,0.485,0.348,0.9,0.825,0.985 l5.831,1.034c0.349,1.203,0.831,2.362,1.438,3.46l-3.441,4.813c-0.284,0.397-0.239,0.942,0.106,1.289l3.888,3.891 c0.343,0.343,0.884,0.391,1.281,0.112l4.87-3.411c1.093,0.601,2.248,1.078,3.445,1.424l0.976,5.861C21.3,47.647,21.717,48,22.206,48 h5.5c0.485,0,0.9-0.348,0.984-0.825l1.045-5.89c1.199-0.353,2.348-0.833,3.43-1.435l4.905,3.441 c0.398,0.281,0.938,0.232,1.282-0.111l3.888-3.891c0.346-0.347,0.391-0.894,0.104-1.292l-3.498-4.857 c0.593-1.08,1.064-2.222,1.407-3.408l5.918-1.039c0.479-0.084,0.827-0.5,0.827-0.985v-5.5C47.999,21.718,47.644,21.3,47.16,21.221z M25,32c-3.866,0-7-3.134-7-7c0-3.866,3.134-7,7-7s7,3.134,7,7C32,28.866,28.866,32,25,32z"></path>
+		</svg>
+	</button>
+</div>
+
+<div id="middle" >
+	
+	<div id="loading" class="floaters" ></div>
+	
+	<div id="info" class="tabs" onclick="">
+		<div id="infox" onclick="return false;" style="overflow:scroll; scrollbar-width: 0px; background-color:var(--white); font-family:ddt;" class="floaters">
+			<div id="nnn" style="font-size:22px; line-height:23px; text-align:left" >A 3d golf game made with <span style="color:var(--orange); text-shadow:none; font-weight:700" >BabylonJS</span>, using ammoJS physics engine(a C++ port of Bullet physics engine), I made this game as a personal project of my <span style="color:var(--green); font-weight: 700;" >5-day game development challenge</span>, you can find the documentation on how I made this game <a href="https://egolf.io/docs" style="color:#eeee00; text-decoration:none;" >here</a>... 
+				My name is <span style="color:var(--pink)" >Victor Lawrence</span> and I am The<span style="color:#00b7fd" >Red</span>Scientist.
+				<br>
+				<svg id="mylogo"
+				width="100px" height="100px" viewBox="0 0 400 400" enable-background="new 0 0 720 1440" xml:space="preserve">
+				<defs></defs><path layer="1" fill="var(--white)" fill-opacity="0.0" stroke="var(--black)" stroke-width="10" stroke-opacity="1.0" stroke-miterlimit="10" d="M99.98187,49.96977C99.98187,49.96977,350.0,49.96977,299.99637,49.96977C350.0,49.96977,350.0,49.96977,350.0,99.97339C350.0,99.97339,350.0,299.98788,350.0,299.98788C350.0,349.9915,350.0,349.9915,299.99637,349.99146C299.99637,349.99146,99.98189,349.99133,99.98189,349.99133C49.97827,349.9913,49.97827,349.9913,49.978302,299.98767C49.978302,299.98767,49.978424,99.97319,49.978424,99.97319C49.978256,49.96977,49.978256,49.96977,99.98187,49.96977"/>
+				<path layer="1" fill="var(--white)" fill-opacity="0.0" stroke="var(--black)" stroke-width="10" stroke-opacity="1.0" stroke-miterlimit="10" d="M200.0,50.0C200.0,149.89162,200.0,150.0,200.0,150.0"/>
+				<path layer="1" fill="#FF2626" fill-opacity="1.0" stroke="var(--black)" stroke-width="10" stroke-opacity="1.0" stroke-miterlimit="10" d="M166.66667,150.0C166.66667,150.0,250.0,150.0,233.33334,150.0C250.0,150.0,250.0,150.0,250.0,166.66667C250.0,166.66667,250.0,233.33334,250.0,233.33334C250.0,250.0,250.0,250.0,233.33333,250.0C233.33333,250.0,166.66666,250.0,166.66666,250.0C150.0,250.0,150.0,250.0,150.0,233.33333C150.0,233.33333,150.0,166.66666,150.0,166.66666C150.0,150.0,150.0,150.0,166.66667,150.0"/>
+			</svg>
+		</div>
+		
+		
+	</div>
+</div>
+
+<div id="courses" class="tabs floaters" >
+	<div class="tabname" style="background: var(--green);">Courses<button id="exormin" onclick="exormin()"></button></div>
+	<!--IF USER ISNT LOGGED IN I'LL MAKE SURE IT SHOWS THAT USER IS NOT LOGGED IN-->
+	<div style="overflow: scroll">
+		<div id="usergames" class="minitab">
+			<div class="mtheader"><div class="srhh"><div class="sr"></div></div><p class="minitabh">My Courses</p><div class="divider2"></div></div>
+			<div id="usergames" class="hhmm">
+
+			</div>
+		</div>
+		<div id="communitygames" class="minitab">
+			<div class="mtheader"><div class="srhh"><div class="sr"></div></div><p class="minitabh">Community Courses</p><div class="divider2"></div></div>
+			<div id="cgames" class="hhmm">
+				<!----all the available courses online- will edit later to be 10 max until a 'load more' button is clicked-->
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="import" class="floaters tabs">
+	<div class="tabname" style="background: var(--yellow);">Import</div>
+	<form method="POST" >
+		<button id="replacer" onclick="ge('replacer').style.display = 'none'; ge('large-importer').style.display = 'block'; return false;"></button>
+		<input type="file" spellcheck="false" accept=".glb, .gltf" id="large-importer"/>
+	</form>
+	<form onsubmit="return LoadUpload();" id="urlinput" method="POST" >
+		<input name="url" type="url" onclick="this.focus()" ondblclick="this.select()" pattern="https://.*" size="30" style="float:left; color:var(--black)" id="inputz" placeholder="https://golf3.com/boredape.gltf" required/>
+		<button id="rand01" type="submit" style="outline:none; font-family: ddt; border:2px solid var(--black); width:55px; height:56px; float:right; background-color:var(--yellow)">Go</button>
+	</form>
+</div>
+
+
+
+<div id="usertab" class="floaters tabs">
+	<div id="loginzz">
+		<div id="logdon" class="tabname" style="background: var(--orange);">Login</div>
+		<div style="padding-top: 10px; padding-left: 10px;">
+			<div id="emaillogin" style="height: 188px;">
+				<!--FORM LOGIN, USERNAME AND PASSWORD NEEDED-->
+				<form id="userlogin" method="POST" onsubmit="return emaillogin()">
+					<input placeholder="username" spellcheck="false" class="loginfields" type="username" required/>
+					<input placeholder="password" type="password" class="loginfields" required/>
+					<div style="display: flex; flex-flow:row wrap; gap: 10px;">
+						<button id="signclick" class="actionxx2 lighten">sign in</button>
+						<button id="fpassword" class="lighten" style="outline:none; color: var(--orange); transition: box-shadow 0.25s, margin 0.25s; font-family: ddt; font-size: 10px; border:2px solid var(--black); width:70px; float:right; background: transparent;" onclick="return false;">forgot password&gtquest;</button>
+					</div>
+				</form>
+			</div>
+			<div style="display: flex; flex-flow: row wrap; align-items: center; gap: 5px; font-family:ddt; width: 100%;"><div class="slashr"></div> DONATE <div class="slashr"></div></div>
+			<!--WALLET LOGIN AND SIGNUP(METAMASK, TORUS, TRUSTWALLET ETC)-->
+			<div id="DONATE">
+				<button title="Metamask" onclick="DONATE(0)" id="metamask" class="actionxx2 alte"><img height="50px" class="altei" src="svgs\metamask-icon.svg"/></button>
+				<button title="Torus" onclick="DONATE(1)" id="torus" class="actionxx2 alte"><img height="50px" class="altei" src="svgs/torus-labs-private-limited-logo-vector.svg"/></button>
+				<button title="Trustwallet" onclick="DONATE(2)" id="trustwallet" class="actionxx2 alte"><img height="50px" class="altei" src="svgs/trust-wallet-seeklogo.com.svg"/></button>
+			</div>
+		</div>
+	</div>
+	<div id="userstuffs">
+		<div class="tabname" style="background: var(--orange);">User</div>
+		<div style="padding-top: 10px; padding-left: 10px;">
+			<div><img style="width:100px; height: 100px;"/></div>
+			<div style="display: flex; flex-flow:row wrap;"><p id="ethaddress"></p><input id="uns" type="text"><p id="userinfo"><!--THIS WILL CONTAIN SOME RANDOM USER INFO... cos why not--></p></div>
+		</div>
+	</div>
+</div>
+
+
+
+<!--SETTINGS *** I might add import shaders soon-->
+<div id="settings" class="floaters tabs" >
+	<div class="tabname" style="background: var(--pink);">Settings</div>
+	<div style="padding: 10px;">
+		<button title="enable/disable sounds" id="soundbtn" onclick="settingsswitch('sound', 'soundbtn');" class="blended" >Sound</button>
+		<button title="for developers" id="expertbtn" onclick="settingsswitch('expert_mode','expertbtn')" class="blended" >Expert Mode</button>
+		<button title="ball type" id="ball" onclick="let newBall = toggler(ge('xyzz').innerHTML, shapez); ge('xyzz').innerHTML = newBall; ls.setItem('golf_shape', newBall); gshape = ls.getItem('golf_shape')" class="blended" >Ball<span>: </span><span id="xyzz" ></span></button>
+		<button title="design of the digital putt" id="putt" onclick="let newPutt = toggler(ge('xyzz2').innerHTML, puttz); ge('xyzz2').innerHTML = newPutt; ls.setItem('puttz', newPutt); putted = ls.getItem('puttz')" class="blended" >Putt<span>: </span><span id="xyzz2" ></span></button>
+		<button title="glsl shader post process... for fun: coming soon" id="postProcess" onclick="showToast('You Sure?', 2, 10000, function(){ge('pp?').style.display='block'; sdrtt()})" class="blended" >Post Processes</button>
+	</div>
+</div>
+
+<div id="pp?" class="floaters tabs" style="display:none; background-color:var(--white); width: 90%; height: calc(100% - 2px); left: 5%; top:1px;">
+	<form onsubmit="return savePP()"><textarea id="pp_input" height="300px" spellcheck="false" placeholder="glsl shaders n stuffs" type="text"></textarea></form>
+	<div id="glsld" style="display: flex; position: absolute; z-index: 10; width: 320px; bottom: 10px; flex-flow:row nowrap; align-content: center; column-gap: 10px;">
+		<button onclick="stfv(); ge('pp?').style.display = 'none'" class="actionxx2" style="color: var(--pink);">CANCEL</button>
+		<button onclick="savePP()" class="actionxx2" style="color: var(--green);">APPLY</button>
+		<button onclick="revertt()" class="actionxx2" style="color: var(--orange);">REVERT</button>
+	</div>
+</div>
+
+</div>
+
+<div id="bottom" >
+	<button id="logger" onclick="switchtabs('usertab')" class="buttons"><div id="specio">Login</div></button>
+	
+	<button onclick="play()" id="play" class="buttons" disabled>
+		<svg class="iconz" version="1.1" id="Capa_1" x="0px" y="0px" width="35px" height="35px" fill="var(--white)" fill-opacity="1.0" stroke="var(--black)" stroke-width="25px" stroke-opacity="1.0" viewBox="0 0 384 512" enable-background="new 0 0 720 1440" xml:space="preserve">
+			<path d="M361 215C375.3 223.8 384 239.3 384 256C384 272.7 375.3 288.2 361 296.1L73.03 472.1C58.21 482 39.66 482.4 24.52 473.9C9.377 465.4 0 449.4 0 432V80C0 62.64 9.377 46.63 24.52 38.13C39.66 29.64 58.21 29.99 73.03 39.04L361 215z"/>
+		</svg></button>
+		
+		<button title="courses" onclick="switchtabs('courses'); loadcourses()" id="courses-btn" class="buttons" >
+			<svg width="40px" height="40px" viewBox="0 0 400 400" enable-background="new 0 0 720 1440" xml:space="preserve">
+				<defs></defs><path layer="1" fill="var(--white)" fill-opacity="1.0" stroke="var(--black)" stroke-width="20" stroke-opacity="1.0" stroke-miterlimit="10" d="M200.0,319.99997C117.49997,319.99997,50.0,252.50003,50.0,169.99998C50.0,87.49999,117.49997,20.0,200.0,20.0C282.49997,20.0,350.0,87.49999,350.0,169.99998C350.0,252.50003,282.49997,319.99997,200.0,319.99997"/>
+				<g><path layer="1" fill="var(--black)" fill-opacity="1.0" stroke="var(--black)" stroke-width="0" stroke-opacity="0.0" stroke-miterlimit="10" d="M283.26532,224.48982C289.3267,224.48982,294.2857,229.44904,294.2857,235.51027C294.2857,241.57149,289.3267,246.53058,283.26532,246.53058C277.20404,246.53058,272.24487,241.57149,272.24487,235.51027C272.24487,229.44904,277.20404,224.48982,283.26532,224.48982"/>
+					<path layer="1" fill="var(--black)" fill-opacity="1.0" stroke="var(--black)" stroke-width="0" stroke-opacity="0.0" stroke-miterlimit="10" d="M257.55096,242.85713C263.61224,242.85713,268.57147,247.8164,268.57147,253.87766C268.57147,259.93893,263.61224,264.8981,257.55096,264.8981C251.48975,264.8981,246.53055,259.93893,246.53055,253.87766C246.53055,247.8164,251.48975,242.85713,257.55096,242.85713"/>
+					<path layer="1" fill="var(--black)" fill-opacity="1.0" stroke="var(--black)" stroke-width="0" stroke-opacity="0.0" stroke-miterlimit="10" d="M253.87756,209.79596C259.93878,209.79596,264.89792,214.75516,264.89792,220.8164C264.89792,226.87769,259.93878,231.83679,253.87756,231.83679C247.81644,231.83679,242.85721,226.87769,242.85721,220.8164C242.85721,214.75516,247.81644,209.79596,253.87756,209.79596"/>
+					<path layer="1" fill="var(--black)" fill-opacity="1.0" stroke="var(--black)" stroke-width="0" stroke-opacity="0.0" stroke-miterlimit="10" d="M279.5918,191.4286C285.65305,191.4286,290.61227,196.38779,290.61227,202.44899C290.61227,208.51024,285.65305,213.46945,279.5918,213.46945C273.53055,213.46945,268.57147,208.51024,268.57147,202.44899C268.57147,196.38779,273.53055,191.4286,279.5918,191.4286"/>
+					<path layer="1" fill="var(--black)" fill-opacity="1.0" stroke="var(--black)" stroke-width="0" stroke-opacity="0.0" stroke-miterlimit="10" d="M228.16325,228.16324C234.22447,228.16324,239.18361,233.12244,239.18361,239.18361C239.18361,245.24484,234.22447,250.2041,228.16325,250.2041C222.10207,250.2041,217.1428,245.24484,217.1428,239.18361C217.1428,233.12244,222.10207,228.16324,228.16325,228.16324"/>
+				</g><path layer="1" fill="var(--black)" fill-opacity="0.0" stroke="var(--black)" stroke-width="20" stroke-opacity="1.0" stroke-miterlimit="10" d="M50.0,379.99997C50.0,379.99997,349.7796,379.8754,349.68622,379.95615"/>
+				<path layer="1" fill="var(--black)" fill-opacity="0.0" stroke="var(--black)" stroke-width="20" stroke-opacity="1.0" stroke-miterlimit="10" d="M125.00001,314.9999C125.00001,314.9999,196.02496,319.72104,200.0,379.99997C200.06163,379.2426,201.57967,318.34827,274.89066,315.84827"/>
+			</svg>
+		</button>
+	</div>
+</div>
+<div id="toasty-back"></div>
+<div class="dialogs" id="loaderi" style="border: 5px solid var(--black); border-radius: 100%; transform: scale(0.4);">
+	<div class="lights"></div>
+	<div style="transform: scale(0.8); border: 5px solid var(--black); border-radius: 100%;" class="dialog-stuff">
+		<!--div style="width: 100px; height: 100px; border: 5px solid var(--black); animation: bloo 1s linear infinite; border-radius: 100%; background: #00b7fd; margin: calc(50% - 55px);"></div-->
+	</div></div>
+	
+	<div class="dialogs" id="iwon"><div class="lights"></div><div class="dialog-stuff">
+		<svg class="emoji"></svg>
+		<p style="font-size: 18px; text-align: center; vertical-align: middle;">You Win</p></div></div>
+		
+		<div class="dialogs" id="ilose"><div class="lights"></div>
+		<div class="dialog-stuff">
+			<svg class="emoji"></svg>
+			<p style="font-size: 18px; text-align: center; vertical-align: middle;">You Lose</p>
+		</div>
+	</div>
+	
+	<div class="dialogs" id="nogame"><div class="lights"></div>
+	<div class="dialog-stuff">
+		<svg class="emoji"></svg>
+		<p style="font-size: 18px; text-align: center; vertical-align: middle;">Your Imported Game has no start/end marked</p>
+	</div>
+</div>
+
+<div class="dialogs" style="width: 300px; left:calc(50% - 150px);" id="fullinfo">
+	<div style="display:flex; flex-flow:column wrap; width:clac(100% - 5px); margin:10px">
+		<div style="width: 100%; display: flex; align-items: center;"><img width="200px"/></div>
+		<div id="description"></div>
+		<div id="terms">
+			<!--CONTAINS ESSESNSIAL INFO FOR PLAYING THE SAID COURSE. buy, rent and maybe free, but copyrighted or try once. its the land of limitless oppurtunities-->
+			<p title="owner's eth" ></p>
+			<p title="conditions statements"></p>
+			<p title="afterword by owner"></p>
+			<!---yep, scraped this, now this project will be full public sharing--->
+		</div>
+		<div style="gap:30px"><button class="alte" onclick="doit()"></button><button class="alte" onclick="cancel()">CANCEL</button></div>
+	</div>
+</div>
+
+<div id="name?" class="floaters" style="display:none; width: 300px; height: 140px; position: fixed; left: calc(50% - 150px); top:calc(50% - 70px);">
+	<form onsubmit="return saveName()"><input id="name_input" placeholder="Name&quest;" type="text" minlength="14" maxlength="10" required/></form>
+	<div style="display: flex; flex-flow:row nowrap;">
+		<button onclick="ge('name?').style.display = 'none'" class="actionxx" style="color: var(--pink);">CANCEL</button>
+		<button onclick="saveName()" class="actionxx" style="color: var(--green);">OK</button>
+	</div>
+</div>
+
+<!--GAME MENU DIV-->
+<div id="gameMenu">
+	<div id="topM" class="panels">
+		<button onclick="resume()" class="buttons">
+			<svg class="iconz" version="1.1" id="Capa_1" x="0px" y="0px" width="35px" height="35px" fill="var(--white)" fill-opacity="1.0" stroke="var(--black)" stroke-width="25px" stroke-opacity="1.0" viewBox="0 0 384 512" enable-background="new 0 0 720 1440" xml:space="preserve">
+				<path d="M361 215C375.3 223.8 384 239.3 384 256C384 272.7 375.3 288.2 361 296.1L73.03 472.1C58.21 482 39.66 482.4 24.52 473.9C9.377 465.4 0 449.4 0 432V80C0 62.64 9.377 46.63 24.52 38.13C39.66 29.64 58.21 29.99 73.03 39.04L361 215z"/>
+			</svg>
+		</button>
+		<button onclick="home">
+			
+		</button>
+	</div>
+	<div id="middleM" class="panels">
+		<!--PROLLY GONNA PUT A SIMPLE NOTIFICAION SCREEN OR SOME COOL STUFF HERE. IT WOULD BE COOL AS FUCK-->
+		
+	</div>
+	<div id="bottomM" class="panels">
+		<!--STATS ON THE CURRENT GAME, FOR PROPS AND RANKING-->
+		<div id="gameplay-info">
+			
+		</div>
+	</div>
+</div>
+
+<div id="won">
+<!---show an image confirming win-->
+	<img id="wonimage" src="" alt="">
+	<img id="loseimage" src="" alt="">
+	<div id="wonoptions">
+
+	</div>
+</div>
+
+<!--IN-GAME MENU(JUST A SIMPLE PAUSE BUTTON AND CAMERA CHANGE BUTTON IS OKAY)-->
+<div id="ingamemenu">
+	<div id="playleft">
+
+	</div>
+	<div id="topp" class="panels">
+		<button id="pauseb" class="buttons ingame">
+			<svg class="iconz" version="1.1" id="Capa_1" x="0px" y="0px" width="35px" height="35px" fill="var(--white)" fill-opacity="1.0" stroke="var(--black)" stroke-width="25px" stroke-opacity="1.0" viewBox="0 0 384 512" enable-background="new 0 0 720 1440" xml:space="preserve">
+				<path d="M272 63.1l-32 0c-26.51 0-48 21.49-48 47.1v288c0 26.51 21.49 48 48 48L272 448c26.51 0 48-21.49 48-48v-288C320 85.49 298.5 63.1 272 63.1zM80 63.1l-32 0c-26.51 0-48 21.49-48 48v288C0 426.5 21.49 448 48 448l32 0c26.51 0 48-21.49 48-48v-288C128 85.49 106.5 63.1 80 63.1z"/>
+			</svg>
+		</button>
+		<button class="buttons ingame" style="background-color: rgb(100 100 200)">
+		<svg class="iconz" style="margin-left: -11px;" version="1.1" id="captureb" x="0px" y="0px" width="46px" height="35px" fill="var(--white)" fill-opacity="1.0" stroke="var(--black)" stroke-width="25px" stroke-opacity="1.0" viewBox="0 0 384 512" enable-background="new 0 0 720 1440" xml:space="preserve">
+			<path d="M194.6 32H317.4C338.1 32 356.4 45.22 362.9 64.82L373.3 96H448C483.3 96 512 124.7 512 160V416C512 451.3 483.3 480 448 480H64C28.65 480 0 451.3 0 416V160C0 124.7 28.65 96 64 96H138.7L149.1 64.82C155.6 45.22 173.9 32 194.6 32H194.6zM256 384C309 384 352 341 352 288C352 234.1 309 192 256 192C202.1 192 160 234.1 160 288C160 341 202.1 384 256 384z"/>
+		</svg></button>
+		<button id="resetball" class="buttons ingame" style="background-color: red;"></button>
+	</div>
+	
+	<div id="bottomp" class="panels">
+		<button id="fullscreen" onclick="ge('renderCanvas').requestFullscreen()" class="buttons ingame">
+			
+		</button>
+		<div>
+			<button  id="showinfo" class="buttons ingame">
+				
+			</button>
+			<div id="infoblock">
+			</div>
+		</div>
+	</div>
+</div>
+<div id="ripple"></div>
+<script type="text/javascript">
+	//ONCLICKS 'n' STUFFS
+	var pointerX = -1;
+	var pointerY = -1;
+	let mouseclicked = false;
+	/*let rele = document.createElement("div");
+	document.body.appendChild(rele);
+	
+	rele.style.width="10px";
+	rele.style.height="10px";
+	rele.style.position="fixed";
+	rele.style.display="none";
+	rele.style.zIndex="1000";
+	rele.style.borderRadius="100%";
+	rele.style.backgroundColor="#d1d1d1";
+	rele.style.pointerEvents="none";
+	rele.style.opacity="0";
+	rele.style.transition="opacity 0.8s linear, width 0.5s linear, scale 0.5s linear, height 0.5s linear, transform 0.9s linear";
+	rele.addEventListener('touchstart', function(tecs){tecs.preventDefault()});
+	
+	document.onmousedown = function(evtx){
+		mouseclicked=true;
+		setTimeout(function(){
+			//make a MOUSECLICK STUFF
+			ge("ripple").style.display="block";
+			document.getElementById("ripple").style.opacity= "50%";
+			//ge("ripple").style.scale="4";
+			document.getElementById("ripple").style.transform="scale(4)";
+		}, 0)
+	}
+	document.onmousemove = function(event) {
+		pointerX = event.pageX;
+		pointerY = event.pageY;
+	}
+	setInterval(pointerCheck, 100);
+	function pointerCheck(){
+		if(mouseclicked==true){
+			ge("ripple").style.left = pointerX+"px";
+			ge("ripple").style.top = pointerY+"px";
+		}
+	}
+	document.onmouseup = function(){
+		mouseclicked=false;
+		setTimeout(function(){
+			ge("ripple").style.opacity= "0%";
+			ge("ripple").style.display="none";
+		}, 1000)
+	}
+	*/
+	/*MOUSE FUNCTIONS ENDS HERE*/
+	
+	//touchthrough
+	ge("ingamemenu").addEventListener("touchstart", function(ex){ex.preventDefault()})
+	
+	function settingsswitch(data, element){
+		let toggled = toggler(ls.getItem(data), bools);
+		ls.setItem(data, toggled);
+		let nso = ls.getItem(data);
+		if(nso == "true"){ge(element).style.color = "var(--pink)";}else{ge(element).style.color = "var(--black)";}
+	}
+	let saveName = function(){
+		//VALIDATE NAME and SAVE IT
+		const hhname = ge('name_input').value;
+		//SAVE to localStorage and try SERVER if network connection is available and user signed in
+		ls.setItem('name', hhname);
+		//if(Parse.User.current() && Parse.User.get("username") != hhname){Parse.User.set("username", hhname)}
+		return false;
+	}
+	let savePP = function(){
+		//VALIDATE NAME and SAVE IT
+		const hhname = ge('pp_input').value;
+		//SAVE to localStorage and try SERVER if network connection is available and user signed in
+		ls.setItem('pp', hhname);
+		//if(Parse.User.current() && Parse.User.get("username") != hhname){Parse.User.set("username", hhname)}
+		return false;
+	}
+	ge("pp_input").onfocus = function(){
+		setInterval(function(){}, 1000)
+	}
+	var stfv = function(){
+		ls.setItem("shader_skit", ge("pp_input").value);
+		//using this shader info later//not sure how to use it
+	}
+	function revertt(){
+		ge("pp_input").value = ls.getItem('pp')
+	}
+	let play = function(){
+		ge('menu').style.opacity='0';
+		//ge('menu').style.backdropFilter = 'blur(0px)';
+		setTimeout(function(){
+			ge('menu').style.display='none';
+			ge('ingamemenu').style.display='flex'
+		}, 200);
+		sessionStorage.setItem('start time', new Date.now());
+	}
+	function sdrtt(){ge('pp_input').style.height = (Number(ge('pp?').clientHeight) - 20).toString()+"px"}
+	ge("pp_input").value = sskit;
+	if(so==null|| so=="true"){ge("soundbtn").style.color = "var(--pink)";}else{}
+	
+	//EXPERT MODE provides no assist
+	if(em=="true"){ge("expertbtn").style.color = "var(--pink)"}else{}
+	ge("xyzz").innerHTML = gshape;
+	
+	ge("xyzz2").innerHTML=putted;
+	
+	function exormin(){
+		if(10){
+			
+		}
+		else{
+			
+		}
+	}
+	// connect to Parse server
+	const appId = "9rbaQCVaUjuMSMzPh6pwgn2jEa5V6koVPIo1GVFV";
+	const serverUrl = "https://2zqgswvvouym.useParse.com:2053/server";
+	
+	Parse.initialize(appId);
+	Parse.serverURL = serverUrl;
+	
+	Parse.start({serverUrl, appId})
+	
+	//IF USER IS ALREADY LOGGED IN... Ill set the login/signup button to work as user menu opener, where the owner of account can check their game files.
+	if(Parse.User.current()){
+		const aclx = new Parse.ACL();
+		const user = Parse.User.current();
+		aclx.setPublicReadAccess(true);
+		aclx.setPublicWriteAccess(false);
+		aclx.setWriteAccess(Parse.User.current().id, true);
+		document.getElementById("uns").ariaPlaceholder = user.Username();
+		showToast('Welcome '+user.get('username'), 1, 2000);
+		//hide the form field and rename login as donate
+		ge('emaillogin').style.display = 'none';
+		ge('logdon').innerHTML = 'DONATE';
+	}
+	
+	function getStats() {
+		const user = Parse.User.current();
+		if (user){
+			getUserTransactions(user);
+		}
+		else{console.log("Logged out")}
+	}
+	
+	//load users own uploaded courses
+	let loadup = function(){
+		loadcourses(Parse.User.current().get("username"));
+	}
+
+		
+		/*LOGIN AND SIGNUPS STARTS HERE*/
+		async function signUP(){
+			const user = new Parse.User();
+			if(!user){
+				user.set("username", FormData[0].value);
+				user.set("password", FormData[1].value);
+				try{
+					const reguser = await user.signUp();
+					afterlogin();
+					return reguser
+				} catch(error){ 
+					alert("Error: " + error.code + " " + error.message);
+				}
+			}
+		}
+		
+		async function emaillogin(){
+			const user = new Parse.User();
+			if(!user){
+			try{
+			const user = await Parse.User.logIn(FormData[0].value, FormData[1].value);
+			console.log('user logged in: +', user.get('username'));
+			afterlogin()
+			}
+			catch(err){
+				if(err.code == Parese.Error.OBJECT_NOT_FOUND){
+					//LAUNCH SIGNUP CODE
+					signUP();
+				}
+
+			}}
+		}
+				
+		
+		async function afterlogin(){
+		document.getElementById("uns").ariaPlaceholder = user.Username();	
+		showToast('Welcome '+user.get('username'), 1, 2000);
+		//hide the form field and rename login as donate
+		ge('emaillogin').style.display = 'none';
+		ge('logdon').innerHTML = 'DONATE';
+		loadup()
+		}
+
+		function DONATE(num){
+			switch(num){
+			case (num==0):
+				//open metamask link
+				window.open('my metamask wallet url', '_blank')
+				break
+			case (num==1):
+				//open torus link -- this will be changed to koffee or some other developer donate link
+				window.open('buy me coffee', '_blank')
+				break
+			case (num==2):
+				//open trustwallet link
+				window.open('my metamask wallet url', '_blank')
+				break
+			}
+		}
+		/****AND ENDS HERE***/
+
+
+
+		//LOAD COURSES WHEN THE TAB IS OPENED FOR THE FIRST TIME.
+		async function loadcourses(userself){
+			//this will a create a simple course element.. making it append info with json is best, from a json file stored on file or db
+			let cere = document.createElement("div");
+			cere.className = "coursex";
+
+			
+			if(unloadedcs == true){
+				//Now we query public courses for community tab
+					const public_courses = new Parse.Query('Courses');
+					public_courses.limit(10);
+
+					if(userself) public_courses.equalTo('owner_name', userself);
+
+					//p_results is an array data... pr = {x:x,y:y}
+					try{
+					const p_results = await public_courses.find();
+					p_results.forEach(results => {
+							cere.innerHTML = '<div class="courside"></div> <div class="mirrorer" onfocus="validategame();">'+
+							'<img class="courseximg" src="'+results.thumbnail+'"/>'+
+							'<div class="courseinfo">'+results.owner_name+'</div></div>'+
+							'<div class="oler"><button class="namecc">'+results.name+'</button><button class="favcc"></button></div>';
+							cere.onclick = check(results.url);
+
+							if(userself) ge("usergames").appendChild(cere);	
+							else ge("cgames").appendChild(cere);					
+					});
+						unloadedcs = false;}
+						catch(error){
+							showToast('ERROR:'+error)
+						}
+					}
+					else{
+						//JUST SHOW THE COURSES WITHOUT RELOADING AGAIN... Basically any user can check out the courses,  but only the course uploader can allow the other to play, quality control cases.
+						unloadedcs=false;
+						
+					}
+				}
+				//FORGOT PASSWORD?
+				ge('fpassword').onclick = async function(){
+					
+				}
+				
+				function check(cid){
+					//do some animation and choose to make url open.
+					const selectedcourse = object.get('courses');
+					//open the game by calling the url course opener
+					urlOpener(cid);
+				}
+			</script>
+			<canvas id="renderCanvas"></canvas>
+			<script src="app.js"></script>
+		</body>
+		</html>
