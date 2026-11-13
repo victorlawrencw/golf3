@@ -388,6 +388,8 @@ button{cursor: pointer;}
     width:300px;
     background-color:var(--white);
     margin-left:10px;
+    overflow: clip;
+    height: 402px;
 }
 #replacer{display: none;}
 #large-importer{width: 210px; height: 210px; margin: 45px;}
@@ -404,7 +406,9 @@ button{cursor: pointer;}
     border:2px solid var(--black);
     transition:box-shadow 0.25s, color 0.25s, font-size 0.1s;
 }
-
+#largr-importer{
+    color: transparent;
+}
 #rand01{
     cursor: pointer;
     font-size: 18px;
