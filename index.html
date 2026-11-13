@@ -213,7 +213,7 @@
 </div>
 
 <div id="courses" class="tabs floaters" >
-	<div class="tabname" style="background: var(--green);">Courses<button id="exormin" onclick="exormin()"></button></div>
+	<div class="tabname" style="background: var(--green);">Courses<button title="Load more" id="exormin" onclick="exormin()"></button></div>
 	<!--IF USER ISNT LOGGED IN I'LL MAKE SURE IT SHOWS THAT USER IS NOT LOGGED IN-->
 	<div style="overflow: scroll">
 		<div id="usergames" class="minitab">
@@ -239,7 +239,7 @@
 		<input type="file" spellcheck="false" accept=".glb, .gltf" id="large-importer"/>
 	</form>
 	<form onsubmit="return LoadUpload();" id="urlinput" style="height: 56px; display: flex; flex-flow: row;" method="POST" >
-		<input name="url" type="url" onclick="this.focus()" ondblclick="this.select()" pattern="https://.*" size="30" style="float:left; color:var(--black); max-width: none; height: 56px;" id="inputz" placeholder="https://golf3.com/boredape.gltf" required/>
+		<input name="url" type="url" onclick="this.focus()" ondblclick="this.select()" pattern="https://.*" size="30" style="float:left; color:var(--black); max-width: none; height: 56px; max-height: 56px; line-height: 56px;" id="inputz" placeholder="https://golf3.com/boredape.gltf" required/>
 		<button id="rand01" type="submit" style="outline:none; font-family: ddt; border:2px solid var(--black); width:55px; min-width: 55px; height:56px; float:right; background-color:var(--yellow)">Go</button>
 	</form>
 </div>
@@ -312,7 +312,7 @@
 			<path d="M361 215C375.3 223.8 384 239.3 384 256C384 272.7 375.3 288.2 361 296.1L73.03 472.1C58.21 482 39.66 482.4 24.52 473.9C9.377 465.4 0 449.4 0 432V80C0 62.64 9.377 46.63 24.52 38.13C39.66 29.64 58.21 29.99 73.03 39.04L361 215z"/>
 		</svg></button>
 		
-		<button title="courses" onclick="switchtabs('courses'); loadcourses()" id="courses-btn" class="buttons" >
+		<button title="courses" onclick="switchtabs('courses'); loadcourses();" id="courses-btn" class="buttons" >
 			<svg width="40px" height="40px" viewBox="0 0 400 400" enable-background="new 0 0 720 1440" xml:space="preserve">
 				<defs></defs><path layer="1" fill="var(--white)" fill-opacity="1.0" stroke="var(--black)" stroke-width="20" stroke-opacity="1.0" stroke-miterlimit="10" d="M200.0,319.99997C117.49997,319.99997,50.0,252.50003,50.0,169.99998C50.0,87.49999,117.49997,20.0,200.0,20.0C282.49997,20.0,350.0,87.49999,350.0,169.99998C350.0,252.50003,282.49997,319.99997,200.0,319.99997"/>
 				<g><path layer="1" fill="var(--black)" fill-opacity="1.0" stroke="var(--black)" stroke-width="0" stroke-opacity="0.0" stroke-miterlimit="10" d="M283.26532,224.48982C289.3267,224.48982,294.2857,229.44904,294.2857,235.51027C294.2857,241.57149,289.3267,246.53058,283.26532,246.53058C277.20404,246.53058,272.24487,241.57149,272.24487,235.51027C272.24487,229.44904,277.20404,224.48982,283.26532,224.48982"/>
@@ -444,6 +444,7 @@
 	var pointerX = -1;
 	var pointerY = -1;
 	let mouseclicked = false;
+	let pageination = 1;
 	/*let rele = document.createElement("div");
 	document.body.appendChild(rele);
 	
@@ -544,9 +545,12 @@
 	
 	ge("xyzz2").innerHTML=putted;
 	
-	function exormin(){
-		if(10){
-			
+	async function exormin(){
+		//this is the load more button(+10 courses)
+		if(ge('cgames').childElementCount == 10){
+			//load more
+			await loadcourses(undefined, pageination);
+			pageination++
 		}
 		else{
 			
@@ -653,18 +657,20 @@
 
 
 		//LOAD COURSES WHEN THE TAB IS OPENED FOR THE FIRST TIME.
-		async function loadcourses(userself){
+		async function loadcourses(userself, page){
 			//this will a create a simple course element.. making it append info with json is best, from a json file stored on file or db
 			let cere = document.createElement("div");
 			cere.className = "coursex";
-
 			
 			if(unloadedcs == true){
 				//Now we query public courses for community tab
-					const public_courses = new Parse.Query('Courses');
-					public_courses.limit(10);
+				    const dbcourses = Parse.Object.extend('Courses');
+					const public_courses = new Parse.Query(dbcourses);
 
 					if(userself) public_courses.equalTo('owner_name', userself);
+					else public_courses.limit(10);
+
+					if(page) public_courses.skip((page*10));
 
 					//p_results is an array data... pr = {x:x,y:y}
 					try{
