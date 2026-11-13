@@ -1118,10 +1118,8 @@ var createScene = function () {
                     console.log(frames);
                     loader.innerHTML = "Loaded :)";
                     setTimeout(function () { loader.click() }, 3000)
-                }
 
-            }, 1000);
-
+                    
             //process the image and save the image with the course itself
             //ximg = processed gif
             gifshot.createGIF({
@@ -1177,6 +1175,12 @@ var createScene = function () {
                 }
                 else{alert('error capturing course');}
             });
+
+
+                }
+
+            }, 1000);
+
             //ALSO SAVE THE COURSE AS WELL
 
         }
