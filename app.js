@@ -1131,7 +1131,8 @@ var createScene = function () {
                 if (!obj.error) {
                     let nim = obj.image;
                     console.log(nim);
-                    const thegif = new Parse.File(random_name+'.gif', nim, 'image/gif');
+                    const splitimg = nim.split('1')[1];
+                    const thegif = new Parse.File(random_name+'.gif', {base64: nim}, 'image/gif');
                     thegif.save().then(function () {
                     ximg = thegif.url();
 
