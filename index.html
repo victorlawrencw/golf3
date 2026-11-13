@@ -239,8 +239,8 @@
 		<input type="file" spellcheck="false" accept=".glb, .gltf" id="large-importer"/>
 	</form>
 	<form onsubmit="return LoadUpload();" id="urlinput" style="height: 56px; display: flex; flex-flow: row;" method="POST" >
-		<input name="url" type="url" onclick="this.focus()" ondblclick="this.select()" pattern="https://.*" size="30" style="float:left; color:var(--black); max-width: none;" id="inputz" placeholder="https://golf3.com/boredape.gltf" required/>
-		<button id="rand01" type="submit" style="outline:none; font-family: ddt; border:2px solid var(--black); width:55px; height:56px; float:right; background-color:var(--yellow)">Go</button>
+		<input name="url" type="url" onclick="this.focus()" ondblclick="this.select()" pattern="https://.*" size="30" style="float:left; color:var(--black); max-width: none; height: 56px;" id="inputz" placeholder="https://golf3.com/boredape.gltf" required/>
+		<button id="rand01" type="submit" style="outline:none; font-family: ddt; border:2px solid var(--black); width:55px; min-width: 55px; height:56px; float:right; background-color:var(--yellow)">Go</button>
 	</form>
 </div>
 
@@ -250,7 +250,7 @@
 	<div id="loginzz">
 		<div id="logdon" class="tabname" style="background: var(--orange);">Login</div>
 		<div style="padding-top: 10px; padding-left: 10px;">
-			<div id="emaillogin" style="height: 188px;">
+			<div id="emaillogin" style="height: 188px; margin-bottom: 18px;">
 				<!--FORM LOGIN, USERNAME AND PASSWORD NEEDED-->
 				<form id="userlogin" method="POST" onsubmit="return emaillogin()">
 					<input placeholder="username" spellcheck="false" class="loginfields" type="username" required/>
