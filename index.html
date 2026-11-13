@@ -553,8 +553,8 @@
 		}
 	}
 	// connect to Parse server
-	const appId = "9rbaQCVaUjuMSMzPh6pwgn2jEa5V6koVPIo1GVFV";
-	const serverUrl = "https://2zqgswvvouym.useParse.com:2053/server";
+	const appId = "4832f8f60b4cf2014f6afa5d0584b7e0";
+	const serverUrl = "https://golf3server.onrender.com/";
 	
 	Parse.initialize(appId);
 	Parse.serverURL = serverUrl;
@@ -575,7 +575,7 @@
 		ge('logdon').innerHTML = 'DONATE';
 	}
 	
-	function getStats() {
+	function getStats(){
 		const user = Parse.User.current();
 		if (user){
 			getUserTransactions(user);
