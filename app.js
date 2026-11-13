@@ -19,6 +19,7 @@ var createScene = function () {
     let file;
     let ximg;
     let xyz = 0
+    let courseloc;
 
 
     let baseVOL;
@@ -233,7 +234,7 @@ var createScene = function () {
     assetsManager.autoHideLoadingUI = false;
 
     //load default course :)
-    if (cc == null) { courseloc = 'https://wtfx.fra1.cdn.digitaloceanspaces.com/eni.glb' }
+    if (cc == null) { courseloc = 'https://github.com/victorlawrencw/golf3/raw/88b09a2f831ad13cb5167190873617b0dc2eb75a/eni.glb' }
     if (courseloc.indexOf('/') > -1) {
         var rooturl = courseloc.slice(0, courseloc.lastIndexOf('/') + 1);
         var filename = courseloc.slice(courseloc.lastIndexOf('/') + 1);
