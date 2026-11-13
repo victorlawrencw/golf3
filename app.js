@@ -234,7 +234,7 @@ var createScene = function () {
     assetsManager.autoHideLoadingUI = false;
 
     //load default course :)
-    if (cc == undefined) { courseloc = 'https://github.com/victorlawrencw/golf3/raw/88b09a2f831ad13cb5167190873617b0dc2eb75a/eni.glb' }
+    if (courseloc == undefined) { courseloc = 'https://github.com/victorlawrencw/golf3/raw/88b09a2f831ad13cb5167190873617b0dc2eb75a/eni.glb' }
     if (courseloc.indexOf('/') > -1) {
         var filename = courseloc.slice(courseloc.lastIndexOf('/') + 1);
         assetsManager.addMeshTask("NEWSCENE", "", courseloc, filename);
