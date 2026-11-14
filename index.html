@@ -617,7 +617,8 @@
 				console.log('aftertry')
 			const user = await Parse.User.logIn(ge('usernameee').value, ge('passworddd').value);
 			console.log('user logged in: +', user.get('username'));
-			afterlogin()
+			await afterlogin();
+			loadup()
 			}
 			catch(err){
 					console.log('signingup instead')
@@ -635,7 +636,6 @@
 		ge('emaillogin').style.display = 'none';
 		ge('logdon').innerHTML = 'DONATE';
 		ge('specio').innerHTML = 'DONATE';
-		loadup()
 		}
 
 		function DONATE(num){
