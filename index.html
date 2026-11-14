@@ -583,7 +583,7 @@
 	}
 	
 	//load users own uploaded courses
-	let loadup = function(){
+	let loadup = async function(){
 		loadcourses(Parse.User.current().get("username"));
 	}
 
