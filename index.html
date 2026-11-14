@@ -8,9 +8,8 @@
 	<link rel="stylesheet" href="prefont.css" type="text/css">
 	<link href="styles.css" type="text/css" rel="stylesheet"/>
 	
-	<!-- Parse SDK code
-	<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script--->
-	<script src="js/parse.js"></script>>
+	<!-- Parse SDK code--->
+	<script src="https://cdn.jsdelivr.net/npm/parse@8.6.2/dist/parse.min.js"></script>>
 	
 	<!-- Babylon.js -->
 	<script src="js/dat.gui.min.js"></script>
@@ -597,6 +596,7 @@
 				user.set("password", ge('passworddd').value);
 				try{
 					const reguser = await user.signUp();
+					console.log('user signed up');
 					afterlogin();
 					return reguser
 				} catch(error){ 
