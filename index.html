@@ -611,7 +611,7 @@
 			console.log('after preventDefault');
 
 			const user = new Parse.User();
-			if(!user){
+			if(!user || user == null){
 			try{
 			const user = await Parse.User.logIn(ge('usernameee').value, ge('passworddd').value);
 			console.log('user logged in: +', user.get('username'));
