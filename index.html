@@ -590,9 +590,8 @@
 		
 		/*LOGIN AND SIGNUPS STARTS HERE*/
 		async function signUP(){
-			const user = new Parse.User.current();
-			console.log(user);
-			if(!user){
+			const user = new Parse.User();
+			
 				user.set("username", ge('usernameee').value);
 				user.set("password", ge('passworddd').value);
 				try{
@@ -603,7 +602,6 @@
 				} catch(error){ 
 					alert("Error: " + error.code + " " + error.message);
 				}
-			}
 		}
 		
 		ge('userlogin').addEventListener('submit', async (e) => {
@@ -611,7 +609,7 @@
 			e.preventDefault();
 			console.log('after preventDefault');
 
-			const user = new Parse.User.current();
+			const user = Parse.User.current();
 			console.log(user);
 			if(!user || user == null){
 				console.log('trying')
