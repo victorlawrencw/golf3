@@ -590,7 +590,7 @@
 		
 		/*LOGIN AND SIGNUPS STARTS HERE*/
 		async function signUP(){
-			const user = new Parse.User();
+			const user = new Parse.User.current();
 			console.log(user);
 			if(!user){
 				user.set("username", ge('usernameee').value);
@@ -611,7 +611,7 @@
 			e.preventDefault();
 			console.log('after preventDefault');
 
-			const user = new Parse.User();
+			const user = new Parse.User.current();
 			console.log(user);
 			if(!user || user == null){
 				console.log('trying')
