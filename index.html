@@ -605,7 +605,9 @@
 			}
 		}
 		
-		async function emaillogin(){
+		ge('userlogin').onsubmit = async function emaillogin(e){
+			e.preventDefault();
+
 			const user = new Parse.User();
 			if(!user){
 			try{
