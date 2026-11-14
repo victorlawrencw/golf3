@@ -252,7 +252,7 @@
 		<div style="padding-top: 10px; padding-left: 10px;">
 			<div id="emaillogin" style="height: 188px; margin-bottom: 18px;">
 				<!--FORM LOGIN, USERNAME AND PASSWORD NEEDED-->
-				<form id="userlogin" method="POST" onsubmit="event.preventDefault(); return emaillogin()">
+				<form id="userlogin" method="POST" onsubmit="return emaillogin()">
 					<input id="usernameee" placeholder="username" spellcheck="false" class="loginfields" type="username" required/>
 					<input id="passworddd" placeholder="password" type="password" class="loginfields" required/>
 					<div style="display: flex; flex-flow:row wrap; gap: 10px;">
@@ -606,7 +606,9 @@
 		}
 		
 		ge('userlogin').onsubmit = async function emaillogin(e){
+			console.log(submitted);
 			e.preventDefault();
+			console.log('after preventDefault');
 
 			const user = new Parse.User();
 			if(!user){
