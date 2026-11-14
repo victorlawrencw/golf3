@@ -252,12 +252,12 @@
 		<div style="padding-top: 10px; padding-left: 10px;">
 			<div id="emaillogin" style="height: 188px; margin-bottom: 18px;">
 				<!--FORM LOGIN, USERNAME AND PASSWORD NEEDED-->
-				<form id="userlogin" method="POST" onsubmit="return emaillogin()">
-					<input placeholder="username" spellcheck="false" class="loginfields" type="username" required/>
-					<input placeholder="password" type="password" class="loginfields" required/>
+				<form id="userlogin" method="POST" onsubmit="event.preventDefault(); return emaillogin()">
+					<input id="usernameee" placeholder="username" spellcheck="false" class="loginfields" type="username" required/>
+					<input id="passworddd" placeholder="password" type="password" class="loginfields" required/>
 					<div style="display: flex; flex-flow:row wrap; gap: 10px;">
-						<button id="signclick" class="actionxx2 lighten">sign in</button>
-						<button id="fpassword" class="lighten" style="outline:none; color: var(--orange); transition: box-shadow 0.25s, margin 0.25s; font-family: ddt; font-size: 10px; border:2px solid var(--black); width:70px; float:right; background: transparent;" onclick="return false;">forgot password&gtquest;</button>
+						<button id="signclick" type="submit" class="actionxx2 lighten">sign in</button>
+						<button id="fpassword" class="lighten" style="outline:none; color: var(--orange); transition: box-shadow 0.25s, margin 0.25s; font-family: ddt; font-size: 10px; border:2px solid var(--black); width:70px; float:right; background: transparent;">forgot password&gtquest;</button>
 					</div>
 				</form>
 			</div>
@@ -578,12 +578,9 @@
 		ge('specio').innerHTML = 'DONATE';
 	}
 	
-	function getStats(){
-		const user = Parse.User.current();
-		if (user){
-			getUserTransactions(user);
-		}
-		else{console.log("Logged out")}
+	ge('fpassword').onclick = function(){
+		showToast('Create a new account :)', 2, 4000);
+		return false;
 	}
 	
 	//load users own uploaded courses
@@ -596,8 +593,8 @@
 		async function signUP(){
 			const user = new Parse.User();
 			if(!user){
-				user.set("username", FormData[0].value);
-				user.set("password", FormData[1].value);
+				user.set("username", ge('usernameee').value);
+				user.set("password", ge('passworddd').value);
 				try{
 					const reguser = await user.signUp();
 					afterlogin();
@@ -612,7 +609,7 @@
 			const user = new Parse.User();
 			if(!user){
 			try{
-			const user = await Parse.User.logIn(FormData[0].value, FormData[1].value);
+			const user = await Parse.User.logIn(ge('usernameee').value, ge('passworddd').value);
 			console.log('user logged in: +', user.get('username'));
 			afterlogin()
 			}
