@@ -609,9 +609,9 @@
 			e.preventDefault();
 			console.log('after preventDefault');
 
-			const user = Parse.User.current();
-			console.log(user);
-			if(!user || user == null){
+			const logged = Parse.User.current();
+			console.log(logged);
+			if(!logged || logged == null){
 				console.log('trying')
 			try{
 				console.log('aftertry')
