@@ -591,6 +591,7 @@
 		/*LOGIN AND SIGNUPS STARTS HERE*/
 		async function signUP(){
 			const user = new Parse.User();
+			console.log(user);
 			if(!user){
 				user.set("username", ge('usernameee').value);
 				user.set("password", ge('passworddd').value);
@@ -611,14 +612,18 @@
 			console.log('after preventDefault');
 
 			const user = new Parse.User();
+			console.log(user);
 			if(!user || user == null){
+				console.log('trying')
 			try{
+				console.log('aftertry')
 			const user = await Parse.User.logIn(ge('usernameee').value, ge('passworddd').value);
 			console.log('user logged in: +', user.get('username'));
 			afterlogin()
 			}
 			catch(err){
 				if(err.code == Parese.Error.OBJECT_NOT_FOUND){
+					console.log('signingup instead')
 					//LAUNCH SIGNUP CODE
 					signUP();
 				}
