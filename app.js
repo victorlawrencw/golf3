@@ -237,7 +237,7 @@ var createScene = function () {
     assetsManager.autoHideLoadingUI = false;
 
     //load default course :)
-    if (courseloc == undefined) { courseloc = 'https://golf3.onrender.com/boredApes.glb' }
+    if (courseloc == undefined) { courseloc = 'https://golf3.onrender.com/boredApes.glb/' }
     if (courseloc.indexOf('/') > -1) {
         var rooturl = courseloc.slice(0, courseloc.lastIndexOf('/'));
         var filename = courseloc.slice(courseloc.lastIndexOf('/') + 1);
