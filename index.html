@@ -532,7 +532,7 @@
 			ge('menu').style.display='none';
 			ge('ingamemenu').style.display='flex'
 		}, 200);
-		sessionStorage.setItem('start time', new Date.now());
+		sessionStorage.setItem('start time', Date.now());
 	}
 	function sdrtt(){ge('pp_input').style.height = (Number(ge('pp?').clientHeight) - 20).toString()+"px"}
 	ge("pp_input").value = sskit;
