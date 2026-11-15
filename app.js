@@ -1248,7 +1248,11 @@ var createScene = function () {
         if (r == window.onfocus) { }
     }
 
-
+    function resume(){
+        ge('gameMenu').style.display = 'none';
+        scene.getPhysicsEngine().setTimeStep(1);
+    }
+    
     return scene;
 }
 window.initFunction = async function(){
