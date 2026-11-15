@@ -242,11 +242,13 @@ var createScene = function () {
         var rooturl = courseloc.slice(0, courseloc.lastIndexOf('/'));
         var filename = courseloc.slice(courseloc.lastIndexOf('/') + 1);
         assetsManager.addMeshTask("NEWSCENE", "", rooturl, filename);
+        assetsManager.load();
     }
     else {
         courseloc == cc;
         var filename = courseloc.slice(courseloc.lastIndexOf('/') + 1);
         assetsManager.addMeshTask("NEWSCENE", "", courseloc, filename);
+        assetsManager.load();
     }
 
 
@@ -1258,7 +1260,7 @@ window.initFunction = async function(){
             return createDefaultEngine();
         }
     }
-
+ 
     window.engine = await asyncEngineCreation();
     BABYLON.Effect.ShadersStore["shadowsFragmentFunctions"] = "precision highp sampler2DShadow;\n" + BABYLON.Effect.ShadersStore["shadowsFragmentFunctions"];
     console.log('windows innit')
