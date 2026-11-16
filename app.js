@@ -245,13 +245,6 @@ var createScene = function () {
         var filename = courseloc.slice(courseloc.lastIndexOf('/') + 1);
         assetsManager.addMeshTask("NEWSCENE", "", rooturl, filename);
         assetsManager.load();
-                                        shba = gM('ball');
-                                //SHADOWS
-                                //shadowGenerator.getShadowMap().renderList.push(shba);
-                                shadowGenerator.addShadowCaster(shba);
-                                shadowGenerator.addShadowCaster(gM('course'));
-                                //gM('course').receiveShadows = true;
-                                console.log("shadow added");
     }
     else {
         courseloc == cc;
@@ -1285,7 +1278,14 @@ var createScene = function () {
         ge('gameMenu').style.display = 'none';
         scene.getPhysicsEngine().setTimeStep(1);
     }
-    
+                                            shba = gM('ball');
+                                //SHADOWS
+                                //shadowGenerator.getShadowMap().renderList.push(shba);
+                                shadowGenerator.addShadowCaster(shba);
+                                shadowGenerator.addShadowCaster(gM('course'));
+                                //gM('course').receiveShadows = true;
+                                console.log("shadow added");
+
     return scene;
 }
 window.initFunction = async function(){
