@@ -459,7 +459,7 @@ var createScene = function () {
                             if (mname.length > iom + 8) friction = Number(mname.slice(iom + 8, iom + 9)) * 0.1
                             coursex.physicsImpostor = new BABYLON.PhysicsImpostor(coursex, BABYLON.PhysicsImpostor.MeshImpostor, { mass: 0, restitution: restitution, friction: friction }, scene);
 
-                            if (gM('course').material.name == '__GLTFLoader._default') {
+                            if (coursex.material.name == '__GLTFLoader._default' || scene.getMaterialByName("__GLTFLoader._default")) {
                                 let newdefault = new BABYLON.StandardMaterial("newdefault", scene);
                                 /*newdefault.specularColor = (.3,.3,.3);
                                 newdefault.specularPower = 1;
