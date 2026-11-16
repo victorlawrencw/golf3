@@ -569,7 +569,7 @@
 		aclx.setPublicReadAccess(true);
 		aclx.setPublicWriteAccess(false);
 		aclx.setWriteAccess(Parse.User.current().id, true);
-		document.getElementById("uns").ariaPlaceholder = user.Username();
+		document.getElementById("uns").ariaPlaceholder = user.getUsername();
 		showToast('Welcome '+user.get('username'), 1, 2000);
 		//hide the form field and rename login as donate
 		ge('emaillogin').style.display = 'none';

@@ -1072,7 +1072,6 @@ var createScene = function () {
 
         newCOURSE.onSuccess = function (task) {
             console.log('mesh loaded');
-            loader = showToast("", 3, 100000, function () { });
         }
         newCOURSE.onError = function (task) {
             console.log("tis a bust")
@@ -1097,6 +1096,7 @@ var createScene = function () {
 
     assetsManager.onProgress = function (remaining, totalC) {
         let percentage = ((totalC - remaining) / totalC) * 100;
+        loader = showToast("", 3, 100000, function () { });
         loader.innerHTML = loader.innerHTML + "Loading..." + percentage.toString() + "%";
     }
 
@@ -1159,7 +1159,7 @@ var createScene = function () {
                 ggv.style.left = '0px';
             }
             else {
-                //const myexport = btoa(JSON.stringify(BABYLON.SceneSerializer.SerializeMesh()));
+                ///const myexport = btoa(JSON.stringify(BABYLON.SceneSerializer.SerializeMesh()));
 
                 //const dFile = new Parse.File(random_name, {base64:myexport});
                 const dFile = new Parse.File(random_name, file);
@@ -1174,6 +1174,7 @@ var createScene = function () {
                     fileInfo.set('owner_name', Parse.User.current().get("username"));
                     //Will change it to server time later
                     fileInfo.set('date', Date.now());
+                    fileInfo.set('file', dfile);
                     fileInfo.set('thumbnail', ximg);
                     fileInfo.set('url', cc);
 
