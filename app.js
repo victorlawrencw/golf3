@@ -472,17 +472,16 @@ var createScene = function () {
                                 newdefault.diffuseColor = new BABYLON.Color3(.9, .9, .9);
 
                                 gM('course').material = newdefault;
-                                shadowGenerator.addShadowCaster(gM('course'));
+                                shadowGenerator.addShadowCaster(coursex);
+                                coursex.receiveShadows = true;
 
                             }
                             else {/*load normal material*/ }
 
                             setTimeout(function () {
-                                shba = gM('ball');
                                 //SHADOWS
                                 //shadowGenerator.getShadowMap().renderList.push(shba);
-                                
-                                //gM('course').receiveShadows = true;
+
                                 console.log("shadow added");
 
                             }, 100
