@@ -1102,17 +1102,16 @@ var createScene = function () {
 
     assetsManager.onFinish = function () {
 
-                                        shba = gM('ball');
-                                //SHADOWS
-                                //shadowGenerator.getShadowMap().renderList.push(shba);
-                                shadowGenerator.addShadowCaster(shba);
-                                shadowGenerator.addShadowCaster(gM('course'));
-                                //gM('course').receiveShadows = true;
-                                console.log("shadow added");
+        shba = gM('ball');
+        //SHADOWS
+        //shadowGenerator.getShadowMap().renderList.push(shba);
+        shadowGenerator.addShadowCaster(shba);
+        shadowGenerator.addShadowCaster(gM('course'));
+        //gM('course').receiveShadows = true;
+        console.log("shadow added");
 
-        if(courseloc != 'https://golf3.onrender.com/boredApes.glb/')
-{
-    loader.innerHTML = "Capturing Preview";
+        if(courseloc != 'https://golf3.onrender.com/boredApes.glb/'){
+         loader.innerHTML = "Capturing Preview";
         //FAST 10 secs SCREENSHOT FOR GOLF COURSE SHOWCASE... this will be useful when other users are looking for a particular course.
         if (scene.getMeshByName('course')) {
             console.log('course exists');
@@ -1200,7 +1199,8 @@ var createScene = function () {
 
             //ALSO SAVE THE COURSE AS WELL
 
-        }}
+        }
+    }
 
 
     }
