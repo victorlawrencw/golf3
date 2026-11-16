@@ -492,7 +492,7 @@ var createScene = function () {
                             //CHECK IF BALL COLLIDES WITH PHYSICAL MATERIAL TO PLAY SOUND
                             ball.physicsImpostor.registerOnPhysicsCollide(coursex.physicsImpostor, function (main, collided) {
                                 //console.log("collided");
-                                let ioxd = BABYLON.Vector3.Distance(main.getLinearVelocity(), new BABYLON.Vector3.Zero());
+                                let ioxd = BABYLON.Vector3.Distance(main.getLinearVelocity(), BABYLON.Vector3.Zero());
                                 //USE THE IMPULSE TO CALCULATE HOW LOUD THE SOUND WILL BE.
                                 //max v is 1;
                                 if (ioxd > 5) {
@@ -542,8 +542,8 @@ var createScene = function () {
         document.getElementById('resetball').onclick = function () {
             let resetpos = JSON.parse(sessionStorage.getItem('checkpoint'));
             let bal = gM('ball');
-            bal.physicsImpostor.setLinearVelocity(new BABYLON.Vector3.Zero());
-            bal.physicsImpostor.setAngularVelocity(new BABYLON.Vector3.Zero());
+            bal.physicsImpostor.setLinearVelocity( BABYLON.Vector3.Zero());
+            bal.physicsImpostor.setAngularVelocity( BABYLON.Vector3.Zero());
 
             bal.position.x = resetpos.x;
             bal.position.y = resetpos.y;
@@ -795,8 +795,8 @@ var createScene = function () {
                     //THE BALL WILL BE PUT IN THE PREVIOUS POSITION
                     setTimeout(
                         function () {
-                            ball.physicsImpostor.setLinearVelocity(new BABYLON.Vector3.Zero());
-                            ball.physicsImpostor.setAngularVelocity(new BABYLON.Vector3.Zero());
+                            ball.physicsImpostor.setLinearVelocity( BABYLON.Vector3.Zero());
+                            ball.physicsImpostor.setAngularVelocity( BABYLON.Vector3.Zero());
 
                             ball.position.x = lastpos.x;
                             ball.position.y = lastpos.y;
