@@ -218,7 +218,7 @@ var createScene = function () {
     shadowmat.specularPower = 0.05;
     shadowmat.alpha = 0.2;
 
-    var water = new BABYLON.MeshBuilder.CreateBox('water', { size: 100 }, scene);
+    var water = BABYLON.MeshBuilderBuilder.CreateBox('water', { size: 100 }, scene);
     water.scaling = new BABYLON.Vector3(10, .05, 10);
     water.position.y = 0;
     water.material = watermat;
@@ -281,7 +281,7 @@ var createScene = function () {
         //TYPES OF BALL AVAILABLE FOR USER                
         if (putted == "Shadow") {
             let puttLight = new BABYLON.DirectionalLight("shadowmaker", new BABYLON.Vector3(0, -1, 0), scene);
-            let shadower = new BABYLON.MeshBuilder.CreateSphere("shadower", { segments: 16, radius: 0.1 }, scene);
+            let shadower = BABYLON.MeshBuilderBuilder.CreateSphere("shadower", { segments: 16, radius: 0.1 }, scene);
             puttLight.includedOnlyMeshes = [shadower];
             shadower.isVisible = false;
             shadower.isPickable = false;
@@ -332,19 +332,19 @@ var createScene = function () {
 
             switch (gshape) {
                 case null:
-                    var ball = new BABYLON.MeshBuilder.CreateIcoSphere("ball", { radius: startbbx, subdivisions: 4, flat: true }, scene);
+                    var ball = BABYLON.MeshBuilderBuilder.CreateIcoSphere("ball", { radius: startbbx, subdivisions: 4, flat: true }, scene);
                     ball.physicsImpostor = new BABYLON.PhysicsImpostor(ball, BABYLON.PhysicsImpostor.SphereImpostor, phs, scene);
                     break;
                 case "Box":
-                    var ball = new BABYLON.MeshBuilder.CreateBox("ball", { size: (startbbx * 2) }, scene);
+                    var ball = BABYLON.MeshBuilderBuilder.CreateBox("ball", { size: (startbbx * 2) }, scene);
                     ball.physicsImpostor = new BABYLON.PhysicsImpostor(ball, BABYLON.PhysicsImpostor.BoxImpostor, phs, scene);
                     break;
                 case "Cylinder":
-                    var ball = new BABYLON.MeshBuilder.CreateCylinder("ball", { diameter: (startbbx * 2), tessalation: 3, height: 0.2 }, scene);
+                    var ball = BABYLON.MeshBuilderBuilder.CreateCylinder("ball", { diameter: (startbbx * 2), tessalation: 3, height: 0.2 }, scene);
                     ball.physicsImpostor = new BABYLON.PhysicsImpostor(ball, BABYLON.PhysicsImpostor.CylinderImpostor, phs, scene);
                     break;
                 case "Sphere":
-                    var ball = new BABYLON.MeshBuilder.CreateIcoSphere("ball", { radius: (startbbx), subdivisions: 1, flat: true }, scene);
+                    var ball = BABYLON.MeshBuilderBuilder.CreateIcoSphere("ball", { radius: (startbbx), subdivisions: 1, flat: true }, scene);
                     ball.physicsImpostor = new BABYLON.PhysicsImpostor(ball, BABYLON.PhysicsImpostor.SphereImpostor, phs, scene);
                     break;
             }
@@ -561,7 +561,7 @@ var createScene = function () {
         var inmat = new BABYLON.StandardMaterial("nullx", scene);
         inmat.diffuseColor = new BABYLON.Color3(1, 0, 0);
 
-        var position_disk = new BABYLON.MeshBuilder.CreateDisc('disc_putt', { tessellation: 8, radius: startbbx * 5 }, scene);
+        var position_disk = BABYLON.MeshBuilderBuilder.CreateDisc('disc_putt', { tessellation: 8, radius: startbbx * 5 }, scene);
         //position_disk.rotation.x = Math.PI/2;
         position_disk.enableEdgesRendering();
         position_disk.edgesWidth = 2 / startbbx;
@@ -569,7 +569,7 @@ var createScene = function () {
         //position_disk.isVisible=false;
         position_disk.material = shadowmat;
 
-        var pulling_disk = new BABYLON.MeshBuilder.CreateDisc('holder', { tessellation: 8, radius: 100 }, scene);
+        var pulling_disk = BABYLON.MeshBuilderBuilder.CreateDisc('holder', { tessellation: 8, radius: 100 }, scene);
         pulling_disk.material = pullmat;
         pulling_disk.rotation.x = Math.PI / 2;
         pulling_disk.position.z = -0.1;
@@ -586,7 +586,7 @@ var createScene = function () {
             switch (ls.getItem('puttz')) {
                 case "Classic": {
                     for (var x = 0; x < 5; x++) {
-                        var putt = new BABYLON.MeshBuilder.CreateBox("putt" + x.toString(), { size: 0.07, flat: true, updatable: false }, scene);
+                        var putt = BABYLON.MeshBuilderBuilder.CreateBox("putt" + x.toString(), { size: 0.07, flat: true, updatable: false }, scene);
                         putt.material = matt;
                         putt.isVisible = false;
                         putt.isPickable = false;
@@ -598,7 +598,7 @@ var createScene = function () {
                 };
                 case "Boxes": {
                     for (var x = 0; x < 5; x++) {
-                        var putt = new BABYLON.MeshBuilder.CreateBox("putt" + x.toString(), { size: 0.07, flat: true, updatable: false }, scene);
+                        var putt = BABYLON.MeshBuilderBuilder.CreateBox("putt" + x.toString(), { size: 0.07, flat: true, updatable: false }, scene);
                         putt.material = matt;
                         putt.isVisible = false;
                         putt.isPickable = false;
@@ -615,20 +615,20 @@ var createScene = function () {
             }
         }
 
-        var inpointer = new BABYLON.Mesh.CreateBox("inpointer", 0.2, scene);
+        var inpointer = BABYLON.MeshBuilder.CreateBox("inpointer", 0.2, scene);
         inpointer.parent = pulling_disk;
         inpointer.isPickable = false;
         inpointer.material = inmat;
         inpointer.isVisible = false;
 
-        var spect = new BABYLON.Mesh.CreateBox("boxx", 0.1, scene);
+        var spect = BABYLON.MeshBuilder.CreateBox("boxx", 0.1, scene);
         spect.material = pullmat;
         spect.isPickable = false;
         spect.position = ball.position;
 
         if (em == "false") {
             for (var x = 0; x < 5; x++) {
-                var putt = new BABYLON.MeshBuilder.CreateBox("putt" + x.toString(), { size: 0.07, flat: true, updatable: false }, scene);
+                var putt = BABYLON.MeshBuilderBuilder.CreateBox("putt" + x.toString(), { size: 0.07, flat: true, updatable: false }, scene);
                 putt.material = matt;
                 putt.isVisible = false;
                 putt.isPickable = false;
@@ -819,7 +819,7 @@ var createScene = function () {
                         gM('inpointer').isVisible = true;
 
                         position_disk.dispose();
-                        position_disk = new BABYLON.MeshBuilder.CreateDisc('disc_putt', { tessellation: 8, radius: startbbx * 5, sideOrientation: 2 }, scene);
+                        position_disk = BABYLON.MeshBuilderBuilder.CreateDisc('disc_putt', { tessellation: 8, radius: startbbx * 5, sideOrientation: 2 }, scene);
                         position_disk.parent = pulling_disk;
                         position_disk.material = shadowmat;
                         position_disk.enableEdgesRendering();
@@ -882,7 +882,7 @@ var createScene = function () {
                     if (putted == "Classic") {
                         position_disk.isVisible = true;
                         position_disk.dispose();
-                        position_disk = new BABYLON.MeshBuilder.CreateDisc('disc_putt', { tessellation: 8, radius: distance * 0.95, arc: distance / 2, sideOrientation: 2 }, scene);
+                        position_disk = BABYLON.MeshBuilderBuilder.CreateDisc('disc_putt', { tessellation: 8, radius: distance * 0.95, arc: distance / 2, sideOrientation: 2 }, scene);
                         position_disk.parent = pulling_disk;
                         position_disk.material = shadowmat;
                         position_disk.enableEdgesRendering();
@@ -965,7 +965,7 @@ var createScene = function () {
                     }
                     position_disk.isVisible = true;
                     position_disk.dispose();
-                    position_disk = new BABYLON.MeshBuilder.CreateDisc('disc_putt', { tessellation: 8, radius: startbbx * 5, sideOrientation: 2 }, scene);
+                    position_disk = BABYLON.MeshBuilderBuilder.CreateDisc('disc_putt', { tessellation: 8, radius: startbbx * 5, sideOrientation: 2 }, scene);
                     position_disk.parent = pulling_disk;
                     position_disk.material = shadowmat;
                     position_disk.enableEdgesRendering();
@@ -1288,11 +1288,11 @@ window.initFunction = async function(){
     }
  
     window.engine = await asyncEngineCreation();
-    BABYLON.Effect.ShadersStore["shadowsFragmentFunctions"] = "precision highp sampler2DShadow;\n" + BABYLON.Effect.ShadersStore["shadowsFragmentFunctions"];
+    //BABYLON.Effect.ShadersStore["shadowsFragmentFunctions"] = "precision highp sampler2DShadow;\n" + BABYLON.Effect.ShadersStore["shadowsFragmentFunctions"];
     console.log('windows innit')
     if (!engine) throw 'engine should not be null.';
     window.scene = createScene();
-    BABYLON.Effect.ShadersStore["shadowsFragmentFunctions"] = "precision highp sampler2DShadow;\n" + BABYLON.Effect.ShadersStore["shadowsFragmentFunctions"];
+    //BABYLON.Effect.ShadersStore["shadowsFragmentFunctions"] = "precision highp sampler2DShadow;\n" + BABYLON.Effect.ShadersStore["shadowsFragmentFunctions"];
 }
 initFunction().then(() => {
     sceneToRender = scene
