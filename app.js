@@ -364,6 +364,7 @@ var createScene = function () {
             ball.checkCollisions = true;
 
             ball.isPickable = false;
+            shadowGenerator.addShadowCaster(ball);
 
             camera.lockedTarget = ball;
             //scene.debugLayer.show();
@@ -471,6 +472,7 @@ var createScene = function () {
                                 newdefault.diffuseColor = new BABYLON.Color3(.9, .9, .9);
 
                                 gM('course').material = newdefault;
+                                shadowGenerator.addShadowCaster(gM('course'));
 
                             }
                             else {/*load normal material*/ }
@@ -479,8 +481,7 @@ var createScene = function () {
                                 shba = gM('ball');
                                 //SHADOWS
                                 //shadowGenerator.getShadowMap().renderList.push(shba);
-                                shadowGenerator.addShadowCaster(shba);
-                                shadowGenerator.addShadowCaster(gM('course'));
+                                
                                 //gM('course').receiveShadows = true;
                                 console.log("shadow added");
 
