@@ -285,3 +285,25 @@ toasty.style.background='var(--white)';
 				// error is a Parse.Error with an error code and message.
 			});
 		}
+
+
+		// Access the underlying Ammo.js rigid body
+const ammoBody = ballImpostor.physicsBody;
+
+// Start CCD if the ball moves more than 10% of its radius in one frame
+ammoBody.setCcdMotionThreshold(ballRadius * 0.1);
+
+// Use a swept sphere slightly smaller than the visual ball
+ammoBody.setCcdSweptSphereRadius(ballRadius * 0.8);
+
+
+
+
+
+
+// Run physics at 240Hz (1/240) instead of the default 60Hz (1/60)
+ammoPlugin.setTimeStep(1 / 240); 
+// Or allow up to 10 substeps per frame
+ammoPlugin.setMaxSteps(10); 
+
+scene.enablePhysics(new BABYLON.Vector3(0, -9.81, 0), ammoPlugin);

@@ -34,7 +34,9 @@ var createScene = function () {
 
     //async function loadammo(){
     //await Ammo();
-    scene.enablePhysics(new BABYLON.Vector3(0, -10, 0), new BABYLON.AmmoJSPlugin(false));
+    const ammoPlugin = new BABYLON.AmmoJSPlugin(true);
+
+    scene.enablePhysics(new BABYLON.Vector3(0, -10, 0), ammoPlugin);
     // };
 
     let helper = scene.createDefaultEnvironment({ enableGroundShadow: true, skyboxSize: 100 });
