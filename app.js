@@ -471,10 +471,9 @@ var createScene = function () {
                                 newdefault.ambientColor = new BABYLON.Color3(.1, .1, .1);
                                 newdefault.diffuseColor = new BABYLON.Color3(.9, .9, .9);
 
-                                gM('course').material = newdefault;
+                                coursex.material = newdefault;
                                 shadowGenerator.addShadowCaster(coursex);
                                 coursex.receiveShadows = true;
-
                             }
                             else {/*load normal material*/ }
 
@@ -1102,14 +1101,6 @@ var createScene = function () {
 
     assetsManager.onFinish = function () {
 
-        shba = gM('ball');
-        //SHADOWS
-        //shadowGenerator.getShadowMap().renderList.push(shba);
-        shadowGenerator.addShadowCaster(shba);
-        shadowGenerator.addShadowCaster(gM('course'));
-        //gM('course').receiveShadows = true;
-        console.log("shadow added");
-
         if(courseloc != 'https://golf3.onrender.com/boredApes.glb/'){
          loader.innerHTML = "Capturing Preview";
         //FAST 10 secs SCREENSHOT FOR GOLF COURSE SHOWCASE... this will be useful when other users are looking for a particular course.
@@ -1130,7 +1121,7 @@ var createScene = function () {
                     clearInterval(snapper);
                     console.log(frames);
                     loader.innerHTML = "Loaded :)";
-                    setTimeout(function () { loader.click() }, 3000)
+                    setTimeout(function () { loader.click() }, 3000);
 
                     
             //process the image and save the image with the course itself
@@ -1200,6 +1191,10 @@ var createScene = function () {
             //ALSO SAVE THE COURSE AS WELL
 
         }
+    }
+    else{
+        loader.innerHTML = "Loaded :)";
+        setTimeout(function () { loader.click() }, 3000)
     }
 
 
