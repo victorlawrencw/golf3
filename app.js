@@ -129,14 +129,14 @@ var createScene = function () {
     elight.diffuse = new BABYLON.Color3(1, 0.9, 0.8);
     elight.specular = new BABYLON.Color3(0.79, 1, 0.79);
 
-    var elight2 = new BABYLON.DirectionalLight("Light2", new BABYLON.Vector3(-1, -1, -1), scene);
+   /* var elight2 = new BABYLON.DirectionalLight("Light2", new BABYLON.Vector3(-1, -1, -1), scene);
     elight2.diffuse = new BABYLON.Color3(0.9, 0.9, 0.9);
     elight2.specular = new BABYLON.Color3(1, 0.75, 0.66);
 
     var elight3 = new BABYLON.DirectionalLight("Light3", new BABYLON.Vector3(1, -1, -1), scene);
     elight3.diffuse = new BABYLON.Color3(0.9, 0.9, 0.9);
     elight3.specular = new BABYLON.Color3(1, 0.75, 0.66);
-    elight3.intensity = 0.4;
+    elight3.intensity = 0.4;*/
 
     /*
     const light = new BABYLON.HemisphericLight("Lightx", new BABYLON.Vector3(1, 1, 0), scene);
@@ -245,6 +245,13 @@ var createScene = function () {
         var filename = courseloc.slice(courseloc.lastIndexOf('/') + 1);
         assetsManager.addMeshTask("NEWSCENE", "", rooturl, filename);
         assetsManager.load();
+                                        shba = gM('ball');
+                                //SHADOWS
+                                //shadowGenerator.getShadowMap().renderList.push(shba);
+                                shadowGenerator.addShadowCaster(shba);
+                                shadowGenerator.addShadowCaster(gM('course'));
+                                //gM('course').receiveShadows = true;
+                                console.log("shadow added");
     }
     else {
         courseloc == cc;
@@ -1101,6 +1108,15 @@ var createScene = function () {
     }
 
     assetsManager.onFinish = function () {
+
+                                        shba = gM('ball');
+                                //SHADOWS
+                                //shadowGenerator.getShadowMap().renderList.push(shba);
+                                shadowGenerator.addShadowCaster(shba);
+                                shadowGenerator.addShadowCaster(gM('course'));
+                                //gM('course').receiveShadows = true;
+                                console.log("shadow added");
+
         loader.innerHTML = "Capturing Preview";
 
 
@@ -1216,15 +1232,30 @@ var createScene = function () {
     document.addEventListener('onmouseout', function () {
 
     })
-    document.getElementById("captureb").onclick = function () {
-        BABYLON.Tools.CreateScreenshot(engine, camera, { precision: 3 }, function (png) {
-            console.log('screenshot taken - ' + png);
-            const linkim = document.createElement('a');
-            linkim.href = png;
-            linkim.download = 'snapshotxyz';
-            document.body.appendChild(linkim);
-            linkim.click();
-            document.body.removeChild(linkim);
+    document.getElementById("captureb").onclick = dmgimg;
+    
+    async function dmgimg() {
+        BABYLON.Tools.CreateScreenshot(engine, camera, { precision: 3 }, async function (png) {
+             try {
+        const response = await fetch(png);
+        const blob = await response.blob();
+        const blobUrl = URL.createObjectURL(blob);
+                    console.log('screenshot taken - ' + png);
+
+
+        const linkim = document.createElement('a');
+        linkim.href = blobUrl;
+        linkim.download = 'snapshotxyz.png';
+        
+        document.body.appendChild(linkim);
+        linkim.click();
+        document.body.removeChild(linkim);
+
+        // Clean up memory after the download triggers
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
+    } catch (error) {
+        console.error('Download failed:', error);
+    }
 
             //store the image under 'pictures taken', which can be used for showcase or flaunting
             /*const simg = new Parse.File('screenshots', png);
