@@ -226,7 +226,7 @@ var createScene = function () {
 
     
     const shadowGenerator = new BABYLON.ShadowGenerator(2048, elight);
-    shadowGenerator.bias = 0.0001; // Try values between 0.0005 and 0.01
+    shadowGenerator.bias = 0.00005; // Try values between 0.0005 and 0.01
     shadowGenerator.usePercentageCloserFiltering = true;
     shadowGenerator.filteringQuality = BABYLON.ShadowGenerator.QUALITY_HIGH;
 
