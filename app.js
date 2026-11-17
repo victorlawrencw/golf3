@@ -226,8 +226,9 @@ var createScene = function () {
 
     
     const shadowGenerator = new BABYLON.ShadowGenerator(2048, elight);
-    shadowGenerator.bias = 0.0005; // Try values between 0.0005 and 0.01
+    shadowGenerator.bias = 0.0007; // Try values between 0.0005 and 0.01
     shadowGenerator.usePercentageCloserFiltering = true;
+    shadowGenerator.filteringQuality = BABYLON.ShadowGenerator.QUALITY_HIGH;
 
     const generateRandomString = (length = 10) => Math.random().toString(20).substr(2, length);
     const random_name = generateRandomString(200) + '.glb';
