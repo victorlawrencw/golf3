@@ -226,7 +226,7 @@ var createScene = function () {
 
     
     const shadowGenerator = new BABYLON.ShadowGenerator(2048, elight);
-    shadowGenerator.bias = 0.00003; // Try values between 0.0005 and 0.01
+    shadowGenerator.bias = 0.00001; // Try values between 0.0005 and 0.01
     shadowGenerator.usePercentageCloserFiltering = true;
     shadowGenerator.filteringQuality = BABYLON.ShadowGenerator.QUALITY_HIGH;
 
@@ -474,10 +474,11 @@ var createScene = function () {
                                 newdefault.specularPower = 1;
                                 newdefault.ambientColor = new BABYLON.Color3(.1, .1, .1);
                                 newdefault.diffuseColor = new BABYLON.Color3(.9, .9, .9);
+                                coursex.material = newdefault;
 
                                 shadowGenerator.forceBackFacesOnly = true;
-                                coursex.material = newdefault;
-                                shadowGenerator.addShadowCaster(coursex);
+                                
+                                //shadowGenerator.addShadowCaster(coursex);
                                 coursex.receiveShadows = true;
                             }
                             else {/*load normal material*/ }
