@@ -24,7 +24,7 @@
 	<script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
 	<script src="js/babylonjs.serializers.min.js"></script>
 	<script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
-	<script src="js/babylon.inspector.bundle.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/babylonjs-inspector@9.37.0/babylon.inspector-v2.bundle.min.js"></script>
 	<script src="js/gifshot.min.js"></script>
 	
 </head>
@@ -110,9 +110,6 @@
 		sskit = ls.getItem("shader_skit");
 		
 		{
-			//USER'S NAME
-			/*and if he/she is new, it will show a simple walkthrough box and ask for name*/
-			if(name==null){showToast('Intro&quest;', 2, 10000, function(){ge('name?').style.display='block'})}
 			//SOUND
 			if(so==null){ls.setItem("sound", "true");}
 			//EXPERT MODE
@@ -576,6 +573,11 @@
 		ge('emaillogin').style.display = 'none';
 		ge('logdon').innerHTML = 'DONATE';
 		ge('specio').innerHTML = 'DONATE';
+	}
+	else{
+					//USER'S NAME
+			/*and if he/she is new, it will show a simple walkthrough box and ask for name*/
+			showToast('Intro&quest;', 2, 10000, function(){ge('name?').style.display='block'})
 	}
 	
 	ge('fpassword').onclick = function(){
