@@ -615,13 +615,13 @@ var createScene = function () {
             }
         }
 
-        var inpointer = BABYLON.MeshBuilder.CreateBox("inpointer", 0.2, scene);
+        var inpointer = BABYLON.MeshBuilder.CreateBox("inpointer", {size: 0.2}, scene);
         inpointer.parent = pulling_disk;
         inpointer.isPickable = false;
         inpointer.material = inmat;
         inpointer.isVisible = false;
 
-        var spect = BABYLON.MeshBuilder.CreateBox("boxx", 0.1, scene);
+        var spect = BABYLON.MeshBuilder.CreateBox("boxx", {size: 0.1}, scene);
         spect.material = pullmat;
         spect.isPickable = false;
         spect.position = ball.position;
