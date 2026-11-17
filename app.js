@@ -881,7 +881,7 @@ var createScene = function () {
             pulling_disk.rotation.y = Math.atan2(diffX, diffY);
             spect.rotation.y = Math.atan2(diffX, diffY);
 
-            //console.log(diffX)
+            console.log(distance)
             if (pickResult.hit) {
                 if (distance < 4) {
 
@@ -928,6 +928,7 @@ var createScene = function () {
                 let pull = pickResult.pickedPoint.subtract(ball.position);
 
                 strr = BABYLON.Vector3.Clamp(ball.position.subtract(xtrr).multiply(new BABYLON.Vector3(1, 0, 1)), 0.01, 5);
+                inmat.alpha = 1;
 
                 //console.log(strr); xtrr.multiply(new BABYLON.Vector3(0.9,0,0.9)).negate()
                 //new BABYLON.Vector3(0,0,0).normalize();
@@ -952,7 +953,7 @@ var createScene = function () {
 
             //stoppedx++;
             camera.attachControl(canvas, true);
-            if (scene.getMeshByName("putt4").position.z > 1) {
+            if (scene.getMeshByName("putt4").position.z > 0.5) {
                 //set as new checkpoint as well :)
                 let newpos = rvec(ball.position);
                 sessionStorage.setItem('checkpoint', JSON.stringify(newpos));
@@ -969,6 +970,8 @@ var createScene = function () {
                         //make a pulling disk
 
                     }
+                    inmat.alpha = 0;
+
                     position_disk.isVisible = true;
                     position_disk.dispose();
                     position_disk = BABYLON.MeshBuilder.CreateDisc('disc_putt', { tessellation: 8, radius: startbbx * 5, sideOrientation: 2 }, scene);
