@@ -37,6 +37,7 @@ var createScene = function () {
     const ammoPlugin = new BABYLON.AmmoJSPlugin(true);
 
     scene.enablePhysics(new BABYLON.Vector3(0, -10, 0), ammoPlugin);
+    const audioEngine = BABYLON.CreateAudioEngineAsync({ volume: 0 });
     // };
 
     let helper = scene.createDefaultEnvironment({ enableGroundShadow: true, skyboxSize: 100 });
@@ -224,7 +225,10 @@ var createScene = function () {
     water.material = watermat;
 
     
-    const shadowGenerator = new BABYLON.ShadowGenerator(1024, elight);
+    const shadowGenerator = new BABYLON.ShadowGenerator(2048, elight);
+    shadowGenerator.bias = 0.001; // Try values between 0.0005 and 0.01
+    shadowGenerator.normalBias = 0.02; // Helps on curved imported surfaces
+    shadowGenerator.usePercentageCloserFiltering = true;
 
     const generateRandomString = (length = 10) => Math.random().toString(20).substr(2, length);
     const random_name = generateRandomString(200) + '.glb';
@@ -692,21 +696,21 @@ var createScene = function () {
 
 
 
+                    {
+                if (ls.getItem('sound') == "false") {
+                    audioEngine.volume = 0
+                }
+                else {
+                    audioEngine.volume = 1
+                }
+            }
+
+
 
         /****** SPECIAL SECTION ******/
         scene.registerBeforeRender(async function () {
             let bv = ball.physicsImpostor.getLinearVelocity();
             let t_v = BABYLON.Vector3.Distance(bv, BABYLON.Vector3.Zero());
-
-            {
-                if (ls.getItem('sound') == "false") {
-                    BABYLON.Engine.audioEngine.setGlobalVolume(0)
-                }
-                else {
-                    BABYLON.Engine.audioEngine.setGlobalVolume(1)
-                }
-            }
-
             
         let getkicks = parseInt(sessionStorage.getItem('kicks'));
         if(getkicks == 0 && ball.intersectsPoint(gM("end").position, true) == false && t_v < 0.05 && xyz == 0){
