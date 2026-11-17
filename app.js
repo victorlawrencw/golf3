@@ -129,14 +129,14 @@ var createScene = function () {
     elight.diffuse = new BABYLON.Color3(1, 0.9, 0.8);
     elight.specular = new BABYLON.Color3(0.79, 1, 0.79);
 
-   /* var elight2 = new BABYLON.DirectionalLight("Light2", new BABYLON.Vector3(-1, -1, -1), scene);
+    var elight2 = new BABYLON.DirectionalLight("Light2", new BABYLON.Vector3(-1, -1, -1), scene);
     elight2.diffuse = new BABYLON.Color3(0.9, 0.9, 0.9);
     elight2.specular = new BABYLON.Color3(1, 0.75, 0.66);
 
     var elight3 = new BABYLON.DirectionalLight("Light3", new BABYLON.Vector3(1, -1, -1), scene);
     elight3.diffuse = new BABYLON.Color3(0.9, 0.9, 0.9);
     elight3.specular = new BABYLON.Color3(1, 0.75, 0.66);
-    elight3.intensity = 0.4;*/
+    elight3.intensity = 0.4;
 
     /*
     const light = new BABYLON.HemisphericLight("Lightx", new BABYLON.Vector3(1, 1, 0), scene);
