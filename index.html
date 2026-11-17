@@ -572,6 +572,7 @@
 		document.getElementById("uns").ariaPlaceholder = user.getUsername();
 		showToast('Welcome '+user.get('username'), 1, 2000);
 		//hide the form field and rename login as donate
+		ge('usertab').style.display = 'none'
 		ge('emaillogin').style.display = 'none';
 		ge('logdon').innerHTML = 'DONATE';
 		ge('specio').innerHTML = 'DONATE';
