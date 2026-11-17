@@ -226,8 +226,7 @@ var createScene = function () {
 
     
     const shadowGenerator = new BABYLON.ShadowGenerator(2048, elight);
-    shadowGenerator.bias = 0.001; // Try values between 0.0005 and 0.01
-    shadowGenerator.normalBias = 0.02; // Helps on curved imported surfaces
+    shadowGenerator.bias = 0.0005; // Try values between 0.0005 and 0.01
     shadowGenerator.usePercentageCloserFiltering = true;
 
     const generateRandomString = (length = 10) => Math.random().toString(20).substr(2, length);
@@ -925,7 +924,7 @@ var createScene = function () {
                 let xtrr = inpointer.getAbsolutePosition();
                 let pull = pickResult.pickedPoint.subtract(ball.position);
 
-                strr = new BABYLON.Vector3.Clamp(ball.position.subtract(xtrr).multiply(new BABYLON.Vector3(1, 0, 1)), 0.01, 5);
+                strr = BABYLON.Vector3.Clamp(ball.position.subtract(xtrr).multiply(new BABYLON.Vector3(1, 0, 1)), 0.01, 5);
 
                 //console.log(strr); xtrr.multiply(new BABYLON.Vector3(0.9,0,0.9)).negate()
                 //new BABYLON.Vector3(0,0,0).normalize();
