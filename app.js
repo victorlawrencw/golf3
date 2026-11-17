@@ -1193,8 +1193,7 @@ var createScene = function () {
         }
     }
     else{
-        loader.innerHTML = "Loaded :)";
-        setTimeout(function () { loader.click() }, 3000)
+        loader.click()
     }
 
 
