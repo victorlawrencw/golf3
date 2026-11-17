@@ -475,11 +475,9 @@ var createScene = function () {
                                 newdefault.ambientColor = new BABYLON.Color3(.1, .1, .1);
                                 newdefault.diffuseColor = new BABYLON.Color3(.9, .9, .9);
 
-                                coursex.material = newdefault;
-
                                 shadowGenerator.forceBackFacesOnly = true;
-                                /*
-                                shadowGenerator.addShadowCaster(coursex);*/
+                                coursex.material = newdefault;
+                                shadowGenerator.addShadowCaster(coursex);
                                 coursex.receiveShadows = true;
                             }
                             else {/*load normal material*/ }
