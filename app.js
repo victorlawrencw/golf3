@@ -336,7 +336,7 @@ var createScene = function () {
 
             switch (gshape) {
                 case null:
-                    var ball = BABYLON.MeshBuilder.CreateIcoSphere("ball", { radius: startbbx, subdivisions: 4, flat: true }, scene);
+                    var ball = BABYLON.MeshBuilder.CreateSphere("ball", { radius: startbbx, segments: 8, flat: true }, scene);
                     ball.physicsImpostor = new BABYLON.PhysicsImpostor(ball, BABYLON.PhysicsImpostor.SphereImpostor, phs, scene);
                     break;
                 case "Box":
@@ -348,7 +348,7 @@ var createScene = function () {
                     ball.physicsImpostor = new BABYLON.PhysicsImpostor(ball, BABYLON.PhysicsImpostor.CylinderImpostor, phs, scene);
                     break;
                 case "Sphere":
-                    var ball = BABYLON.MeshBuilder.CreateIcoSphere("ball", { radius: (startbbx), subdivisions: 1, flat: true }, scene);
+                    var ball = BABYLON.MeshBuilder.CreateSphere("ball", { radius: (startbbx), segments: 8, flat: true }, scene);
                     ball.physicsImpostor = new BABYLON.PhysicsImpostor(ball, BABYLON.PhysicsImpostor.SphereImpostor, phs, scene);
                     break;
             }
