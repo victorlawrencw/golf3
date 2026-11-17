@@ -814,7 +814,7 @@ var createScene = function () {
                     )
                 }
                 else if (t_v < 0.05 && ball.intersectsMesh(gM('course'), true)/* && actt==false*/) {
-                    //ALLOW DRAG FUNCTION... THIS MAY NOT WORK
+                    //ALLOW DRAG FUNCTION...
                     stoppedx = true;
                     sessionStorage.setItem('kicks', getkicks-1);
 
@@ -823,6 +823,7 @@ var createScene = function () {
                         position_disk.isVisible = true;
                         pulling_disk.isVisible = true;
                         gM('inpointer').isVisible = true;
+                        inmat.alpha = 0;
 
                         position_disk.dispose();
                         position_disk = BABYLON.MeshBuilder.CreateDisc('disc_putt', { tessellation: 8, radius: startbbx * 5, sideOrientation: 2 }, scene);
