@@ -558,6 +558,18 @@ async function playsound(nm, conx) {
                     m.edgesColor = new BABYLON.Color4(0.2, 0.2, 0.2, 0.5);
                     m.edgesWidth = 4;
                 }, 10);
+                const hasmatch = (task.loadedMeshes).some((task.loadedMeshes).inlcudes('kicks'))
+                if(hasmatch == false){
+                    sessionStorage.setItem('kicks', mname);
+                        //ADDS ALL THE KICKS INDICATORS
+                        const knum = 3;
+                        for(let opx = 0; opx<knum; opx++){
+                            let dud = document.createElement('button');
+                            dud.className = 'buttons duds';
+                            ge('infoblock').appendChild(dud);
+                        }
+                        checkkicks()
+                }
             }
         }
 
