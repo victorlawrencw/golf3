@@ -572,6 +572,8 @@ async function playsound(nm, conx) {
                     m.edgesColor = new BABYLON.Color4(0.2, 0.2, 0.2, 0.5);
                     m.edgesWidth = 4;
                 }, 10);
+
+                console.log("loaded mesh and taskk")
             }
         }
 
@@ -1233,7 +1235,8 @@ async function playsound(nm, conx) {
         }
     }
     else{
-        loader.click()
+        loader.click();
+        console.log("after loader clicked")
     }
 
 
@@ -1377,6 +1380,7 @@ function checkkicks(){
         scene.getPhysicsEngine().setTimeStep(1 / 5000)
     }
 
+    console.log("Got here hehee")
     return scene;
 }
 window.initFunction = async function(){
