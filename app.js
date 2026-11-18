@@ -8,7 +8,7 @@ let loader = null;
 let musicA;
 
 var createDefaultEngine = function () { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false }); };
-var createScene = function () {
+var createScene = async function () {
     Ammo();
     BABYLON.SceneLoader.ShowLoadingScreen = false;
     engine.enableOfflineSupport = false;
@@ -20,6 +20,8 @@ var createScene = function () {
     let ximg;
     let xyz = 0
     let courseloc;
+    const games = Parse.Object.extend('games');
+    let pauseT = 0;
 
 
     let baseVOL;
@@ -237,6 +239,22 @@ var createScene = function () {
     let musicManager = new BABYLON.AssetsManager(scene);
     musicManager.useDefaultLoadingScreen = false;
 
+    //campy track that plays continously
+    const music = new BABYLON.Sound('main',
+        'assets/track.wav',
+        scene,
+        ()=>{
+            music.play();
+        },
+        {loop:true, autoplay:true, volume:0.7}
+    )
+    const sounds = {
+        puckhit: await BABYLON.CreateSoundAsync('puckhit', 'assets/ballhit.wav'),
+        coursehit: await BABYLON.CreateSoundAsync('coursehit', 'assets/bounce.wav'),
+        stretch: await BABYLON.CreateSoundAsync('stretch', 'assets/stretch.wav'),
+        roll: await BABYLON.CreateSoundAsync('roll', 'assets/roll.wav'),
+    }
+
     let assetsManager = new BABYLON.AssetsManager(scene);
     assetsManager.useDefaultLoadingScreen = false;
 
@@ -257,6 +275,12 @@ var createScene = function () {
         assetsManager.load();
     }
 
+async function playsound(nm, conx) {
+    await audioEngine.unlockAsync();
+    if(sounds[nm]){
+        sounds[nm].play()
+    }
+}
 
     /*
     //BALL TRACK
@@ -653,27 +677,20 @@ var createScene = function () {
         let pausetime;
 
         {
-            if (stoppedx == 1 && Parse.User()) {
+            if (stoppedx == 1 && Parse.User.current()) {
                 //start the time immediately
-                const games = Parse.Object.extend('games');
                 const current_game = new games();
 
                 current_game.set("uniqueC", random_name);
-                current_game.set("position", 0);
                 current_game.set("won", false);
                 current_game.set("pauses", pauses);
                 current_game.save()
             }
-            else if (stoppedx && !Parse.User()) {
+            else if (stoppedx && !Parse.User.current()) {
                 ls.setItem("Time", Date.now());
             }
         }
 
-        ge("pauseb").onclick = function () {
-            //I might need to read the time even when its paused
-            const current_game = object.get('current_game');
-            current_game.add("pauses", pauseT);
-        }
 
         for (let y = 0; y < pauses.length; y++) {
             pausetime += pauses[y];
@@ -792,7 +809,7 @@ var createScene = function () {
                 })
                 //console.log(checkPoint)
                 const anlv = ball.physicsImpostor.getAngularVelocity();
-                ball.physicsImpostor.setAngularVelocity(anlv.scale(0.93));
+                ball.physicsImpostor.setAngularVelocity(anlv.scale(0.97));
 
                 //let this calc the difference in position of the ball.
                 let lastpos = JSON.parse(sessionStorage.getItem('checkpoint'));
@@ -962,6 +979,7 @@ var createScene = function () {
                 ball.applyImpulse(strr, ball.getAbsolutePosition());
                 position_disk.dispose();
                 scene.getMeshByName("inpointer").position = new BABYLON.Vector3(0, 0, 0);
+                playsound('puckhit');
             }
             else {
                 //PULL THRESHOLD IS NOT REACHED
