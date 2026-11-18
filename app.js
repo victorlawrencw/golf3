@@ -21,7 +21,9 @@ var createScene = async function () {
     let xyz = 0
     let courseloc;
     const games = Parse.Object.extend('games');
-    let pauseT = 0;
+    let kicked = 0;
+    let blinkk = 1;
+    let intid = null;
 
 
     let baseVOL;
@@ -70,7 +72,7 @@ var createScene = async function () {
         return vecr
     }
 
-    sessionStorage.setItem('plays', 0);
+    sessionStorage.setItem('kicks', 0);
 
     const pH = new BABYLON.PhysicsHelper(scene);
     //arcCam();
@@ -238,22 +240,6 @@ var createScene = async function () {
 
     let musicManager = new BABYLON.AssetsManager(scene);
     musicManager.useDefaultLoadingScreen = false;
-
-    //campy track that plays continously
-    const music = new BABYLON.Sound('main',
-        'assets/track.wav',
-        scene,
-        ()=>{
-            music.play();
-        },
-        {loop:true, autoplay:true, volume:0.7}
-    )
-    const sounds = {
-        puckhit: await BABYLON.CreateSoundAsync('puckhit', 'assets/ballhit.wav'),
-        coursehit: await BABYLON.CreateSoundAsync('coursehit', 'assets/bounce.wav'),
-        stretch: await BABYLON.CreateSoundAsync('stretch', 'assets/stretch.wav'),
-        roll: await BABYLON.CreateSoundAsync('roll', 'assets/roll.wav'),
-    }
 
     let assetsManager = new BABYLON.AssetsManager(scene);
     assetsManager.useDefaultLoadingScreen = false;
@@ -538,7 +524,15 @@ async function playsound(nm, conx) {
                         }
                     }
                     else if(mname == "kicks"){
-                        sessionStorage.setItem('kicks', mname)
+                        sessionStorage.setItem('kicks', mname);
+                        //ADDS ALL THE KICKS INDICATORS
+                        const knum = parseInt(mname.slice(5));
+                        for(let opx = 0; opx<knum; opx++){
+                            let dud = document.createElement('button');
+                            dud.className = 'buttons duds';
+                            ge('infoblock').appendChild(dud);
+                        }
+                        checkkicks()
                     }
                     else if (mname == "deco") {
                         //DECO
@@ -715,7 +709,7 @@ async function playsound(nm, conx) {
 
 
 
-                    {
+            {
                 if (ls.getItem('sound') == "false") {
                     audioEngine.volume = 0
                 }
@@ -747,7 +741,7 @@ async function playsound(nm, conx) {
             xyz = 1
         }
 
-            if (ball.intersectsPoint(gM("end").position, true) == true && xyz == 0) {
+            else if (ball.intersectsPoint(gM("end").position, true) == true && xyz == 0) {
                 showToast('WINNNNNNNN!', 2, 5000);
                 //USER WIN
                 //Calculate finish time
@@ -834,6 +828,7 @@ async function playsound(nm, conx) {
                     //ALLOW DRAG FUNCTION...
                     stoppedx = true;
                     sessionStorage.setItem('kicks', getkicks-1);
+                    document.getElementById('remains').innerHTML = "remaining "+sessionStorage.getItem('kicks');
 
                     if (position_disk.isVisible == false || pulling_disk.isVisible == false) {
 
@@ -980,6 +975,9 @@ async function playsound(nm, conx) {
                 position_disk.dispose();
                 scene.getMeshByName("inpointer").position = new BABYLON.Vector3(0, 0, 0);
                 playsound('puckhit');
+                kicked++;
+                document.getElementById('kicked').innerHTML = 'played '+kicked+' times';
+                checkkicks()
             }
             else {
                 //PULL THRESHOLD IS NOT REACHED
@@ -1286,22 +1284,85 @@ async function playsound(nm, conx) {
 
         }, true)
     }
-    document.getElementById('pauseb').onclick = pauseGame;
+
+
+function checkkicks(){
+    if(intid != null) clearInterval(intid);
+
+    if(parseInt(sessionStorage.getItem('kicks')<3)){
+        intid = setInterval(() => {
+        //blinker
+        if(blinkk == 1){
+            blinkk = 0;
+            let cho = ge('infoblock').childNodes;
+            cho.forEach(function(e){
+                e.className = 'buttons duds red'
+            })
+        }
+        else{
+            blinkk = 1;
+            let cho = ge('infoblock').childNodes;
+            cho.forEach(function(e){
+                e.className = 'buttons duds'
+            })
+
+        }
+    }, 300)}
+    else if(parseInt(sessionStorage.getItem('kicks')<4)){
+        intid = setInterval(() => {
+        //blinker
+        if(blinkk == 1){
+            blinkk = 0;
+            let cho = ge('infoblock').childNodes;
+            cho.forEach(function(e){
+                e.className = 'buttons duds yellow'
+            })
+        }
+        else{
+            blinkk = 1;
+            let cho = ge('infoblock').childNodes;
+            cho.forEach(function(e){
+                e.className = 'buttons duds'
+            })
+        }
+    }, 1000)
+    }
+    else{
+        intid = setInterval(() => {
+        //blinker
+        if(blinkk == 1){
+            blinkk = 0;
+            let cho = ge('infoblock').childNodes;
+            cho.forEach(function(e){
+                e.className = 'buttons duds green'
+            })
+        }
+        else{
+            blinkk = 1;
+            let cho = ge('infoblock').childNodes;
+            cho.forEach(function(e){
+                e.className = 'buttons duds green'
+            })
+        }
+    }, 1500) 
+    }}
+
+    ge('pauseb').onclick = pauseGame;
+    ge('resumer').onclick = resumeGame;
+    
+    function resumeGame(){
+        ge("gameMenu").style.display = "none";
+        scene.getPhysicsEngine().setTimeStep(1/60);
+    }
 
     //PAUSE THE GAME... LIKE A BOSS.
-    function pauseGame(r) {
+    function pauseGame() {
         ge("gameMenu").style.display = "block";
+        ge('timeelapsed').innerHTML = "Total time: "+ (parseInt(sessionStorage.getItem('start time'))/1000) + 's';
         //physics engine must slow down & the counter must do the same, or rather counter completely and ball completely
-        scene.getPhysicsEngine().setTimeStep(1 / 5000);
-        //I can make R the reason for pausing
-        if (r == window.onfocus) { }
+        scene.getPhysicsEngine().setTimeStep(1 / 5000)
     }
 
-    function resume(){
-        ge('gameMenu').style.display = 'none';
-        scene.getPhysicsEngine().setTimeStep(1);
-    }
-    
     return scene;
 }
 window.initFunction = async function(){

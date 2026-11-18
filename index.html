@@ -372,25 +372,22 @@
 
 <!--GAME MENU DIV-->
 <div id="gameMenu">
-	<div id="topM" class="panels">
-		<button onclick="resume()" class="buttons">
-			<svg class="iconz" version="1.1" id="Capa_1" x="0px" y="0px" width="35px" height="35px" fill="var(--white)" fill-opacity="1.0" stroke="var(--black)" stroke-width="25px" stroke-opacity="1.0" viewBox="0 0 384 512" enable-background="new 0 0 720 1440" xml:space="preserve">
-				<path d="M361 215C375.3 223.8 384 239.3 384 256C384 272.7 375.3 288.2 361 296.1L73.03 472.1C58.21 482 39.66 482.4 24.52 473.9C9.377 465.4 0 449.4 0 432V80C0 62.64 9.377 46.63 24.52 38.13C39.66 29.64 58.21 29.99 73.03 39.04L361 215z"/>
-			</svg>
-		</button>
-		<button onclick="home">
-			
-		</button>
+	<div id="topM" class="panels" style="justify-content: center; padding-bottom: 60px;">
+		<div class="fonted">PAUSED</div>
+
 	</div>
-	<div id="middleM" class="panels">
+	<div id="middleM" class="panels" style="flex-flow: column; align-items: center; gap: 20px;">
 		<!--PROLLY GONNA PUT A SIMPLE NOTIFICAION SCREEN OR SOME COOL STUFF HERE. IT WOULD BE COOL AS FUCK-->
-		
+			<button id="resumer" class="mssb">RESUME</button>
+			<button id="sndop" class="mssb" onclick="settingsswitch('sound', 'sndop');">SOUND: OFF</button>
+		<button class="mssb" id="homer" onclick="home()">MAIN MENU</button>
 	</div>
-	<div id="bottomM" class="panels">
+	<div id="bottomM" class="panels" style="flex-flow: row-reverse; gap: 10px; font-family: ddt; font-size: 19px;">
 		<!--STATS ON THE CURRENT GAME, FOR PROPS AND RANKING-->
-		<div id="gameplay-info">
-			
-		</div>
+			<div id="kicked" style="margin-right: 80px;">Kicks:</div>
+			<div id="remains">Remaining:</div>
+			<div id="timeelapsed">Time Elapsed:</div>
+		
 	</div>
 </div>
 
@@ -405,9 +402,6 @@
 
 <!--IN-GAME MENU(JUST A SIMPLE PAUSE BUTTON AND CAMERA CHANGE BUTTON IS OKAY)-->
 <div id="ingamemenu">
-	<div id="playleft">
-
-	</div>
 	<div id="topp" class="panels">
 		<button id="pauseb" class="buttons ingame">
 			<svg class="iconz" version="1.1" id="Capa_1" x="0px" y="0px" width="35px" height="35px" fill="var(--white)" fill-opacity="1.0" stroke="var(--black)" stroke-width="25px" stroke-opacity="1.0" viewBox="0 0 384 512" enable-background="new 0 0 720 1440" xml:space="preserve">
@@ -431,6 +425,7 @@
 			</button>
 			<div id="infoblock">
 			</div>
+			
 		</div>
 	</div>
 </div>
@@ -494,7 +489,9 @@
 		let toggled = toggler(ls.getItem(data), bools);
 		ls.setItem(data, toggled);
 		let nso = ls.getItem(data);
-		if(nso == "true"){ge(element).style.color = "var(--pink)";}else{ge(element).style.color = "var(--black)";}
+		if(element != 'sndop'){if(nso == "true"){ge(element).style.color = "var(--pink)";}else{ge(element).style.color = "var(--black)";}}
+		else{if(nso == "true"){ge(element).style.color = "var(--green)";}else{ge(element).style.color = "var(--black)";}
+}
 	}
 	let saveName = function(){
 		//VALIDATE NAME and SAVE IT
@@ -533,7 +530,7 @@
 	}
 	function sdrtt(){ge('pp_input').style.height = (Number(ge('pp?').clientHeight) - 20).toString()+"px"}
 	ge("pp_input").value = sskit;
-	if(so==null|| so=="true"){ge("soundbtn").style.color = "var(--pink)";}else{}
+	if(so==null|| so=="true"){ge("soundbtn").style.color = "var(--pink)"; ge('sndop').innerHTML = "SOUND :ON"}else{}
 	
 	//EXPERT MODE provides no assist
 	if(em=="true"){ge("expertbtn").style.color = "var(--pink)"}else{}
