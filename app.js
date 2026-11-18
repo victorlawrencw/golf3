@@ -387,7 +387,7 @@ async function playsound(nm, conx) {
             gM("end").isVisible = true;
 
             
-                    sessionStorage.setItem('kicks', mname);
+                    sessionStorage.setItem('kicks', 3);
                         //ADDS ALL THE KICKS INDICATORS
             {
                 ge('infoblock').innerHTML ='';
