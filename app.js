@@ -538,7 +538,7 @@ async function playsound(nm, conx) {
                         }
                     }
                     else if(mname == "kicks"){
-                        sessionStorage.setItem('kicks', mname);
+                        sessionStorage.setItem('kicks', mname.slice(5));
                         //ADDS ALL THE KICKS INDICATORS
                         const knum = parseInt(mname.slice(5));
                         for(let opx = 0; opx<knum; opx++){
