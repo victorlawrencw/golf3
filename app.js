@@ -386,6 +386,20 @@ async function playsound(nm, conx) {
             gM("start").isVisible = false;
             gM("end").isVisible = true;
 
+            
+                    sessionStorage.setItem('kicks', mname);
+                        //ADDS ALL THE KICKS INDICATORS
+            {
+                ge('infoblock').innerHTML ='';
+                const kxnum = 3;
+                        for(let opx = 0; opx<kxnum; opx++){
+                            let dud = document.createElement('button');
+                            dud.className = 'buttons duds';
+                            ge('infoblock').appendChild(dud);
+                        }
+                        checkkicks()
+            }
+
             for (let ms = 0; ms < task.loadedMeshes.length; ms++) {
                 setTimeout(function () {
                     //WILL DEFINATELY ATTEND TO THIS LATER!
@@ -558,18 +572,6 @@ async function playsound(nm, conx) {
                     m.edgesColor = new BABYLON.Color4(0.2, 0.2, 0.2, 0.5);
                     m.edgesWidth = 4;
                 }, 10);
-                const hasmatch = (task.loadedMeshes).some((task.loadedMeshes).inlcudes('kicks'))
-                if(hasmatch == false){
-                    sessionStorage.setItem('kicks', mname);
-                        //ADDS ALL THE KICKS INDICATORS
-                        const knum = 3;
-                        for(let opx = 0; opx<knum; opx++){
-                            let dud = document.createElement('button');
-                            dud.className = 'buttons duds';
-                            ge('infoblock').appendChild(dud);
-                        }
-                        checkkicks()
-                }
             }
         }
 
