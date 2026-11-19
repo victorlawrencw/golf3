@@ -9,7 +9,7 @@ let musicA;
 
 var createDefaultEngine = function () { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false }); };
 var createScene = async function () {
-    Ammo();
+    await Ammo();
     BABYLON.SceneLoader.ShowLoadingScreen = false;
     engine.enableOfflineSupport = false;
     const phs = { mass: 0.3, restitution: 0.6, friction: 40 };
@@ -20,7 +20,6 @@ var createScene = async function () {
     let ximg;
     let xyz = 0
     let courseloc;
-    const games = Parse.Object.extend('games');
     let kicked = 0;
     let blinkk = 1;
     let intid = null;
@@ -261,7 +260,7 @@ var createScene = async function () {
         assetsManager.load();
     }
 
-async function playsound(nm, conx) {
+async function playsound(nm) {
     await audioEngine.unlockAsync();
     if(sounds[nm]){
         sounds[nm].play()
@@ -385,6 +384,18 @@ async function playsound(nm, conx) {
 
             gM("start").isVisible = false;
             gM("end").isVisible = true;
+
+
+                    sessionStorage.setItem('kicks', 3);
+                    ge('infoblock').innerHTML = '';
+                        //ADDS ALL THE KICKS INDICATORS
+                        const kxnum = 3;
+                        for(let opx = 0; opx<kxnum; opx++){
+                            let dud = document.createElement('button');
+                            dud.className = 'buttons duds';
+                            ge('infoblock').appendChild(dud);
+                        }
+                        checkkicks();   
 
             for (let ms = 0; ms < task.loadedMeshes.length; ms++) {
                 setTimeout(function () {
@@ -558,18 +569,7 @@ async function playsound(nm, conx) {
                     m.edgesColor = new BABYLON.Color4(0.2, 0.2, 0.2, 0.5);
                     m.edgesWidth = 4;
                 }, 10);
-                const hasmatch = (task.loadedMeshes).some((task.loadedMeshes).inlcudes('kicks'))
-                if(hasmatch == false){
-                    sessionStorage.setItem('kicks', mname);
-                        //ADDS ALL THE KICKS INDICATORS
-                        const knum = 3;
-                        for(let opx = 0; opx<knum; opx++){
-                            let dud = document.createElement('button');
-                            dud.className = 'buttons duds';
-                            ge('infoblock').appendChild(dud);
-                        }
-                        checkkicks()
-                }
+        
             }
         }
 
@@ -684,6 +684,8 @@ async function playsound(nm, conx) {
 
         {
             if (stoppedx == 1 && Parse.User.current()) {
+                
+    const games = Parse.Object.extend('games');
                 //start the time immediately
                 const current_game = new games();
 

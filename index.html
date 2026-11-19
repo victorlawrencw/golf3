@@ -119,7 +119,7 @@
 			//POST PROCESSES(must be written in wgsl)
 			if(pp==null){ls.setItem("filter", "")}
 			//GOLF COURSE
-			if(cc==null){ls.setItem("current_course", "https://ipfs.is/")}
+			if(cc==null){ls.setItem("current_course", "https://golf3.onrender.com/boredApes.glb/")}
 			//GOLF PUTT
 			if(putted == null){ls.setItem("puttz", "Classic")}
 			//DATABASE
@@ -483,6 +483,7 @@
 	/*MOUSE FUNCTIONS ENDS HERE*/
 	
 	//touchthrough
+	if(name == null || name == ''){ ge('name?').style.display = 'block'}
 	ge("ingamemenu").addEventListener("touchstart", function(ex){ex.preventDefault()})
 	
 	function settingsswitch(data, element){
