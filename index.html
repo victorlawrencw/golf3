@@ -484,6 +484,10 @@
 	
 	//touchthrough
 	ge("ingamemenu").addEventListener("touchstart", function(ex){ex.preventDefault()})
+
+	if(name==null||name == ""){
+		ge("name?").style.display ="block";
+	}
 	
 	function settingsswitch(data, element){
 		let toggled = toggler(ls.getItem(data), bools);
