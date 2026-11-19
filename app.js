@@ -40,7 +40,7 @@ var createScene = async function () {
     const ammoPlugin = new BABYLON.AmmoJSPlugin(true);
 
     scene.enablePhysics(new BABYLON.Vector3(0, -10, 0), ammoPlugin);
-    const audioEngine = BABYLON.CreateAudioEngineAsync({ volume: 0 });
+    //const audioEngine = BABYLON.CreateAudioEngineAsync({ volume: 0 });
     // };
 
     let helper = scene.createDefaultEnvironment({ enableGroundShadow: true, skyboxSize: 100 });
@@ -237,8 +237,8 @@ var createScene = async function () {
     const random_name = generateRandomString(200) + '.glb';
 
 
-    let musicManager = new BABYLON.AssetsManager(scene);
-    musicManager.useDefaultLoadingScreen = false;
+    //let musicManager = new BABYLON.AssetsManager(scene);
+    //musicManager.useDefaultLoadingScreen = false;
 
     let assetsManager = new BABYLON.AssetsManager(scene);
     assetsManager.useDefaultLoadingScreen = false;
@@ -385,17 +385,20 @@ async function playsound(nm) {
             gM("start").isVisible = false;
             gM("end").isVisible = true;
 
-
+            
                     sessionStorage.setItem('kicks', 3);
-                    ge('infoblock').innerHTML = '';
                         //ADDS ALL THE KICKS INDICATORS
-                        const kxnum = 3;
+            {
+                ge('infoblock').innerHTML ='';
+                const kxnum = 3;
                         for(let opx = 0; opx<kxnum; opx++){
                             let dud = document.createElement('button');
                             dud.className = 'buttons duds';
                             ge('infoblock').appendChild(dud);
                         }
-                        checkkicks();   
+                        checkkicks()
+            }
+
 
             for (let ms = 0; ms < task.loadedMeshes.length; ms++) {
                 setTimeout(function () {
@@ -535,7 +538,7 @@ async function playsound(nm) {
                         }
                     }
                     else if(mname == "kicks"){
-                        sessionStorage.setItem('kicks', mname);
+                        sessionStorage.setItem('kicks', mname.slice(5));
                         //ADDS ALL THE KICKS INDICATORS
                         const knum = parseInt(mname.slice(5));
                         for(let opx = 0; opx<knum; opx++){
@@ -569,7 +572,6 @@ async function playsound(nm) {
                     m.edgesColor = new BABYLON.Color4(0.2, 0.2, 0.2, 0.5);
                     m.edgesWidth = 4;
                 }, 10);
-        
             }
         }
 
@@ -725,10 +727,10 @@ async function playsound(nm) {
 
             {
                 if (ls.getItem('sound') == "false") {
-                    audioEngine.volume = 0
+                    //audioEngine.volume = 0
                 }
                 else {
-                    audioEngine.volume = 1
+                    //audioEngine.volume = 1
                 }
             }
 
@@ -1233,7 +1235,8 @@ async function playsound(nm) {
         }
     }
     else{
-        loader.click()
+        loader.click();
+        console.log("after loader clicked")
     }
 
 
@@ -1301,6 +1304,7 @@ async function playsound(nm) {
 
 
 function checkkicks(){
+    console.log("checking kicks");
     if(intid != null) clearInterval(intid);
 
     if(parseInt(sessionStorage.getItem('kicks')<3)){
@@ -1377,11 +1381,13 @@ function checkkicks(){
         scene.getPhysicsEngine().setTimeStep(1 / 5000)
     }
 
+    console.log("Got here hehee")
     return scene;
 }
 window.initFunction = async function(){
     var asyncEngineCreation = async function () {
         try {
+            console.log("engine started");
             return createDefaultEngine();
         } catch (e) {
             console.log("the available createEngine function failed. Creating the default engine instead");
@@ -1400,8 +1406,11 @@ initFunction().then(() => {
     sceneToRender = scene
     engine.hideLoadingUI();
     engine.runRenderLoop(function () {
+        console.log(4890000)
         if (sceneToRender && sceneToRender.activeCamera) {
+            console.log(10000000000);
             sceneToRender.render();
+            console.log(56666)
         }
     });
 });
