@@ -778,6 +778,7 @@ button{cursor: pointer;}
 #gameplay-info{
     display: flex;
     flex-direction: row;
+    background:transparent;
     gap: 5px;
 }
 .tabname{
