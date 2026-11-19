@@ -1327,15 +1327,15 @@ function checkkicks(){
         //blinker
         if(blinkk == 1){
             blinkk = 0;
-            let cho = ge('infoblock').childNodes;
-            cho.forEach(function(e){
+            let cho = ge('infoblock');
+            Array.from(cho.children).forEach((e) => {
                 e.className = 'buttons duds red'
             })
         }
         else{
             blinkk = 1;
-            let cho = ge('infoblock').childNodes;
-            cho.forEach(function(e){
+            let cho = ge('infoblock');
+            Array.from(cho.children).forEach((e) => {
                 e.className = 'buttons duds'
             })
 
@@ -1346,15 +1346,15 @@ function checkkicks(){
         //blinker
         if(blinkk == 1){
             blinkk = 0;
-            let cho = ge('infoblock').childNodes;
-            cho.forEach(function(e){
+            let cho = ge('infoblock');
+            Array.from(cho.children).forEach((e) => {
                 e.className = 'buttons duds yellow'
             })
         }
         else{
             blinkk = 1;
-            let cho = ge('infoblock').childNodes;
-            cho.forEach(function(e){
+            let cho = ge('infoblock');
+            Array.from(cho.children).forEach((e) => {
                 e.className = 'buttons duds'
             })
         }
@@ -1365,15 +1365,15 @@ function checkkicks(){
         //blinker
         if(blinkk == 1){
             blinkk = 0;
-            let cho = ge('infoblock').childNodes;
-            cho.forEach(function(e){
+            let cho = ge('infoblock');
+            Array.from(cho.children).forEach((e) => {
                 e.className = 'buttons duds green'
             })
         }
         else{
             blinkk = 1;
-            let cho = ge('infoblock').childNodes;
-            cho.forEach(function(e){
+            let cho = ge('infoblock');
+            Array.from(cho.children).forEach((e) => {
                 e.className = 'buttons duds green'
             })
         }
