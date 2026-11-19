@@ -8,7 +8,7 @@ let loader = null;
 let musicA;
 
 var createDefaultEngine = function () { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false }); };
-var createScene = async function () {
+var createScene = function () {
     Ammo();
     BABYLON.SceneLoader.ShowLoadingScreen = false;
     engine.enableOfflineSupport = false;
@@ -1406,7 +1406,7 @@ initFunction().then(() => {
     sceneToRender = scene
     engine.hideLoadingUI();
     engine.runRenderLoop(function () {
-        console.log(4890000)
+        console.log(sceneToRender);
         if (sceneToRender && sceneToRender.activeCamera) {
             console.log(10000000000);
             sceneToRender.render();
