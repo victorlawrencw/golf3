@@ -1406,8 +1406,11 @@ initFunction().then(() => {
     sceneToRender = scene
     engine.hideLoadingUI();
     engine.runRenderLoop(function () {
+        console.log(4890000)
         if (sceneToRender && sceneToRender.activeCamera) {
+            console.log(10000000000);
             sceneToRender.render();
+            console.log(56666)
         }
     });
 });
