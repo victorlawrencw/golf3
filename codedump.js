@@ -307,3 +307,65 @@ ammoPlugin.setTimeStep(1 / 240);
 ammoPlugin.setMaxSteps(10); 
 
 scene.enablePhysics(new BABYLON.Vector3(0, -9.81, 0), ammoPlugin);
+
+
+
+/*
+    if(parseInt(sessionStorage.getItem('kicks')<2)){//1left
+        intid = setInterval(() => {
+        //blinker
+        if(blinkk == 1){
+            blinkk = 0;
+            let cho = ge('infoblock');
+            Array.from(cho.children).forEach((e) => {
+                e.className = 'buttons duds red'
+            })
+        }
+        else{
+            blinkk = 1;
+            let cho = ge('infoblock');
+            Array.from(cho.children).forEach((e) => {
+                e.className = 'buttons duds'
+            })
+
+        }
+    }, 300)}
+    else if(parseInt(sessionStorage.getItem('kicks')<3)){//2left
+        intid = setInterval(() => {
+        //blinker
+        if(blinkk == 1){
+            blinkk = 0;
+            let cho = ge('infoblock');
+            Array.from(cho.children).forEach((e) => {
+                e.className = 'buttons duds yellow'
+            })
+        }
+        else{
+            blinkk = 1;
+            let cho = ge('infoblock');
+            Array.from(cho.children).forEach((e) => {
+                e.className = 'buttons duds'
+            })
+        }
+    }, 1000)
+    }
+    else{
+        intid = setInterval(() => {
+        //blinker
+        if(blinkk == 1){
+            blinkk = 0;
+            let cho = ge('infoblock');
+            Array.from(cho.children).forEach((e) => {
+                e.className = 'buttons duds green'
+            })
+        }
+        else{
+            blinkk = 1;
+            let cho = ge('infoblock');
+            Array.from(cho.children).forEach((e) => {
+                e.className = 'buttons duds green'
+            })
+        }
+        console.log(blinkk)
+    }, 1500) 
+    }*/
