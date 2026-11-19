@@ -87,7 +87,7 @@ html, body {
 }
 .duds.green{
     background-color: var(--green);
-    animation: colorblinkg 1.5s linear none infinite;
+    animation: colorblinkg 2s linear none infinite;
 
 }
 .duds.yello{

@@ -1321,13 +1321,13 @@ var createScene = function () {
 function checkkicks(){
     console.log("checking kicks");
     //if(intid != null) clearInterval(intid);
-    if(parseInt(sessionStorage.getItem('kicks') == 1)){
+    if(parseInt(sessionStorage.getItem('kicks')) == 1){
             let cho = ge('infoblock');
             Array.from(cho.children).forEach((e) => {
                 e.className = 'buttons duds red'
             })
     }
-    else if(parseInt(sessionStorage.getItem('kicks')==2)){
+    else if(parseInt(sessionStorage.getItem('kicks'))==2){
             let cho = ge('infoblock');
             Array.from(cho.children).forEach((e) => {
                 e.className = 'buttons duds yellow'
