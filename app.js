@@ -9,11 +9,20 @@ sessionStorage.setItem('kicks', 3);
 let musicA;
 async function audiooo() {
     const audioEngine = await BABYLON.CreateAudioEngineAsync({ volume: 0 });
+
+    async function playsound(nm) {
+    await audioEngine.unlockAsync();
+    if(sounds[nm]){
+        sounds[nm].play()
+    }
 }
+//this loads sound... hopefully an be called outside the whole function
+}
+
 var createDefaultEngine = function () { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false }); };
 var createScene = function () {
     Ammo();
-    
+    audiooo();
     BABYLON.SceneLoader.ShowLoadingScreen = false;
     engine.enableOfflineSupport = false;
     const phs = { mass: 0.3, restitution: 0.6, friction: 40 };
@@ -276,12 +285,6 @@ var createScene = function () {
         assetsManager.load();
     }
 
-async function playsound(nm) {
-    await audioEngine.unlockAsync();
-    if(sounds[nm]){
-        sounds[nm].play()
-    }
-}
 
     /*
     //BALL TRACK
@@ -997,7 +1000,7 @@ async function playsound(nm) {
                 ball.applyImpulse(strr, ball.getAbsolutePosition());
                 position_disk.dispose();
                 scene.getMeshByName("inpointer").position = new BABYLON.Vector3(0, 0, 0);
-                playsound('puckhit');
+                //playsound('puckhit');
                 kicked++;
                 document.getElementById('kicked').innerHTML = 'played '+kicked+' times';
                 checkkicks()
