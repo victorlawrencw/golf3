@@ -41,7 +41,7 @@ var createScene = async function () {
     const ammoPlugin = new BABYLON.AmmoJSPlugin(true);
 
     scene.enablePhysics(new BABYLON.Vector3(0, -10, 0), ammoPlugin);
-    const audioEngine = BABYLON.CreateAudioEngineAsync({ volume: 0 });
+    //const audioEngine = BABYLON.CreateAudioEngineAsync({ volume: 0 });
     // };
 
     let helper = scene.createDefaultEnvironment({ enableGroundShadow: true, skyboxSize: 100 });
@@ -238,8 +238,8 @@ var createScene = async function () {
     const random_name = generateRandomString(200) + '.glb';
 
 
-    let musicManager = new BABYLON.AssetsManager(scene);
-    musicManager.useDefaultLoadingScreen = false;
+    //let musicManager = new BABYLON.AssetsManager(scene);
+    //musicManager.useDefaultLoadingScreen = false;
 
     let assetsManager = new BABYLON.AssetsManager(scene);
     assetsManager.useDefaultLoadingScreen = false;
@@ -727,10 +727,10 @@ async function playsound(nm, conx) {
 
             {
                 if (ls.getItem('sound') == "false") {
-                    audioEngine.volume = 0
+                    //audioEngine.volume = 0
                 }
                 else {
-                    audioEngine.volume = 1
+                    //audioEngine.volume = 1
                 }
             }
 
