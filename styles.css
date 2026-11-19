@@ -611,7 +611,7 @@ button{cursor: pointer;}
     animation: colors 3s linear 0s infinite;
 }
 #name_input{
-    width: 296px;
+    width: 300px;
     outline: none;
     border: none;
     text-indent: 10px;
