@@ -53,6 +53,9 @@ var createScene = function () {
     const ammoPlugin = new BABYLON.AmmoJSPlugin(true);
 
     scene.enablePhysics(new BABYLON.Vector3(0, -10, 0), ammoPlugin);
+    scene.getPhysicsEngine().setTimeStep(1 / 120);
+    scene.getPhysicsEngine().setSubTimeStep(1000/120)
+    //timesstep
     // };
 
     let helper = scene.createDefaultEnvironment({ enableGroundShadow: true, skyboxSize: 100 });
@@ -1382,7 +1385,7 @@ function checkkicks(){
     
     function resumeGame(){
         ge("gameMenu").style.display = "none";
-        scene.getPhysicsEngine().setTimeStep(1/60);
+        scene.getPhysicsEngine().setTimeStep(1/120);
     }
 
     //PAUSE THE GAME... LIKE A BOSS.
