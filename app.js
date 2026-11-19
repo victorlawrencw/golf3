@@ -746,7 +746,7 @@ async function playsound(nm) {
             let t_v = BABYLON.Vector3.Distance(bv, BABYLON.Vector3.Zero());
             
         let getkicks = parseInt(sessionStorage.getItem('kicks'));
-        if(getkicks == 0 && ball.intersectsPoint(gM("end").position, true) == false && t_v < 0.05 && xyz == 0){
+        if(kicked!=0 && getkicks == 0 && ball.intersectsPoint(gM("end").position, true) == false && t_v < 0.05 && xyz == 0){
             //USER LOST
             console.log("vkicks = "+sessionStorage.getItem('kicks'));
             ge("loseimage").style.display = "block";
