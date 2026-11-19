@@ -739,6 +739,8 @@ async function playsound(nm) {
 
 
 
+            console.log("kicks = "+sessionStorage.getItem('kicks'));
+
         /****** SPECIAL SECTION ******/
         scene.registerBeforeRender(async function () {
             let bv = ball.physicsImpostor.getLinearVelocity();
