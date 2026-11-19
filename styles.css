@@ -83,12 +83,17 @@ html, body {
 }
 .duds.red{
     background-color: red;
+    animation: colorblinkr 0.5s linear none infinite;
 }
 .duds.green{
     background-color: var(--green);
+    animation: colorblinkg 1.5s linear none infinite;
+
 }
 .duds.yello{
     background-color: var(--yellow);
+    animation: colorblinky 1s linear none infinite;
+
 }
 .frames{
     font-size:25px;
@@ -557,6 +562,21 @@ button{cursor: pointer;}
     0%{transform:scale(1); box-shadow: 0 0 1px 1px var(--black);}
     50%{transform:scale(1.02); box-shadow: 0 0 2px 2px var(--black);}
     100%{transform:scale(1); box-shadow: 0 0 1px 1px var(--black);}
+}
+@keyframes colorblinkr {
+    0%{background-color: red;}
+    50%{background-color: red;}
+    100%{background-color: wheat;}
+}
+@keyframes colorblinkg {
+    0%{background-color: var(--green);}
+    50%{background-color: var(--green);}
+    100%{background-color: wheat;}
+}
+@keyframes colorblinky {
+    0%{background-color: var(--yellow);}
+    50%{background-color: var(--yellow);}
+    100%{background-color: wheat;}
 }
 .fonted{
     font-family: ddt;

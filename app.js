@@ -1320,8 +1320,26 @@ var createScene = function () {
 
 function checkkicks(){
     console.log("checking kicks");
-    if(intid != null) clearInterval(intid);
-
+    //if(intid != null) clearInterval(intid);
+    if(parseInt(sessionStorage.getItem('kicks') == 1)){
+            let cho = ge('infoblock');
+            Array.from(cho.children).forEach((e) => {
+                e.className = 'buttons duds red'
+            })
+    }
+    else if(parseInt(sessionStorage.getItem('kicks')==2)){
+            let cho = ge('infoblock');
+            Array.from(cho.children).forEach((e) => {
+                e.className = 'buttons duds yellow'
+            })
+    }
+    else{
+            let cho = ge('infoblock');
+            Array.from(cho.children).forEach((e) => {
+                e.className = 'buttons duds green'
+            })
+    }
+/*
     if(parseInt(sessionStorage.getItem('kicks')<2)){//1left
         intid = setInterval(() => {
         //blinker
@@ -1379,7 +1397,9 @@ function checkkicks(){
         }
         console.log(blinkk)
     }, 1500) 
-    }}
+    }*/
+
+}
 
     ge('pauseb').onclick = pauseGame;
     ge('resumer').onclick = resumeGame;
