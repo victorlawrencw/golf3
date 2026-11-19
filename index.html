@@ -363,7 +363,8 @@
 </div>
 
 <div id="name?" class="floaters" style="display:none; width: 300px; height: 140px; position: fixed; left: calc(50% - 150px); top:calc(50% - 70px);">
-	<form onsubmit="return saveName()"><input id="name_input" placeholder="Name&quest;" type="text" minlength="14" maxlength="10" required/></form>
+	<form id="dudname">
+	<input id="name_input" placeholder="Name&quest;" type="text" minlength="14" maxlength="10" required/></form>
 	<div style="display: flex; flex-flow:row nowrap;">
 		<button onclick="ge('name?').style.display = 'none'" class="actionxx" style="color: var(--pink);">CANCEL</button>
 		<button onclick="saveName()" class="actionxx" style="color: var(--green);">OK</button>
@@ -498,15 +499,21 @@
 		else{if(nso == "true"){ge(element).style.color = "var(--green)";}else{ge(element).style.color = "var(--black)";}
 }
 	}
+	ge('dudname').addEventListener('submit', async (e) =>{
+		e.preventDefault();
+		saveName()
+	})
 	let saveName = function(){
 		//VALIDATE NAME and SAVE IT
 		const hhname = ge('name_input').value;
 		//SAVE to localStorage and try SERVER if network connection is available and user signed in
 		ls.setItem('name', hhname);
+		ge('name?').style.display = 'none';
 		//if(Parse.User.current() && Parse.User.get("username") != hhname){Parse.User.set("username", hhname)}
 		return false;
 	}
-	let savePP = function(){
+	let savePP = function(e){
+		e.preventDefault();
 		//VALIDATE NAME and SAVE IT
 		const hhname = ge('pp_input').value;
 		//SAVE to localStorage and try SERVER if network connection is available and user signed in
