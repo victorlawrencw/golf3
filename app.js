@@ -7,10 +7,13 @@ sessionStorage.setItem('kicks', 3);
 
 
 let musicA;
-
+async function audiooo() {
+    const audioEngine = await BABYLON.CreateAudioEngineAsync({ volume: 0 });
+}
 var createDefaultEngine = function () { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false }); };
 var createScene = function () {
     Ammo();
+    
     BABYLON.SceneLoader.ShowLoadingScreen = false;
     engine.enableOfflineSupport = false;
     const phs = { mass: 0.3, restitution: 0.6, friction: 40 };
@@ -41,7 +44,6 @@ var createScene = function () {
     const ammoPlugin = new BABYLON.AmmoJSPlugin(true);
 
     scene.enablePhysics(new BABYLON.Vector3(0, -10, 0), ammoPlugin);
-    const audioEngine = BABYLON.CreateAudioEngineAsync({ volume: 0 });
     // };
 
     let helper = scene.createDefaultEnvironment({ enableGroundShadow: true, skyboxSize: 100 });
