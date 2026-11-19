@@ -832,7 +832,7 @@ var createScene = function () {
                 })
                 //console.log(checkPoint)
                 const anlv = ball.physicsImpostor.getAngularVelocity();
-                ball.physicsImpostor.setAngularVelocity(anlv.scale(0.97));
+                ball.physicsImpostor.setAngularVelocity(anlv.scale(0.94));
 
                 //let this calc the difference in position of the ball.
                 let lastpos = JSON.parse(sessionStorage.getItem('checkpoint'));
