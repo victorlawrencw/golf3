@@ -9,7 +9,7 @@ let musicA;
 
 var createDefaultEngine = function () { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false }); };
 var createScene = async function () {
-    await Ammo();
+    Ammo();
     BABYLON.SceneLoader.ShowLoadingScreen = false;
     engine.enableOfflineSupport = false;
     const phs = { mass: 0.3, restitution: 0.6, friction: 40 };
