@@ -736,7 +736,7 @@ button{cursor: pointer;}
     50%{opacity: 0.2;}
     100%{opacity: 0;}
 }
-#gameMenu{
+#gameMenu, #won{
     display: none;
     width: 100%;
     position: fixed;
@@ -748,7 +748,7 @@ button{cursor: pointer;}
     transition: backdrop-filter 1s;
 }
 #topM, #bottomM{height: 100px;}
-#middleM{
+#middleM, #wonmid{
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
@@ -766,7 +766,7 @@ button{cursor: pointer;}
     border-radius: 10px;
 }
 
-#topM, #middleM, #bottomM, .panels{
+#topM, #middleM, #bottomM, #wontop, #wonmid, .panels{
     width: 100%;
     background: transparent;
     display: flex;
@@ -870,7 +870,7 @@ button{cursor: pointer;}
     border: none;
     outline: none;
 }
-#ingamemenu, #gameMenu{
+#ingamemenu, #gameMenu, #won{
 display: none;
 background: rgba(0, 0, 0, 0);
 position: fixed;
@@ -931,7 +931,7 @@ flex-wrap: nowrap;
     right: 10px;
     z-index: 4;
 }
-#won{
+#wonx{
     display: none;
     width: 100%;
     height: 100%;
