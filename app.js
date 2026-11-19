@@ -245,6 +245,21 @@ var createScene = function () {
 
     assetsManager.autoHideLoadingUI = false;
 
+    
+            
+            sessionStorage.setItem('kicks', 3);
+                        //ADDS ALL THE KICKS INDICATORS
+            {
+                ge('infoblock').innerHTML ='';
+                const kxnum = 3;
+                        for(let opx = 0; opx<kxnum; opx++){
+                            let dud = document.createElement('button');
+                            dud.className = 'buttons duds';
+                            ge('infoblock').appendChild(dud);
+                        }
+                        checkkicks()
+            }
+
     //load default course :)
     if (courseloc == undefined) { courseloc = 'https://golf3.onrender.com/boredApes.glb/' }
     if (courseloc.indexOf('/') > -1) {
@@ -384,20 +399,6 @@ async function playsound(nm) {
 
             gM("start").isVisible = false;
             gM("end").isVisible = true;
-
-            
-                    sessionStorage.setItem('kicks', 3);
-                        //ADDS ALL THE KICKS INDICATORS
-            {
-                ge('infoblock').innerHTML ='';
-                const kxnum = 3;
-                        for(let opx = 0; opx<kxnum; opx++){
-                            let dud = document.createElement('button');
-                            dud.className = 'buttons duds';
-                            ge('infoblock').appendChild(dud);
-                        }
-                        checkkicks()
-            }
 
 
             for (let ms = 0; ms < task.loadedMeshes.length; ms++) {
@@ -539,6 +540,7 @@ async function playsound(nm) {
                     }
                     else if(mname == "kicks"){
                         sessionStorage.setItem('kicks', mname.slice(5));
+                        ge('infoblock').innerHTML ='';
                         //ADDS ALL THE KICKS INDICATORS
                         const knum = parseInt(mname.slice(5));
                         for(let opx = 0; opx<knum; opx++){
@@ -1406,11 +1408,8 @@ initFunction().then(() => {
     sceneToRender = scene
     engine.hideLoadingUI();
     engine.runRenderLoop(function () {
-        console.log(sceneToRender);
         if (sceneToRender && sceneToRender.activeCamera) {
-            console.log(10000000000);
-            sceneToRender.render();
-            console.log(56666)
+            sceneToRender.render()
         }
     });
 });
