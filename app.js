@@ -552,6 +552,7 @@ async function playsound(nm) {
                     }
                     else if (mname == "deco") {
                         //DECO
+                        //WILL BE USED LATER
 
                     }
                     else if (mname == "background") {
