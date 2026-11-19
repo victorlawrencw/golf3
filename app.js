@@ -3,6 +3,7 @@ var engine = null;
 var scene = null;
 var sceneToRender = null;
 let loader = null;
+sessionStorage.setItem('kicks', 3);
 
 
 let musicA;
@@ -70,8 +71,6 @@ var createScene = function () {
         let vecr = { 'x': xx, 'y': xy, 'z': xz };
         return vecr
     }
-
-    sessionStorage.setItem('kicks', 0);
 
     const pH = new BABYLON.PhysicsHelper(scene);
     //arcCam();
