@@ -853,7 +853,6 @@ var createScene = function () {
                 else if (t_v < 0.05 && ball.intersectsMesh(gM('course'), true)/* && actt==false*/) {
                     //ALLOW DRAG FUNCTION...
                     stoppedx = true;
-                    sessionStorage.setItem('kicks', getkicks-1);
                     document.getElementById('remains').innerHTML = "remaining "+sessionStorage.getItem('kicks');
 
                     if (position_disk.isVisible == false || pulling_disk.isVisible == false) {
@@ -1002,6 +1001,7 @@ var createScene = function () {
                 scene.getMeshByName("inpointer").position = new BABYLON.Vector3(0, 0, 0);
                 //playsound('puckhit');
                 kicked++;
+                sessionStorage.setItem('kicks', getkicks-1);
                 //now we remove one indicator
                 ge('infoblock').childNodes[0].remove();
                 document.getElementById('kicked').innerHTML = 'played '+kicked+' times';
