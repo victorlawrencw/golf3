@@ -997,7 +997,7 @@ flex-wrap: nowrap;
     position: fixed;
     right: 10px;
     align-self: end;
-    height: 30px;
+    height: 40px;
     gap: 5px;
     justify-self: end;
 }
