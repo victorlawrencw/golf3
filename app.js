@@ -749,6 +749,7 @@ async function playsound(nm) {
         let getkicks = parseInt(sessionStorage.getItem('kicks'));
         if(getkicks == 0 && ball.intersectsPoint(gM("end").position, true) == false && t_v < 0.05 && xyz == 0){
             //USER LOST
+            console.log("vkicks = "+sessionStorage.getItem('kicks'));
             ge("loseimage").style.display = "block";
             showToast('YOU LOST, BRO!', 2, 5000);
             ge("won").style.display = "block";
