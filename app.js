@@ -1001,7 +1001,7 @@ var createScene = function () {
                 scene.getMeshByName("inpointer").position = new BABYLON.Vector3(0, 0, 0);
                 //playsound('puckhit');
                 kicked++;
-                sessionStorage.setItem('kicks', getkicks-1);
+                sessionStorage.setItem('kicks', parseInt(sessionStorage.getItem('kicks'))-1);
                 //now we remove one indicator
                 ge('infoblock').childNodes[0].remove();
                 document.getElementById('kicked').innerHTML = 'played '+kicked+' times';
