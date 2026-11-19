@@ -1322,7 +1322,7 @@ function checkkicks(){
     console.log("checking kicks");
     if(intid != null) clearInterval(intid);
 
-    if(parseInt(sessionStorage.getItem('kicks')<3)){
+    if(parseInt(sessionStorage.getItem('kicks')<2)){//1left
         intid = setInterval(() => {
         //blinker
         if(blinkk == 1){
@@ -1341,7 +1341,7 @@ function checkkicks(){
 
         }
     }, 300)}
-    else if(parseInt(sessionStorage.getItem('kicks')<4)){
+    else if(parseInt(sessionStorage.getItem('kicks')<3)){//2left
         intid = setInterval(() => {
         //blinker
         if(blinkk == 1){
@@ -1377,6 +1377,7 @@ function checkkicks(){
                 e.className = 'buttons duds green'
             })
         }
+        console.log(blinkk)
     }, 1500) 
     }}
 
