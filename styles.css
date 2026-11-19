@@ -90,7 +90,7 @@ html, body {
     animation: colorblinkg 2s linear none infinite;
 
 }
-.duds.yello{
+.duds.yellow{
     background-color: var(--yellow);
     animation: colorblinky 1s linear none infinite;
 
