@@ -1391,7 +1391,7 @@ function checkkicks(){
     //PAUSE THE GAME... LIKE A BOSS.
     function pauseGame() {
         ge("gameMenu").style.display = "block";
-        ge('timeelapsed').innerHTML = "Total time: "+ (parseInt(sessionStorage.getItem('start time'))/1000) + 's';
+        ge('timeelapsed').innerHTML = "Total time: "+ ((parseInt(sessionStorage.getItem('start time')- Date.now()))/1000).toFixed(2) + 's';
         //physics engine must slow down & the counter must do the same, or rather counter completely and ball completely
         scene.getPhysicsEngine().setTimeStep(1 / 5000)
     }
