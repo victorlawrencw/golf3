@@ -3,6 +3,7 @@ var engine = null;
 var scene = null;
 var sceneToRender = null;
 let loader = null;
+let loadtype;
 sessionStorage.setItem('kicks', 3);
 
 
@@ -1104,11 +1105,12 @@ var createScene = function () {
 
     //LOADERS
     //CONTROLLING AN ENCLOSED CODE FROM THE OUTSIDE
-    document.getElementById('large-importer').onchange = function (evt) {
+    ge('large-importer').onchange = function (evt) {
         file = evt.target.files;
         //let fileI = new BABYLON.FilesInput(engine, null, scene);
         //const newGame = true;
-        assetsManager.reset()
+        assetsManager.reset();
+        loadtype = 'file';
 
         //CHANGE THE ELEMENTS THERE
         var filename = file[0].name;
@@ -1136,16 +1138,24 @@ var createScene = function () {
         //ge("playb").disable()
     }
 
-    document.getElementById("urlinput").onsubmit = ulrOpener;
+    document.getElementById("urlinput").onsubmit = urlOpener;
     
-    function ulrOpener(urlx) {
+    function urlOpener(urlx) {
         let urldata;
 
-        if(urldata = undefined) urldata = document.getElementById("inputz").value;
+        if(urldata == undefined) urldata = document.getElementById("inputz").value;
         else urldata = urlx;
+
         assetsManager.reset();
         assetsManager.addMeshTask("game", "", urldata);
+
+        let rooturl = urldata.slice(0, urldata.lastIndexOf('/'));
+        let filename = urldata.slice(urldata.lastIndexOf('/') + 1);
+        assetsManager.addMeshTask("NEWSCENE", "", rooturl, filename);
+        
         assetsManager.load();
+        loadtype = 'url';
+        courseloc = urldata;
 
         loader.innerHTML = "URL Loading";
     }
@@ -1343,7 +1353,19 @@ function checkkicks(){
 
     ge('pauseb').onclick = pauseGame;
     ge('resumer').onclick = resumeGame;
+    ge('replaycl').onclick = replayGame;
     
+    function replayGame(){
+        if(loadtype = 'url'){
+            //reload the course through url
+            urlOpener(courseloc)
+        }
+        else{
+            //reload the course through already uploaded file
+            const eventx = new Event('change', {bubbles:true});
+            ge('large-importer').dispatchEvent(eventx)
+        }
+    }
     function resumeGame(){
         ge("gameMenu").style.display = "none";
         scene.getPhysicsEngine().setTimeStep(1/120);

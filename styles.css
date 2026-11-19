@@ -1021,6 +1021,7 @@ flex-wrap: nowrap;
     height: 40px;
     gap: 5px;
     justify-self: end;
+    flex-flow: row-reverse;
 }
 .tabs, .floaters{
     padding-top: 0;
