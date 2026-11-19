@@ -9,7 +9,7 @@ sessionStorage.setItem('kicks', 3);
 let musicA;
 
 var createDefaultEngine = function () { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false }); };
-var createScene = async function () {
+var createScene = function () {
     Ammo();
     BABYLON.SceneLoader.ShowLoadingScreen = false;
     engine.enableOfflineSupport = false;
