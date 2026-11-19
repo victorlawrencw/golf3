@@ -1304,6 +1304,7 @@ async function playsound(nm, conx) {
 
 
 function checkkicks(){
+    console.log("checking kicks");
     if(intid != null) clearInterval(intid);
 
     if(parseInt(sessionStorage.getItem('kicks')<3)){
@@ -1386,6 +1387,7 @@ function checkkicks(){
 window.initFunction = async function(){
     var asyncEngineCreation = async function () {
         try {
+            console.log("engine started");
             return createDefaultEngine();
         } catch (e) {
             console.log("the available createEngine function failed. Creating the default engine instead");
