@@ -1351,9 +1351,9 @@ function checkkicks(){
     }
 }
 
-    ge('pauseb').onclick = pauseGame;
-    ge('resumer').onclick = resumeGame;
-    ge('replaycl').onclick = replayGame;
+    ge('pauseb').onclick = pauseGame();
+    ge('resumer').onclick = resumeGame();
+    ge('replaycl').onclick = replayGame();
     
     function replayGame(){
         if(loadtype = 'url'){
