@@ -1157,6 +1157,7 @@ var createScene = function () {
         loadtype = 'url';
         courseloc = urldata;
 
+        loader = showToast("", 3, 100000, function () { });
         loader.innerHTML = "URL Loading";
     }
 
@@ -1350,12 +1351,8 @@ function checkkicks(){
             })
     }
 }
-
-    ge('pauseb').onclick = pauseGame();
-    ge('resumer').onclick = resumeGame();
-    ge('replaycl').onclick = replayGame();
     
-    function replayGame(){
+    ge('replaycl').onclick = function replayGame(){
         if(loadtype = 'url'){
             //reload the course through url
             urlOpener(courseloc)
@@ -1366,13 +1363,13 @@ function checkkicks(){
             ge('large-importer').dispatchEvent(eventx)
         }
     }
-    function resumeGame(){
+    ge('resumer').onclick = function resumeGame(){
         ge("gameMenu").style.display = "none";
         scene.getPhysicsEngine().setTimeStep(1/120);
     }
 
     //PAUSE THE GAME... LIKE A BOSS.
-    function pauseGame() {
+        ge('pauseb').onclick = function pauseGame() {
         ge("gameMenu").style.display = "block";
         ge('timeelapsed').innerHTML = "Total time: "+ ((parseInt(sessionStorage.getItem('start time')- Date.now()))/1000).toFixed(2) + 's';
         //physics engine must slow down & the counter must do the same, or rather counter completely and ball completely
