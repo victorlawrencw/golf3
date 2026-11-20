@@ -1372,8 +1372,9 @@ function checkkicks(){
         ge('pauseb').onclick = function pauseGame() {
         ge("gameMenu").style.display = "block";
         ge('timeelapsed').innerHTML = "Total time: "+ ((parseInt(sessionStorage.getItem('start time')- Date.now()))/1000).toFixed(2) + 's';
+        ge('kicks').innerHTML = 'Kicked: '+ kicked +' times';
         //physics engine must slow down & the counter must do the same, or rather counter completely and ball completely
-        scene.getPhysicsEngine().setTimeStep(1 / 5000)
+        scene.getPhysicsEngine().setTimeStep(1 / 50000)
     }
 
     console.log("Got here hehee")

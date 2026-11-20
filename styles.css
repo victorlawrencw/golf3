@@ -755,6 +755,23 @@ button{cursor: pointer;}
     align-items: baseline;
     height: calc(100% - 260px);
 }
+#wonmid{
+    flex-flow: column;
+    gap: 10px;
+    padding-left: 20px;
+}
+#linedesign{
+    position: relative;
+    right: 20px;
+    top: 0px;
+    width: 50px;
+    height: 100%;
+}
+#linedesign div{
+    width: 10px;
+    height: 100%;
+    background-color: var(--pink);
+}
 #bottomM{
     display: flex;
     flex-flow: row-reverse;
