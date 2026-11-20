@@ -864,7 +864,6 @@ var createScene = function () {
                 else if (t_v < 0.05 && ball.intersectsMesh(gM('course'), true)/* && actt==false*/) {
                     //ALLOW DRAG FUNCTION...
                     stoppedx = true;
-                    document.getElementById('remains').innerHTML = "remaining <div style='color:var(--pink)'>"+sessionStorage.getItem('kicks')+" kicks</div>";
 
                     if (position_disk.isVisible == false || pulling_disk.isVisible == false) {
 
@@ -1380,6 +1379,7 @@ function checkkicks(){
         ge("gameMenu").style.display = "block";
         ge('timeelapsed').innerHTML = "Total time: <div style='color:var(--blue)'>"+ ((Date.now() - parseInt(sessionStorage.getItem('start time')))/1000).toFixed(2) + 's </div>';
         ge('kicked').innerHTML = 'Kicked: <div style="color:var(--green)">'+ kicked +' times</div>';
+        ged('remains').innerHTML = "remaining <div style='color:var(--pink)'>"+sessionStorage.getItem('kicks')+" kicks</div>";
         //physics engine must slow down & the counter must do the same, or rather counter completely and ball completely
         scene.getPhysicsEngine().setTimeStep(1 / 50000)
     }
