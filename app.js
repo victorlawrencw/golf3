@@ -1397,7 +1397,11 @@ function checkkicks(){
         scene.getPhysicsEngine().setTimeStep(1 / 50000)
     }
 
-    function home(){
+
+    return scene;
+}
+
+function home(){
     ge('won').style.display = 'none';
     ge('won').style.display = 'none';
     ge('menu').style.display = 'block';
@@ -1405,9 +1409,6 @@ function checkkicks(){
     camera.useAutoRotationBehavior = true;
 }
 
-
-    return scene;
-}
 window.initFunction = async function(){
     var asyncEngineCreation = async function () {
         try {
