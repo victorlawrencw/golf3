@@ -770,7 +770,7 @@ var createScene = function () {
             console.log(endtime);
 
             
-            ge('wintime').innerHTML = 'Time :- '+endtime;
+            ge('wintime').innerHTML = 'Time : '+endtime+'s';
             xyz = 1
         }
 
