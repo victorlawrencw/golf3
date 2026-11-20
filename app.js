@@ -864,7 +864,7 @@ var createScene = function () {
                 else if (t_v < 0.05 && ball.intersectsMesh(gM('course'), true)/* && actt==false*/) {
                     //ALLOW DRAG FUNCTION...
                     stoppedx = true;
-                    document.getElementById('remains').innerHTML = "<div style='color:var(--pink)'>remaining "+sessionStorage.getItem('kicks')+" kicks</div>";
+                    document.getElementById('remains').innerHTML = "remaining <div style='color:var(--pink)'>"+sessionStorage.getItem('kicks')+" kicks</div>";
 
                     if (position_disk.isVisible == false || pulling_disk.isVisible == false) {
 

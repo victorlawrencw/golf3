@@ -812,6 +812,9 @@ button{cursor: pointer;}
     display: flex;
     flex-flow: row wrap;
 }
+#bottomM div div{
+    display: inline-block;
+}
 .mssb{
     height: 80px;
     font-size: 40px;
