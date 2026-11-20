@@ -1124,14 +1124,14 @@ var createScene = function () {
     //LOADERS
     //CONTROLLING AN ENCLOSED CODE FROM THE OUTSIDE
     ge('large-importer').onchange = function (evt) {
-        file = evt.target.files;
+        file = (evt.target.files)[0];
         //let fileI = new BABYLON.FilesInput(engine, null, scene);
         //const newGame = true;
         assetsManager.reset();
         loadtype = 'file';
 
         //CHANGE THE ELEMENTS THERE
-        var filename = file[0].name;
+        var filename = file.name;
         console.log(filename);
         ge('large-importer').style.display = 'none';
         ge('replacer').innerHTML = filename;
