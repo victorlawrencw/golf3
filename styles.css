@@ -810,7 +810,7 @@ button{cursor: pointer;}
     border-bottom-color:var(--blue);
     background-color: var(--blue);
 }
-#homer:hover{
+#homer:hover, #homer2:hover{
     border-bottom-color:var(--pink);
     background-color: var(--pink);
 }
