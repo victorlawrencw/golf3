@@ -579,11 +579,17 @@ button{cursor: pointer;}
     100%{background-color: wheat;}
 }
 .fonted{
-    font-family: ddt;
+    font-family: dd;
     text-align: center;
     line-height: 100px;
     font-size: 70px;
     justify-content: center;
+}
+#losewinin{
+    font-family: dd;
+    font-size: 70px;
+    line-height: 100px;
+    padding-left: 20px;
 }
 .toasty{
     display: inline-block;
@@ -773,12 +779,22 @@ button{cursor: pointer;}
     top: 0px;
     width: 50px;
     height: 100%;
+    display: flex;
+    flex-flow: row;
+    gap: 10px;
 }
 #linedesign div{
     width: 10px;
+}
+#linedesign:first-child{
     height: 100%;
     background-color: var(--pink);
 }
+#linedesing:last-child{
+    height: 70px;
+    background-color: var(--blue);
+}
+
 #bottomM{
     display: flex;
     flex-flow: row-reverse;

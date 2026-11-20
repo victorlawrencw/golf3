@@ -758,7 +758,10 @@ var createScene = function () {
         if(kicked!=0 && getkicks == 0 && ball.intersectsPoint(gM("end").position, true) == false && t_v < 0.05 && xyz == 0){
             //USER LOST
             console.log("vkicks = "+sessionStorage.getItem('kicks'));
-            ge("loseimage").style.display = "block";
+            //ge("loseimage").style.display = "block";
+            ge('losewinin').innerHTML = "YOU LOSE";
+            ge('losewinin').style.color = "var(-pink)";
+
             showToast('YOU LOST, BRO!', 2, 5000);
             ge("won").style.display = "flex";
             //Calculate finish time
@@ -779,8 +782,12 @@ var createScene = function () {
                 const endtime = ((Date.now() - stt)/1000).toFixed(2);
                 console.log(endtime)
 
-                ge("won").style.display = "block";
-                ge("winimage").style.display = "block";
+                //ge("won").style.display = "block";
+                //ge("winimage").style.display = "block";
+                ge('losewinin').innerHTML = "YOU WIN";
+                ge('losewinin').style.color = "var(-green)";
+
+
                 ge('wintime').innerHTML = 'Time :- '+endtime+' seconds';
 
                 //GET AND SET DATA FOR WIN ON SERVER SIDE AND CLIENT SIDE
