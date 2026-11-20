@@ -874,6 +874,8 @@ var createScene = function () {
                     //ALLOW DRAG FUNCTION...
                     stoppedx = true;
 
+                    scene.getPhysicsEngine().setSubTimeStep(1000/120);
+
                     if (position_disk.isVisible == false || pulling_disk.isVisible == false) {
 
                         position_disk.isVisible = true;
@@ -984,7 +986,7 @@ var createScene = function () {
                 let xtrr = inpointer.getAbsolutePosition();
                 let pull = pickResult.pickedPoint.subtract(ball.position);
 
-                strr = BABYLON.Vector3.Clamp(ball.position.subtract(xtrr).multiply(new BABYLON.Vector3(1, 0, 1)), 0.01, 5);
+                strr = BABYLON.Vector3.Clamp(ball.position.subtract(xtrr).multiply(new BABYLON.Vector3(1, 0, 1)), 0.01, 4);
                 inmat.alpha = 1;
 
                 //console.log(strr); xtrr.multiply(new BABYLON.Vector3(0.9,0,0.9)).negate()
@@ -1014,6 +1016,7 @@ var createScene = function () {
                 //set as new checkpoint as well :)
                 let newpos = rvec(ball.position);
                 sessionStorage.setItem('checkpoint', JSON.stringify(newpos));
+                if(strr>3.5){scene.getPhysicsEngine().setSubTimeStep(1000/60)}
                 //APPLY IMPULSE ON THE BALL WHEN THE ePUTT IS BEING RELEASED WITH MORE OR EQUAL TO THE MINIMUM THRESHOLD!
                 ball.applyImpulse(strr, ball.getAbsolutePosition());
                 position_disk.dispose();
