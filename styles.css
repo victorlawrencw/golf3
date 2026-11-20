@@ -786,11 +786,11 @@ button{cursor: pointer;}
 #linedesign div{
     width: 10px;
 }
-#linedesign:first-child{
+#ld1{
     height: 100%;
     background-color: var(--pink);
 }
-#linedesing:last-child{
+#ld2{
     height: 70px;
     background-color: var(--blue);
 }

@@ -760,7 +760,7 @@ var createScene = function () {
             console.log("vkicks = "+sessionStorage.getItem('kicks'));
             //ge("loseimage").style.display = "block";
             ge('losewinin').innerHTML = "YOU LOSE";
-            ge('losewinin').style.color = "var(-pink)";
+            ge('losewinin').style.color = "var(--pink)";
 
             showToast('YOU LOST, BRO!', 2, 5000);
             ge("won").style.display = "flex";
