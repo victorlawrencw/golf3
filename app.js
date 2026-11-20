@@ -121,6 +121,15 @@ var createScene = function () {
     camera.attachControl(canvas, true);
     camera.upperRadiusLimit = 20;
     camera.lowerRadiusLimit = 10;
+    camera.useAutoRotationBehavior = true;
+    const arb = camera.autoRotationBehavior;
+
+    if(arb){
+        arb.idleRotationSpeed = 0.05;
+        arb.idleRotationWaitTime = 1000;
+        arb.idleRotationSpinupTime = 4000;
+        arb.zoomStopsAnimation = true;
+    }
     //}
 
     const snapcam = new BABYLON.ArcRotateCamera('snapcam', 0, 0.8, 10, new BABYLON.Vector3(0, 0, 0), scene);
@@ -780,7 +789,7 @@ var createScene = function () {
                 //Calculate finish time
                 const stt = parseInt(sessionStorage.getItem('start time'));
                 const endtime = ((Date.now() - stt)/1000).toFixed(2);
-                console.log(endtime)
+                console.log(endtime);
 
                 //ge("won").style.display = "block";
                 //ge("winimage").style.display = "block";
@@ -1290,6 +1299,10 @@ var createScene = function () {
             if (ge("menu").style.display == false) pauseGame(1);
         }
     });
+
+    ge('play').onclick = function(){
+        camera.useAutoRotationBehavior = false;
+    }
 
     //when the mouse is off page/document
     document.addEventListener('onmouseout', function () {
