@@ -1402,6 +1402,7 @@ function checkkicks(){
     ge('won').style.display = 'none';
     ge('menu').style.display = 'block';
     if(loadtype) replayGame();
+    camera.useAutoRotationBehavior = true;
 }
 
 
