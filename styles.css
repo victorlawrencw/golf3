@@ -748,7 +748,7 @@ button{cursor: pointer;}
     transition: backdrop-filter 1s;
 }
 #topM, #bottomM{height: 100px;}
-#middleM, #wonmid{
+#middleM{
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
@@ -756,12 +756,19 @@ button{cursor: pointer;}
     height: calc(100% - 260px);
 }
 #wonmid{
-    flex-flow: column;
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+    flex-flow: column nowrap;
     gap: 10px;
     padding-left: 20px;
 }
+#wintime{
+    font-family: dd;
+    font-size: 17px;
+}
 #linedesign{
-    position: relative;
+    position: absolute;
     right: 20px;
     top: 0px;
     width: 50px;

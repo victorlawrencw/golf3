@@ -760,7 +760,7 @@ var createScene = function () {
             console.log("vkicks = "+sessionStorage.getItem('kicks'));
             ge("loseimage").style.display = "block";
             showToast('YOU LOST, BRO!', 2, 5000);
-            ge("won").style.display = "block";
+            ge("won").style.display = "flex";
             //Calculate finish time
             const stt = parseInt(sessionStorage.getItem('start time'));
             const endtime = ((Date.now() - stt)/1000).toFixed(2);
@@ -1369,7 +1369,7 @@ function checkkicks(){
     }
 
     //PAUSE THE GAME... LIKE A BOSS.
-        ge('pauseb').onclick = function pauseGame() {
+    ge('pauseb').onclick = function pauseGame() {
         ge("gameMenu").style.display = "block";
         ge('timeelapsed').innerHTML = "Total time: "+ ((parseInt(sessionStorage.getItem('start time')- Date.now()))/1000).toFixed(2) + 's';
         ge('kicks').innerHTML = 'Kicked: '+ kicked +' times';
@@ -1377,7 +1377,14 @@ function checkkicks(){
         scene.getPhysicsEngine().setTimeStep(1 / 50000)
     }
 
-    console.log("Got here hehee")
+    function home(){
+    ge('won').style.display = 'none';
+    ge('won').style.display = 'none';
+    ge('menu').style.display = 'block';
+    if(loadtype) replayGame();
+}
+
+
     return scene;
 }
 window.initFunction = async function(){

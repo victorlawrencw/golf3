@@ -383,7 +383,7 @@
 			<button id="sndop" class="mssb" onclick="settingsswitch('sound', 'sndop');">SOUND: OFF</button>
 		<button class="mssb" id="homer" onclick="home()">MAIN MENU</button>
 	</div>
-	<div id="bottomM" class="panels" style="flex-flow: row-reverse; gap: 10px; font-family: ddt; font-size: 19px;">
+	<div id="bottomM" class="panels" style="flex-flow: row-reverse; gap: 10px; font-family: dd; font-size: 19px;">
 		<!--STATS ON THE CURRENT GAME, FOR PROPS AND RANKING-->
 			<div id="kicked" style="margin-right: 80px;">Kicks:</div>
 			<div id="remains">Remaining:</div>
@@ -394,14 +394,14 @@
 
 <div id="won">
 <!---show an image confirming win-->
-<div id="wontop" class="panels">
+<div id="wontop" class="panels" style="min-height: 100px;">
 	<img id="wonimage" src="" alt="">
 	<img id="loseimage" src="" alt="">
 </div>
-	<div id="wonmid" class="panels">
+	<div id="wonmid" class="panels" style="flex-flow: column;">
 <p id="wintime"></p>
 <button class="mssb" id="replaycl">REPLAY</button>
-<button class="mssb" onclick="home()">MAIN MENU</button>
+<button class="mssb" id="homer" onclick="home()">MAIN MENU</button>
 	</div>
 	<div id="linedesign">
 		<div></div>
