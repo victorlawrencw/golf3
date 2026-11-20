@@ -1165,7 +1165,6 @@ var createScene = function () {
         else urldata = urlx;
 
         assetsManager.reset();
-        assetsManager.addMeshTask("game", "", urldata);
 
         let rooturl = urldata.slice(0, urldata.lastIndexOf('/'));
         let filename = urldata.slice(urldata.lastIndexOf('/') + 1);
