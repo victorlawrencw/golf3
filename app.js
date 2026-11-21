@@ -296,6 +296,7 @@ var createScene = function () {
         courseloc == cc;
         var filename = courseloc.slice(courseloc.lastIndexOf('/') + 1);
         assetsManager.addMeshTask("NEWSCENE", "", courseloc, filename);
+        loadtype = 'url';
         assetsManager.load();
     }
 
