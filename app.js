@@ -518,6 +518,8 @@ var createScene = function () {
                             //Sets a new finish point
                             finishPoint = m;
                             m.material.alpha = 0;
+                            m.isVisible = false;
+                            m.visibility = 0
                         }
                     }
                     else if (mname == "water") {
