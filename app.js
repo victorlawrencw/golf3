@@ -30,34 +30,6 @@ async function audiooo() {
 }
 
 
-    ge('replaycl').onclick = function(){
-        if(loadtype = 'url'){
-            //reload the course through url
-            urlOpener(courseloc)
-        }
-        else{
-            //reload the course through already uploaded file
-            const eventx = new Event('change', {bubbles:true});
-            ge('large-importer').dispatchEvent(eventx)
-        }
-    }
-    
-    ge('resumer').onclick = function(){
-        ge("gameMenu").style.display = "none";
-        scene.getPhysicsEngine().setTimeStep(1/120);
-    }
-
-    //PAUSE THE GAME... LIKE A BOSS.
-    ge('pauseb').onclick = function() {
-        ge("gameMenu").style.display = "block";
-        ge('timeelapsed').innerHTML = "Total time: <div style='color:var(--blue)'>"+ ((Date.now() - parseInt(sessionStorage.getItem('start time')))/1000).toFixed(2) + 's </div>';
-        ge('kicked').innerHTML = 'Kicked: <div style="color:var(--green)">'+ kicked +' times</div>';
-        ge('remains').innerHTML = "remaining <div style='color:var(--pink)'>"+sessionStorage.getItem('kicks')+" kicks</div>";
-        //physics engine must slow down & the counter must do the same, or rather counter completely and ball completely
-        scene.getPhysicsEngine().setTimeStep(1 / 50000)
-    }
-
-
 var createDefaultEngine = function () { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false }); };
 var createScene = function () {
     Ammo();
@@ -1412,13 +1384,41 @@ function checkkicks(){
     }
 }
 
-function home(){
+ge('homer').onclick = function(){
     ge('won').style.display = 'none';
     ge('won').style.display = 'none';
     ge('menu').style.display = 'block';
     if(loadtype) replayGame();
     camera.useAutoRotationBehavior = true;
 }
+
+
+    ge('replaycl').onclick = function(){
+        if(loadtype = 'url'){
+            //reload the course through url
+            urlOpener(courseloc)
+        }
+        else{
+            //reload the course through already uploaded file
+            const eventx = new Event('change', {bubbles:true});
+            ge('large-importer').dispatchEvent(eventx)
+        }
+    }
+    
+    ge('resumer').onclick = function(){
+        ge("gameMenu").style.display = "none";
+        scene.getPhysicsEngine().setTimeStep(1/120);
+    }
+
+    //PAUSE THE GAME... LIKE A BOSS.
+    ge('pauseb').onclick = function() {
+        ge("gameMenu").style.display = "block";
+        ge('timeelapsed').innerHTML = "Total time: <div style='color:var(--blue)'>"+ ((Date.now() - parseInt(sessionStorage.getItem('start time')))/1000).toFixed(2) + 's </div>';
+        ge('kicked').innerHTML = 'Kicked: <div style="color:var(--green)">'+ kicked +' times</div>';
+        ge('remains').innerHTML = "remaining <div style='color:var(--pink)'>"+sessionStorage.getItem('kicks')+" kicks</div>";
+        //physics engine must slow down & the counter must do the same, or rather counter completely and ball completely
+        scene.getPhysicsEngine().setTimeStep(1 / 50000)
+    }
 
     return scene;
 }
