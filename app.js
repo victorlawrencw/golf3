@@ -1409,10 +1409,6 @@ function checkkicks(){
     }
 }
 
-
-    return scene;
-}
-
 function home(){
     ge('won').style.display = 'none';
     ge('won').style.display = 'none';
@@ -1420,6 +1416,10 @@ function home(){
     if(loadtype) replayGame();
     camera.useAutoRotationBehavior = true;
 }
+
+    return scene;
+}
+
 
 window.initFunction = async function(){
     var asyncEngineCreation = async function () {
