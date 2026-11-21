@@ -260,9 +260,9 @@
 			<div style="display: flex; flex-flow: row wrap; align-items: center; gap: 5px; font-family:ddt; width: 100%; height: 18px;"><div class="slashr"></div> DONATE <div class="slashr"></div></div>
 			<!--WALLET LOGIN AND SIGNUP(METAMASK, TORUS, TRUSTWALLET ETC)-->
 			<div id="DONATE">
-				<button title="Metamask" onclick="DONATE(0)" id="metamask" class="actionxx2 alte"><img height="50px" class="altei" src="svgs\metamask-icon.svg"/></button>
-				<button title="Torus" onclick="DONATE(1)" id="torus" class="actionxx2 alte"><img height="50px" class="altei" src="svgs/kofi_symbol.svg"/></button>
-				<button title="Trustwallet" onclick="DONATE(2)" id="trustwallet" class="actionxx2 alte"><img height="50px" class="altei" src="svgs/trust-wallet-seeklogo.com.svg"/></button>
+				<a title="Metamask" href="https://link.metamask.io/send/0xBd2C760e315F504Da5250A3d31CCe64325296Dd9@1" id="metamask" class="actionxx2 alte"><img height="50px" class="altei" src="svgs\metamask-icon.svg"/></a>
+				<a title="Torus" href="https://ko-fi.com/perfectcircles" id="torus" class="actionxx2 alte"><img height="50px" class="altei" src="svgs/kofi_symbol.svg"/></button>
+				<a title="Trustwallet" href="" id="trustwallet" class="actionxx2 alte"><img height="50px" class="altei" src="svgs/trust-wallet-seeklogo.com.svg"/></button>
 			</div>
 		</div>
 	</div>
@@ -655,15 +655,15 @@
 			switch(num){
 			case (num==0):
 				//open metamask link
-				window.open('my metamask wallet url', '_blank')
+				let lki = window.open('my metamask wallet url', '_blank')
 				break
 			case (num==1):
 				//open torus link -- this will be changed to koffee or some other developer donate link
-				window.open('https://ko-fi.com/perfectcircles', '_blank')
+				let ufj = window.open('https://ko-fi.com/perfectcircles', '_blank')
 				break
 			case (num==2):
 				//open trustwallet link
-				window.open('my metamask wallet url', '_blank')
+				let gif = window.open('my metamask wallet url', '_blank')
 				break
 			}
 		}
