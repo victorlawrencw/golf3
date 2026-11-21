@@ -517,6 +517,7 @@ var createScene = function () {
                         {
                             //Sets a new finish point
                             finishPoint = m;
+                            m.material.alpha = 0;
                         }
                     }
                     else if (mname == "water") {
