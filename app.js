@@ -135,8 +135,8 @@ var createScene = function () {
     const snapcam = new BABYLON.ArcRotateCamera('snapcam', 0, 0.8, 10, new BABYLON.Vector3(0, 0, 0), scene);
     snapcam.useAutoRotationBehavior = true;
     var arbsc = snapcam.autoRotationBehavior;
-    arbsc.idleRotationSpeed = 3;
-    arbsc.idleRotationSpinupTime = 500;
+    arbsc.idleRotationSpeed = 4;
+    arbsc.idleRotationSpinupTime = 700;
     arbsc.idleRotationWaitTime = 0;
 
     scene.activeCamera = camera;
