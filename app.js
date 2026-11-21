@@ -1161,9 +1161,12 @@ var createScene = function () {
         //ge("playb").disable()
     }
 
-    document.getElementById("urlinput").onsubmit = urlOpener;
+    document.getElementById("urlinput").onsubmit = async function(e){
+        e.preventDefault();
+        await urlOpener();
+    }
     
-    function urlOpener(urlx) {
+    async function urlOpener(urlx) {
         let urldata;
 
         if(urlx == undefined) urldata = document.getElementById("inputz").value;
