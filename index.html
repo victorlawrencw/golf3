@@ -540,15 +540,7 @@
 	function revertt(){
 		ge("pp_input").value = ls.getItem('pp')
 	}
-	let play = function(){
-		ge('menu').style.opacity='0';
-		//ge('menu').style.backdropFilter = 'blur(0px)';
-		setTimeout(function(){
-			ge('menu').style.display='none';
-			ge('ingamemenu').style.display='flex'
-		}, 200);
-		sessionStorage.setItem('start time', Date.now());
-	}
+
 	function sdrtt(){ge('pp_input').style.height = (Number(ge('pp?').clientHeight) - 20).toString()+"px"}
 	ge("pp_input").value = sskit;
 	if(so==null|| so=="true"){ge("soundbtn").style.color = "var(--pink)"; ge('sndop').innerHTML = "SOUND :ON"}else{}

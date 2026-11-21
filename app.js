@@ -135,7 +135,7 @@ var createScene = function () {
     const snapcam = new BABYLON.ArcRotateCamera('snapcam', 0, 0.8, 10, new BABYLON.Vector3(0, 0, 0), scene);
     snapcam.useAutoRotationBehavior = true;
     var arbsc = snapcam.autoRotationBehavior;
-    arbsc.idleRotationSpeed = 2;
+    arbsc.idleRotationSpeed = 3;
     arbsc.idleRotationSpinupTime = 500;
     arbsc.idleRotationWaitTime = 0;
 
@@ -1303,12 +1303,20 @@ var createScene = function () {
     });
 
     ge('play').onclick = function(){
+        ge('menu').style.opacity='0';
+		//ge('menu').style.backdropFilter = 'blur(0px)';
+		setTimeout(function(){
+			ge('menu').style.display='none';
+			ge('ingamemenu').style.display='flex'
+		}, 200);
+		sessionStorage.setItem('start time', Date.now());
         camera.useAutoRotationBehavior = false;
     }
 
     //when the mouse is off page/document
     document.addEventListener('onmouseout', function () {
-
+        console.log('mouse out of document, pause the game');
+        pauseGame()
     })
     document.getElementById("captureb").onclick = dmgimg;
     
