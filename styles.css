@@ -817,6 +817,7 @@ button{cursor: pointer;}
 }
 .mssb{
     height: 80px;
+    color: black;
     font-size: 40px;
     background-color: transparent;
     font-family: ddt;
