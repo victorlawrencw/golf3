@@ -1402,7 +1402,7 @@ function checkkicks(){
         ge("gameMenu").style.display = "block";
         ge('timeelapsed').innerHTML = "Total time: <div style='color:var(--blue)'>"+ ((Date.now() - parseInt(sessionStorage.getItem('start time')))/1000).toFixed(2) + 's </div>';
         ge('kicked').innerHTML = 'Kicked: <div style="color:var(--green)">'+ kicked +' times</div>';
-        ged('remains').innerHTML = "remaining <div style='color:var(--pink)'>"+sessionStorage.getItem('kicks')+" kicks</div>";
+        ge('remains').innerHTML = "remaining <div style='color:var(--pink)'>"+sessionStorage.getItem('kicks')+" kicks</div>";
         //physics engine must slow down & the counter must do the same, or rather counter completely and ball completely
         scene.getPhysicsEngine().setTimeStep(1 / 50000)
     }
