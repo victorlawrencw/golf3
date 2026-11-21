@@ -1166,7 +1166,7 @@ var createScene = function () {
     function urlOpener(urlx) {
         let urldata;
 
-        if(urldata == undefined) urldata = document.getElementById("inputz").value;
+        if(urlx == undefined) urldata = document.getElementById("inputz").value;
         else urldata = urlx;
 
         assetsManager.reset();
