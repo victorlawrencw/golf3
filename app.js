@@ -597,7 +597,7 @@ var createScene = function () {
 
 
 
-        document.getElementById('resetball').onclick = function () {
+        ge('resetball').onclick = function () {
             let resetpos = JSON.parse(sessionStorage.getItem('checkpoint'));
             let bal = gM('ball');
             bal.physicsImpostor.setLinearVelocity( BABYLON.Vector3.Zero());
@@ -608,7 +608,7 @@ var createScene = function () {
             bal.position.z = resetpos.z;
             showToast('Ball reset', 1, 3000)
         }
-        document.getElementById('fullscreen').onclick = function () {
+        ge('fullscreen').onclick = function () {
             engine.switchFullscreen(true)
             showToast('fullscreen-ed', 1, 2000);
         }
@@ -1318,9 +1318,9 @@ var createScene = function () {
         console.log('mouse out of document, pause the game');
         pauseGame()
     })
-    document.getElementById("captureb").onclick = dmgimg;
-    
-    async function dmgimg() {
+
+
+   ge("captureb").onclick = async function () {
         BABYLON.Tools.CreateScreenshot(engine, camera, { precision: 3 }, async function (png) {
              try {
         const response = await fetch(png);
@@ -1381,7 +1381,7 @@ function checkkicks(){
     }
 }
     
-    ge('replaycl').onclick = function replayGame(){
+    ge('replaycl').onclick = function(){
         if(loadtype = 'url'){
             //reload the course through url
             urlOpener(courseloc)
@@ -1392,13 +1392,13 @@ function checkkicks(){
             ge('large-importer').dispatchEvent(eventx)
         }
     }
-    ge('resumer').onclick = function resumeGame(){
+    ge('resumer').onclick = function(){
         ge("gameMenu").style.display = "none";
         scene.getPhysicsEngine().setTimeStep(1/120);
     }
 
     //PAUSE THE GAME... LIKE A BOSS.
-    ge('pauseb').onclick = function pauseGame() {
+    ge('pauseb').onclick = function() {
         ge("gameMenu").style.display = "block";
         ge('timeelapsed').innerHTML = "Total time: <div style='color:var(--blue)'>"+ ((Date.now() - parseInt(sessionStorage.getItem('start time')))/1000).toFixed(2) + 's </div>';
         ge('kicked').innerHTML = 'Kicked: <div style="color:var(--green)">'+ kicked +' times</div>';
