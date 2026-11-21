@@ -4,6 +4,15 @@ var scene = null;
 var sceneToRender = null;
 let loader = null;
 let loadtype;
+var strr;
+let stoppedx;
+let file;
+let ximg;
+let xyz = 0
+let courseloc;
+let kicked = 0;
+let blinkk = 1;
+let intid = null;
 sessionStorage.setItem('kicks', 3);
 
 
@@ -20,6 +29,35 @@ async function audiooo() {
 //this loads sound... hopefully an be called outside the whole function
 }
 
+
+    ge('replaycl').onclick = function(){
+        if(loadtype = 'url'){
+            //reload the course through url
+            urlOpener(courseloc)
+        }
+        else{
+            //reload the course through already uploaded file
+            const eventx = new Event('change', {bubbles:true});
+            ge('large-importer').dispatchEvent(eventx)
+        }
+    }
+    
+    ge('resumer').onclick = function(){
+        ge("gameMenu").style.display = "none";
+        scene.getPhysicsEngine().setTimeStep(1/120);
+    }
+
+    //PAUSE THE GAME... LIKE A BOSS.
+    ge('pauseb').onclick = function() {
+        ge("gameMenu").style.display = "block";
+        ge('timeelapsed').innerHTML = "Total time: <div style='color:var(--blue)'>"+ ((Date.now() - parseInt(sessionStorage.getItem('start time')))/1000).toFixed(2) + 's </div>';
+        ge('kicked').innerHTML = 'Kicked: <div style="color:var(--green)">'+ kicked +' times</div>';
+        ge('remains').innerHTML = "remaining <div style='color:var(--pink)'>"+sessionStorage.getItem('kicks')+" kicks</div>";
+        //physics engine must slow down & the counter must do the same, or rather counter completely and ball completely
+        scene.getPhysicsEngine().setTimeStep(1 / 50000)
+    }
+
+
 var createDefaultEngine = function () { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false }); };
 var createScene = function () {
     Ammo();
@@ -27,16 +65,6 @@ var createScene = function () {
     BABYLON.SceneLoader.ShowLoadingScreen = false;
     engine.enableOfflineSupport = false;
     const phs = { mass: 0.3, restitution: 0.6, friction: 40 };
-
-    var strr;
-    let stoppedx;
-    let file;
-    let ximg;
-    let xyz = 0
-    let courseloc;
-    let kicked = 0;
-    let blinkk = 1;
-    let intid = null;
 
 
     let baseVOL;
@@ -1380,32 +1408,6 @@ function checkkicks(){
             })
     }
 }
-    
-    ge('replaycl').onclick = function(){
-        if(loadtype = 'url'){
-            //reload the course through url
-            urlOpener(courseloc)
-        }
-        else{
-            //reload the course through already uploaded file
-            const eventx = new Event('change', {bubbles:true});
-            ge('large-importer').dispatchEvent(eventx)
-        }
-    }
-    ge('resumer').onclick = function(){
-        ge("gameMenu").style.display = "none";
-        scene.getPhysicsEngine().setTimeStep(1/120);
-    }
-
-    //PAUSE THE GAME... LIKE A BOSS.
-    ge('pauseb').onclick = function() {
-        ge("gameMenu").style.display = "block";
-        ge('timeelapsed').innerHTML = "Total time: <div style='color:var(--blue)'>"+ ((Date.now() - parseInt(sessionStorage.getItem('start time')))/1000).toFixed(2) + 's </div>';
-        ge('kicked').innerHTML = 'Kicked: <div style="color:var(--green)">'+ kicked +' times</div>';
-        ge('remains').innerHTML = "remaining <div style='color:var(--pink)'>"+sessionStorage.getItem('kicks')+" kicks</div>";
-        //physics engine must slow down & the counter must do the same, or rather counter completely and ball completely
-        scene.getPhysicsEngine().setTimeStep(1 / 50000)
-    }
 
 
     return scene;
