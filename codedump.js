@@ -369,3 +369,54 @@ scene.enablePhysics(new BABYLON.Vector3(0, -9.81, 0), ammoPlugin);
         console.log(blinkk)
     }, 1500) 
     }*/
+
+
+
+	    /*
+    const light = new BABYLON.HemisphericLight("Lightx", new BABYLON.Vector3(1, 1, 0), scene);
+    light.specularPower=0.3;
+    light.intensity=0.9;
+    light.specular=new BABYLON.Color3(0.3,0.3,0.2);
+    light.diffuse=new BABYLON.Color3(1,1,1);
+    */
+
+    /*
+    const light2 = new BABYLON.DirectionalLight("Lightx1", new BABYLON.Vector3(0, 1, 0), scene);
+    //light2.specularPower=0.1;
+    light2.intensity=0.8;
+    light2.specular=new BABYLON.Color3(0.5,0.5,0.5);
+    light2.diffuse=new BABYLON.Color3(1,1,1);
+    light2.position = new BABYLON.Vector3(0, -1, 0);
+    
+    const light3 = new BABYLON.DirectionalLight("Lightx2", new BABYLON.Vector3(0, 0, 1), scene);
+    //light3.specularPower=0.1;
+    light3.intensity=0.9562;
+    light3.specular=new BABYLON.Color3(0.5,0.5,0.5);
+    light3.diffuse=new BABYLON.Color3(1,1,1);
+    light3.position = new BABYLON.Vector3(0, 0, -1);
+    
+    const light4 = new BABYLON.DirectionalLight("Lightx3", new BABYLON.Vector3(0, 0, -1), scene);
+    //light4.specularPower=0.1;
+    light4.intensity=0.9562;
+    light4.specular=new BABYLON.Color3(0.5,0.5,0.5);
+    light4.diffuse=new BABYLON.Color3(1,1,1);
+    light4.position = new BABYLON.Vector3(0, 0, 1);
+    
+    const light5 = new BABYLON.DirectionalLight("Lightx4", new BABYLON.Vector3(1, 0, 0), scene);
+    //light5.specularPower=0.1;
+    light5.intensity=0.9562;
+    light5.specular=new BABYLON.Color3(0.5,0.5,0.5);
+    light5.diffuse=new BABYLON.Color3(1,1,1);
+    light5.position = new BABYLON.Vector3(-1, 0, 0);
+    
+    const light6 = new BABYLON.DirectionalLight("Lightx5", new BABYLON.Vector3(-1, 0, 0), scene);
+    //light6.specularPower=0.1;
+    light6.intensity=0.9562;
+    light6.specular=new BABYLON.Color3(0.5,0.5,0.5);
+    light6.diffuse=new BABYLON.Color3(1,1,1);
+    light6.position = new BABYLON.Vector3(1, 0, 0);
+    */
+
+	    function tpl() {
+        var light = new BABYLON.DirectionalLight("keyL", new BABYLON.Vector3(1, 0, 0), scene)
+    }
