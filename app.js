@@ -1264,6 +1264,8 @@ var createScene = function () {
         }
     });
 
+
+    ///////PLAY BUTTON HERE
     ge('play').onclick = function(){
         ge('menu').style.opacity='0';
 		//ge('menu').style.backdropFilter = 'blur(0px)';
@@ -1275,11 +1277,36 @@ var createScene = function () {
         camera.useAutoRotationBehavior = false;
     }
 
-    //when the mouse is off page/document
-    document.addEventListener('onmouseout', function () {
-        console.log('mouse out of document, pause the game');
-        pauseGame()
-    })
+        ge('replaycl').onclick = function(){
+        if(loadtype = 'url'){
+            //reload the course through url
+            urlOpener(courseloc)
+        }
+        else{
+            //reload the course through already uploaded file
+            const eventx = new Event('change', {bubbles:true});
+            ge('large-importer').dispatchEvent(eventx)
+        }
+    }
+    
+    ge('resumer').onclick = function(){
+        ge("gameMenu").style.display = "none";
+        scene.getPhysicsEngine().setTimeStep(1/120);
+        camera.useAutoRotationBehavior = false;
+    }
+
+    //PAUSE THE GAME... LIKE A BOSS.
+    ge('pauseb').onclick = function() {
+		console.log("paused");
+        ge("gameMenu").style.display = "block";
+        ge('timeelapsed').innerHTML = "Total time: <div style='color:var(--blue)'>"+ ((Date.now() - parseInt(sessionStorage.getItem('start time')))/1000).toFixed(2) + 's </div>';
+        ge('kicked').innerHTML = 'Kicked: <div style="color:var(--green)">'+ kicked +' times</div>';
+        ge('remains').innerHTML = "remaining <div style='color:var(--pink)'>"+sessionStorage.getItem('kicks')+" kicks</div>";
+        //physics engine must slow down & the counter must do the same, or rather counter completely and ball completely
+        //also make it smooth slow mo both for the ball and camera. real smooth
+        scene.getPhysicsEngine().setTimeStep(1 / 50000);
+        camera.useAutoRotationBehavior = true;
+    }
 
 
    ge("captureb").onclick = async function () {
@@ -1316,7 +1343,14 @@ var createScene = function () {
             */
             // console.log(png)
 
-        }, true)
+        }, true);
+
+            //when the mouse is off page/document
+    /*document.addEventListener('onmouseout', function () {
+        console.log('mouse out of document, pause the game');
+        ge('pauseb').click()
+    })*/
+   
     }
 
 
@@ -1352,36 +1386,6 @@ ge('homer').onclick = function(){
 }
 
 
-    ge('replaycl').onclick = function(){
-        if(loadtype = 'url'){
-            //reload the course through url
-            urlOpener(courseloc)
-        }
-        else{
-            //reload the course through already uploaded file
-            const eventx = new Event('change', {bubbles:true});
-            ge('large-importer').dispatchEvent(eventx)
-        }
-    }
-    
-    ge('resumer').onclick = function(){
-        ge("gameMenu").style.display = "none";
-        scene.getPhysicsEngine().setTimeStep(1/120);
-        camera.useAutoRotationBehavior = false;
-    }
-
-    //PAUSE THE GAME... LIKE A BOSS.
-    document.getElementById('pauseb').onclick = function() {
-		console.log("paused");
-        ge("gameMenu").style.display = "block";
-        ge('timeelapsed').innerHTML = "Total time: <div style='color:var(--blue)'>"+ ((Date.now() - parseInt(sessionStorage.getItem('start time')))/1000).toFixed(2) + 's </div>';
-        ge('kicked').innerHTML = 'Kicked: <div style="color:var(--green)">'+ kicked +' times</div>';
-        ge('remains').innerHTML = "remaining <div style='color:var(--pink)'>"+sessionStorage.getItem('kicks')+" kicks</div>";
-        //physics engine must slow down & the counter must do the same, or rather counter completely and ball completely
-        //also make it smooth slow mo both for the ball and camera. real smooth
-        scene.getPhysicsEngine().setTimeStep(1 / 50000);
-        camera.useAutoRotationBehavior = true;
-    }
 
     return scene;
 }
