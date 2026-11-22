@@ -17,22 +17,13 @@ sessionStorage.setItem('kicks', 3);
 
 
 let musicA;
-async function audiooo() {
-    const audioEngine = await BABYLON.CreateAudioEngineAsync({ volume: 0 });
 
-    async function playsound(nm) {
-    await audioEngine.unlockAsync();
-    if(sounds[nm]){
-        sounds[nm].play()
-    }
-}
 //this loads sound... hopefully an be called outside the whole function
-}
 
 
 var createDefaultEngine = function () { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false }); };
 var createScene = async function () {
-    await audiooo();
+    const audioEngine = await BABYLON.CreateAudioEngineAsync({ volume: 0 });
     Ammo();
     
     BABYLON.SceneLoader.ShowLoadingScreen = false;
@@ -237,6 +228,15 @@ var createScene = async function () {
                         }
                         checkkicks()
             }
+
+
+    async function playsound(nm) {
+    await audioEngine.unlockAsync();
+    if(sounds[nm]){
+        sounds[nm].play()
+    }
+}
+
 
     //load default course :)
     if (courseloc == undefined) { courseloc = 'https://golf3.onrender.com/boredApes.glb/' }
