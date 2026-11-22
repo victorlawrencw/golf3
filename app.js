@@ -125,7 +125,7 @@ var createScene = function () {
     const arb = camera.autoRotationBehavior;
 
     if(arb){
-        arb.idleRotationSpeed = 3;
+        arb.idleRotationSpeed = 1;
         arb.idleRotationWaitTime = 1000;
         arb.idleRotationSpinupTime = 4000;
         arb.zoomStopsAnimation = true;
@@ -1371,7 +1371,7 @@ ge('homer').onclick = function(){
     }
 
     //PAUSE THE GAME... LIKE A BOSS.
-    ge('pauseb').onclick = function() {
+    document.getElementById('pauseb').onclick = function() {
 		console.log("paused");
         ge("gameMenu").style.display = "block";
         ge('timeelapsed').innerHTML = "Total time: <div style='color:var(--blue)'>"+ ((Date.now() - parseInt(sessionStorage.getItem('start time')))/1000).toFixed(2) + 's </div>';
