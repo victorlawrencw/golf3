@@ -1271,7 +1271,7 @@ var createScene = async function () {
     ///////PLAY BUTTON HERE
     ge('play').onclick = function(){
         ge('menu').style.opacity='0';
-		//ge('menu').style.backdropFilter = 'blur(0px)';
+        ge('menu').style.pointerEvents = 'none';
 		setTimeout(function(){
 			ge('menu').style.display='none';
 			ge('ingamemenu').style.display='flex'
