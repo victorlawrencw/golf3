@@ -31,9 +31,10 @@ async function audiooo() {
 
 
 var createDefaultEngine = function () { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false }); };
-var createScene = function () {
+var createScene = async function () {
+    await audiooo();
     Ammo();
-    audiooo();
+    
     BABYLON.SceneLoader.ShowLoadingScreen = false;
     engine.enableOfflineSupport = false;
     const phs = { mass: 0.3, restitution: 0.6, friction: 40 };
