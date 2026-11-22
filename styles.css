@@ -960,6 +960,9 @@ flex-wrap: nowrap;
     font-size: 17px;
     pointer-events: auto;
 }
+.ingame svg{
+    pointer-events: auto;
+}
 #resetball{
     margin-left: auto;
     margin-right: 20px;
