@@ -930,7 +930,7 @@ flex-wrap: nowrap;
     height: 100%;
     padding-top:10px;
     gap: 10px;
-    /*pointer-events: none;*/
+    pointer-events: none;
 }
 #topp{
     display: flex;
@@ -958,7 +958,7 @@ flex-wrap: nowrap;
     outline: none;
     border: none;
     font-size: 17px;
-    pointer-events: all;
+    pointer-events: auto;
 }
 #resetball{
     margin-left: auto;
