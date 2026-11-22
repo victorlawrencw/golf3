@@ -1098,3 +1098,7 @@ flex-wrap: nowrap;
     border: 2px solid #000000;
     padding: 5px;
 }
+
+.buttons{
+    touch-action: manipulation;
+}

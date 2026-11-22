@@ -1384,6 +1384,8 @@ ge('homer').onclick = function(){
     ge('won').style.display = 'none';
     ge('won').style.display = 'none';
     ge('menu').style.display = 'block';
+    ge('menu').style.pointerEvents = 'auto';
+
     if(loadtype) replayGame();
     camera.useAutoRotationBehavior = true;
 }
