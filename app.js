@@ -125,7 +125,7 @@ var createScene = function () {
     const arb = camera.autoRotationBehavior;
 
     if(arb){
-        arb.idleRotationSpeed = 1;
+        arb.idleRotationSpeed = 0.5;
         arb.idleRotationWaitTime = 1000;
         arb.idleRotationSpinupTime = 4000;
         arb.zoomStopsAnimation = true;
