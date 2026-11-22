@@ -1409,7 +1409,7 @@ window.initFunction = async function(){
     //BABYLON.Effect.ShadersStore["shadowsFragmentFunctions"] = "precision highp sampler2DShadow;\n" + BABYLON.Effect.ShadersStore["shadowsFragmentFunctions"];
     console.log('windows innit')
     if (!engine) throw 'engine should not be null.';
-    window.scene = createScene();
+    window.scene = await createScene();
     //BABYLON.Effect.ShadersStore["shadowsFragmentFunctions"] = "precision highp sampler2DShadow;\n" + BABYLON.Effect.ShadersStore["shadowsFragmentFunctions"];
 }
 initFunction().then(() => {
