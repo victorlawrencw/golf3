@@ -157,6 +157,38 @@
 		setInterval(isitoutside, 10);
 	</script>
 
+
+
+<!--IN-GAME MENU(JUST A SIMPLE PAUSE BUTTON AND CAMERA CHANGE BUTTON IS OKAY)-->
+<div id="ingamemenu">
+	<div id="topp" class="panels">
+		<button id="pauseb" class="buttons ingame" onclick="pauseb()">
+			<svg class="iconz" version="1.1" id="Capa_1" x="0px" y="0px" width="35px" height="35px" fill="var(--white)" fill-opacity="1.0" stroke="var(--black)" stroke-width="25px" stroke-opacity="1.0" viewBox="0 0 384 512" enable-background="new 0 0 720 1440" xml:space="preserve">
+				<path d="M272 63.1l-32 0c-26.51 0-48 21.49-48 47.1v288c0 26.51 21.49 48 48 48L272 448c26.51 0 48-21.49 48-48v-288C320 85.49 298.5 63.1 272 63.1zM80 63.1l-32 0c-26.51 0-48 21.49-48 48v288C0 426.5 21.49 448 48 448l32 0c26.51 0 48-21.49 48-48v-288C128 85.49 106.5 63.1 80 63.1z"/>
+			</svg>
+		</button>
+		<button class="buttons ingame" style="background-color: rgb(100 100 200)" onclick="">
+		<svg class="iconz" style="margin-left: -11px;" version="1.1" id="captureb" x="0px" y="0px" width="46px" height="35px" fill="var(--white)" fill-opacity="1.0" stroke="var(--black)" stroke-width="25px" stroke-opacity="1.0" viewBox="0 0 384 512" enable-background="new 0 0 720 1440" xml:space="preserve">
+			<path d="M194.6 32H317.4C338.1 32 356.4 45.22 362.9 64.82L373.3 96H448C483.3 96 512 124.7 512 160V416C512 451.3 483.3 480 448 480H64C28.65 480 0 451.3 0 416V160C0 124.7 28.65 96 64 96H138.7L149.1 64.82C155.6 45.22 173.9 32 194.6 32H194.6zM256 384C309 384 352 341 352 288C352 234.1 309 192 256 192C202.1 192 160 234.1 160 288C160 341 202.1 384 256 384z"/>
+		</svg></button>
+		<button id="resetball" class="buttons ingame" style="background-color: red;" onclick=""></button>
+	</div>
+	
+	<div id="bottomp" class="panels">
+		<button id="fullscreen" onclick="console.log('fullscreen requested')" class="buttons ingame">
+			
+		</button>
+		<div>
+			<button  id="showinfo" class="buttons ingame">
+				
+			</button>
+			<div id="infoblock">
+			</div>
+			
+		</div>
+	</div>
+</div>
+
 	<div id="menu">
 
 		<div id="top">
@@ -414,35 +446,6 @@
 	</div>
 </div>
 
-<!--IN-GAME MENU(JUST A SIMPLE PAUSE BUTTON AND CAMERA CHANGE BUTTON IS OKAY)-->
-<div id="ingamemenu">
-	<div id="topp" class="panels">
-		<button id="pauseb" class="buttons ingame" onclick="pauseb()">
-			<svg class="iconz" version="1.1" id="Capa_1" x="0px" y="0px" width="35px" height="35px" fill="var(--white)" fill-opacity="1.0" stroke="var(--black)" stroke-width="25px" stroke-opacity="1.0" viewBox="0 0 384 512" enable-background="new 0 0 720 1440" xml:space="preserve">
-				<path d="M272 63.1l-32 0c-26.51 0-48 21.49-48 47.1v288c0 26.51 21.49 48 48 48L272 448c26.51 0 48-21.49 48-48v-288C320 85.49 298.5 63.1 272 63.1zM80 63.1l-32 0c-26.51 0-48 21.49-48 48v288C0 426.5 21.49 448 48 448l32 0c26.51 0 48-21.49 48-48v-288C128 85.49 106.5 63.1 80 63.1z"/>
-			</svg>
-		</button>
-		<button class="buttons ingame" style="background-color: rgb(100 100 200)" onclick="">
-		<svg class="iconz" style="margin-left: -11px;" version="1.1" id="captureb" x="0px" y="0px" width="46px" height="35px" fill="var(--white)" fill-opacity="1.0" stroke="var(--black)" stroke-width="25px" stroke-opacity="1.0" viewBox="0 0 384 512" enable-background="new 0 0 720 1440" xml:space="preserve">
-			<path d="M194.6 32H317.4C338.1 32 356.4 45.22 362.9 64.82L373.3 96H448C483.3 96 512 124.7 512 160V416C512 451.3 483.3 480 448 480H64C28.65 480 0 451.3 0 416V160C0 124.7 28.65 96 64 96H138.7L149.1 64.82C155.6 45.22 173.9 32 194.6 32H194.6zM256 384C309 384 352 341 352 288C352 234.1 309 192 256 192C202.1 192 160 234.1 160 288C160 341 202.1 384 256 384z"/>
-		</svg></button>
-		<button id="resetball" class="buttons ingame" style="background-color: red;" onclick=""></button>
-	</div>
-	
-	<div id="bottomp" class="panels">
-		<button id="fullscreen" onclick="console.log('fullscreen requested')" class="buttons ingame">
-			
-		</button>
-		<div>
-			<button  id="showinfo" class="buttons ingame">
-				
-			</button>
-			<div id="infoblock">
-			</div>
-			
-		</div>
-	</div>
-</div>
 <!--div id="ripple"></div-->
 <script type="text/javascript">
 	//ONCLICKS 'n' STUFFS

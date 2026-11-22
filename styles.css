@@ -957,6 +957,7 @@ flex-wrap: nowrap;
     height: 60px;
     outline: none;
     border: none;
+    z-index: 10;
     font-size: 17px;
     pointer-events: auto;
     touch-action: auto;
