@@ -44,7 +44,7 @@ html, body {
     border:none;
 }
 
-#menu, #ingamemenu{
+#menu{
     display:block;
     width:100%;
     height:100%;
@@ -914,7 +914,7 @@ button{cursor: pointer;}
     border: none;
     outline: none;
 }
-#gameMenu, #won{
+#ingamemenu, #gameMenu, #won{
 display: none;
 background: rgba(0, 0, 0, 0);
 position: fixed;
@@ -922,7 +922,7 @@ top: 0;
 left: 0;
 flex-wrap: nowrap;
 }
-/*#ingamemenu{
+#ingamemenu{
     position: fixed;
     flex-flow: column nowrap;
     z-index: 9;
@@ -931,7 +931,7 @@ flex-wrap: nowrap;
     padding-top:10px;
     gap: 10px;
     pointer-events: none;
-}*/
+}
 #topp{
     display: flex;
     justify-content: left;
@@ -957,6 +957,7 @@ flex-wrap: nowrap;
     height: 60px;
     outline: none;
     border: none;
+    z-index: 10;
     font-size: 17px;
     pointer-events: auto;
     touch-action: manipulation;
