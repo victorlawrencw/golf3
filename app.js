@@ -23,7 +23,7 @@ let musicA;
 
 var createDefaultEngine = function () { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false }); };
 var createScene = async function () {
-    const audioEngine = await BABYLON.CreateAudioEngineAsync({ volume: 0 });
+    //const audioEngine = await BABYLON.CreateAudioEngineAsync({ volume: 0 });
     Ammo();
     
     BABYLON.SceneLoader.ShowLoadingScreen = false;
@@ -231,10 +231,10 @@ var createScene = async function () {
 
 
     async function playsound(nm) {
-    await audioEngine.unlockAsync();
-    if(sounds[nm]){
-        sounds[nm].play()
-    }
+    //await audioEngine.unlockAsync();
+    //if(sounds[nm]){
+        //sounds[nm].play()
+    //}
 }
 
 
