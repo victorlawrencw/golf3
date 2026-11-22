@@ -125,7 +125,7 @@ var createScene = function () {
     const arb = camera.autoRotationBehavior;
 
     if(arb){
-        arb.idleRotationSpeed = 0.05;
+        arb.idleRotationSpeed = 3;
         arb.idleRotationWaitTime = 1000;
         arb.idleRotationSpinupTime = 4000;
         arb.zoomStopsAnimation = true;
@@ -245,8 +245,8 @@ var createScene = function () {
     shadowmat.specularPower = 0.05;
     shadowmat.alpha = 0.2;
 
-    var water = BABYLON.MeshBuilder.CreateBox('water', { size: 100 }, scene);
-    water.scaling = new BABYLON.Vector3(10, .05, 10);
+    var water = BABYLON.MeshBuilder.CreateBox('water', { size: 200 }, scene);
+    water.scaling = new BABYLON.Vector3(10, .01, 10);
     water.position.y = 0;
     water.material = watermat;
 
@@ -1413,6 +1413,7 @@ ge('homer').onclick = function(){
     ge('resumer').onclick = function(){
         ge("gameMenu").style.display = "none";
         scene.getPhysicsEngine().setTimeStep(1/120);
+        camera.useAutoRotationBehavior = false;
     }
 
     //PAUSE THE GAME... LIKE A BOSS.
@@ -1423,7 +1424,9 @@ ge('homer').onclick = function(){
         ge('kicked').innerHTML = 'Kicked: <div style="color:var(--green)">'+ kicked +' times</div>';
         ge('remains').innerHTML = "remaining <div style='color:var(--pink)'>"+sessionStorage.getItem('kicks')+" kicks</div>";
         //physics engine must slow down & the counter must do the same, or rather counter completely and ball completely
-        scene.getPhysicsEngine().setTimeStep(1 / 50000)
+        //also make it smooth slow mo both for the ball and camera. real smooth
+        scene.getPhysicsEngine().setTimeStep(1 / 50000);
+        camera.useAutoRotationBehavior = true;
     }
 
     return scene;
