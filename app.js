@@ -1417,6 +1417,7 @@ ge('homer').onclick = function(){
 
     //PAUSE THE GAME... LIKE A BOSS.
     ge('pauseb').onclick = function() {
+		console.log("paused");
         ge("gameMenu").style.display = "block";
         ge('timeelapsed').innerHTML = "Total time: <div style='color:var(--blue)'>"+ ((Date.now() - parseInt(sessionStorage.getItem('start time')))/1000).toFixed(2) + 's </div>';
         ge('kicked').innerHTML = 'Kicked: <div style="color:var(--green)">'+ kicked +' times</div>';
