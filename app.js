@@ -306,6 +306,8 @@ var createScene = function () {
         }
         else {
             ge("play").disabled = false;
+            ge("pauseb").disabled = false;
+            ge("captureb").disabled = false;
             let bbx = gM("course").getBoundingInfo().boundingBox.maximumWorld.x;
             let bby = gM("course").getBoundingInfo().boundingBox.maximumWorld.y;
             let bbz = gM("course").getBoundingInfo().boundingBox.maximumWorld.z;
