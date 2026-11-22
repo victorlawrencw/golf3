@@ -959,6 +959,7 @@ flex-wrap: nowrap;
     border: none;
     font-size: 17px;
     pointer-events: auto;
+    touch-action: auto;
 }
 .ingame svg{
     pointer-events: auto;
