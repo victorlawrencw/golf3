@@ -959,11 +959,11 @@ flex-wrap: nowrap;
     border: none;
     z-index: 10;
     font-size: 17px;
-    pointer-events: auto;
-    touch-action: auto;
+    pointer-events: all;
+    touch-action: all;
 }
 .ingame svg{
-    pointer-events: auto;
+    pointer-events: all;
 }
 #resetball{
     margin-left: auto;
