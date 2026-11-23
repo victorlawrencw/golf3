@@ -330,8 +330,9 @@ scene.meshes.slice().forEach((mesh) => {
     //if(mesh.name != 'ball' || mesh.name != 'pulling disk' || mesh.name == 'water' ||mesh.name) mesh.dispose();
     if(mesh.name.indexOf('course')>-1 || mesh.name.indexOf('end')>-1 || mesh.name.indexOf('start')>-1){
         //will add more mesh type instances to this later
-        mesh.dispose;
+        mesh.dispose();
     }
+    gM('ball').dispose()
 });
             //THE WATER IS RIGHT BELOW THE COURSE, ONCE THE BALL HITS THE MESH IT WILL RESET THE BALL... while the helper ground will show the shadow. this setup will increase performance
             water.physicsImpostor = new BABYLON.PhysicsImpostor(water, BABYLON.PhysicsImpostor.BoxImpostor, { restitution: 0, friction: 15, mass: 0 }, scene);
