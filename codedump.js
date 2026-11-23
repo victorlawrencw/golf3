@@ -420,3 +420,12 @@ scene.enablePhysics(new BABYLON.Vector3(0, -9.81, 0), ammoPlugin);
 	    function tpl() {
         var light = new BABYLON.DirectionalLight("keyL", new BABYLON.Vector3(1, 0, 0), scene)
     }
+
+
+	
+  // If no user is stored locally, redirect to login (if on a protected page)
+  if (!currentUser) {
+	console.log('user logged out, stop code here')
+
+    return;
+  }

@@ -572,6 +572,7 @@
 	Parse.initialize(appId);
 	Parse.serverURL = serverUrl;
 	
+	document.addEventListener('DOMContentLoaded', async () => {
 	//IF USER IS ALREADY LOGGED IN... Ill set the login/signup button to work as user menu opener, where the owner of account can check their game files.
 	if(Parse.User.current()){
 		const aclx = new Parse.ACL();
@@ -580,19 +581,45 @@
 		aclx.setPublicWriteAccess(false);
 		aclx.setWriteAccess(Parse.User.current().id, true);
 		document.getElementById("uns").ariaPlaceholder = user.getUsername();
-		showToast('Welcome '+user.get('username'), 1, 2000);
-		//hide the form field and rename login as donate
-		ge('usertab').style.display = 'none'
-		ge('emaillogin').style.display = 'none';
-		ge('logdon').innerHTML = 'DONATE';
-		ge('specio').innerHTML = 'DONATE';
+	
+  const currentUser = Parse.User.current();
+
+  try {
+    // Forces a network request to validate the session token against the server
+    await currentUser.fetch(); 
+    
+    // Session is valid! Proceed to load your page data
+    initApp(); 
+  } catch (error) {
+    if (error.code === Parse.Error.INVALID_SESSION_TOKEN) { // Code 209
+      console.warn('Session expired or invalid. Logging out...');
+      await Parse.User.logOut();
+	  window.location.reload()
+    } else {
+      console.error('Network or server error:', error);
+    }
+  }
+
+
+
 	}
 	else{
 					//USER'S NAME
 			/*and if he/she is new, it will show a simple walkthrough box and ask for name*/
 			showToast('Intro&quest;', 2, 10000, function(){ge('name?').style.display='block'})
 	}
-	
+	})
+
+
+	function initApp(){
+	    showToast('Welcome '+user.get('username'), 1, 2000);
+		//hide the form field and rename login as donate
+		ge('usertab').style.display = 'none'
+		ge('emaillogin').style.display = 'none';
+		ge('logdon').innerHTML = 'DONATE';
+		ge('specio').innerHTML = 'DONATE';
+	}
+
 	ge('fpassword').onclick = function(){
 		showToast('Create a new account :)', 2, 4000);
 		return false;
