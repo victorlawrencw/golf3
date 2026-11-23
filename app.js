@@ -1120,6 +1120,7 @@ var createScene = async function () {
 
         var blob = new Blob([file]);
         //console.log(blob);
+        courseloc = blob;
 
         BABYLON.FilesInput.FilesToLoad[filename.toLowerCase()] = blob;
         //const cou = URL.createObjectURL(file[0]);
@@ -1175,11 +1176,10 @@ scene.meshes.slice().forEach((mesh) => {
     if(mesh.name.indexOf('course')>-1 || mesh.name.indexOf('end')>-1 || mesh.name.indexOf('start')>-1){
         //will add more mesh type instances to this later
         mesh.dispose;
-
     }
 })
 
-        if(courseloc != 'https://golf3.onrender.com/boredApes.glb/'){
+        if(courseloc != 'https://golf3.onrender.com/boredApes.glb/' && loadtype == 'file'){
          loader.innerHTML = "Capturing Preview";
         //FAST 10 secs SCREENSHOT FOR GOLF COURSE SHOWCASE... this will be useful when other users are looking for a particular course.
         if (scene.getMeshByName('course')) {
