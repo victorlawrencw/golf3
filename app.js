@@ -454,6 +454,7 @@ var createScene = async function () {
                             ball.physicsImpostor.disablePreStep = false;
                             //Starting point
                             let startpoint = gM("start").position;
+                            console.log(startpoint);
 
                             ball.position = startpoint;
                             sessionStorage.setItem('checkpoint', JSON.stringify(rvec(startpoint)));
@@ -573,6 +574,7 @@ var createScene = async function () {
                 }, 10);
 
                 scene.physicsEnabled = true;
+                console.log(ball.position)
             }
         }
 
@@ -737,8 +739,6 @@ var createScene = async function () {
 
 
 
-            console.log("kicks = "+sessionStorage.getItem('kicks'));
-
         /****** SPECIAL SECTION ******/
          rend = scene.onBeforeRenderObservable.add(() => {
             let bv = ball.physicsImpostor.getLinearVelocity();
@@ -747,7 +747,6 @@ var createScene = async function () {
         let getkicks = parseInt(sessionStorage.getItem('kicks'));
         if(kicked!=0 && getkicks == 0 && ball.intersectsPoint(gM("end").position, true) == false && t_v < 0.05 && xyz == 0){
             //USER LOST
-            console.log("vkicks = "+sessionStorage.getItem('kicks'));
             //ge("loseimage").style.display = "block";
             ge('losewinin').innerHTML = "YOU LOSE";
             ge('losewinin').style.color = "var(--pink)";
@@ -757,7 +756,6 @@ var createScene = async function () {
             //Calculate finish time
             const stt = parseInt(sessionStorage.getItem('start time'));
             const endtime = ((Date.now() - stt)/1000).toFixed(2);
-            console.log(endtime);
 
             
             ge('wintime').innerHTML = 'Time : '+endtime+'s';
@@ -784,7 +782,6 @@ var createScene = async function () {
                 //Calculate finish time
                 const stt = parseInt(sessionStorage.getItem('start time'));
                 const endtime = ((Date.now() - stt)/1000).toFixed(2);
-                console.log(endtime);
 
                 //ge("won").style.display = "block";
                 //ge("winimage").style.display = "block";
@@ -927,7 +924,6 @@ var createScene = async function () {
             pulling_disk.rotation.y = Math.atan2(diffX, diffY);
             spect.rotation.y = Math.atan2(diffX, diffY);
 
-            console.log(distance)
             if (pickResult.hit) {
                 if (distance < 4) {
 
@@ -1119,7 +1115,6 @@ var createScene = async function () {
 
         //CHANGE THE ELEMENTS THERE
         var filename = file.name;
-        console.log(filename);
         ge('large-importer').style.display = 'none';
         ge('replacer').innerHTML = filename;
         ge('replacer').style.display = 'block';
