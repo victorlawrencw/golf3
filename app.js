@@ -745,6 +745,20 @@ var createScene = async function () {
             
             ge('wintime').innerHTML = 'Time : '+endtime+'s';
             xyz = 1
+
+                            //Save to SERVER if user is logged in!
+                if (Parse.User.Current()) {
+                    const levels = Parse.Object.extend("record");
+                    const lve = new levels();
+                    lve.save({ creator: creator, time: endtime, strikes: getkicks, stat:'lost' }).then((levels) => {
+                        console.log('saved info');
+                    },
+                        (error) => {
+                            console.log(error)
+                        }
+                    );
+                }
+
         }
 
             else if (ball.intersectsPoint(gM("end").position, true) == true && xyz == 0) {
@@ -779,11 +793,11 @@ var createScene = async function () {
                 if (Parse.User.Current()) {
                     const levels = Parse.Object.extend("record");
                     const lve = new levels();
-                    lve.save({ creator: creator, time: endtime, strikes: getkicks }).then((levels) => {
-
+                    lve.save({ creator: creator, time: endtime, strikes: getkicks, stat:'won' }).then((levels) => {
+                        console.log('saved info');
                     },
                         (error) => {
-
+                            console.log(error)
                         }
                     );
                 }
