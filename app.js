@@ -15,6 +15,7 @@ let blinkk = 1;
 let intid = null;
 sessionStorage.setItem('kicks', 3);
 let userusername;
+let ball;
 
 
 let musicA;
@@ -340,19 +341,19 @@ var createScene = async function () {
             if(scene.getMeshByName('ball') != null){
                 switch (gshape) {
                 case null:
-                    var ball = BABYLON.MeshBuilder.CreateIcoSphere("ball", { radius: startbbx, subdivisions: 4, flat: true }, scene);
+                    ball = BABYLON.MeshBuilder.CreateIcoSphere("ball", { radius: startbbx, subdivisions: 4, flat: true }, scene);
                     ball.physicsImpostor = new BABYLON.PhysicsImpostor(ball, BABYLON.PhysicsImpostor.SphereImpostor, phs, scene);
                     break;
                 case "Box":
-                    var ball = BABYLON.MeshBuilder.CreateBox("ball", { size: (startbbx * 2) }, scene);
+                    ball = BABYLON.MeshBuilder.CreateBox("ball", { size: (startbbx * 2) }, scene);
                     ball.physicsImpostor = new BABYLON.PhysicsImpostor(ball, BABYLON.PhysicsImpostor.BoxImpostor, phs, scene);
                     break;
                 case "Cylinder":
-                    var ball = BABYLON.MeshBuilder.CreateCylinder("ball", { diameter: (startbbx * 2), tessalation: 3, height: 0.2 }, scene);
+                    ball = BABYLON.MeshBuilder.CreateCylinder("ball", { diameter: (startbbx * 2), tessalation: 3, height: 0.2 }, scene);
                     ball.physicsImpostor = new BABYLON.PhysicsImpostor(ball, BABYLON.PhysicsImpostor.CylinderImpostor, phs, scene);
                     break;
                 case "Sphere":
-                    var ball = BABYLON.MeshBuilder.CreateIcoSphere("ball", { radius: (startbbx), subdivisions: 1, flat: true }, scene);
+                    ball = BABYLON.MeshBuilder.CreateIcoSphere("ball", { radius: (startbbx), subdivisions: 1, flat: true }, scene);
                     ball.physicsImpostor = new BABYLON.PhysicsImpostor(ball, BABYLON.PhysicsImpostor.SphereImpostor, phs, scene);
                     break;
             }
@@ -374,7 +375,11 @@ var createScene = async function () {
             ball.isPickable = false;
             shadowGenerator.addShadowCaster(ball);
 
-            camera.lockedTarget = ball;}
+            camera.lockedTarget = ball
+        }
+        else{
+            //disable ball physics for a while
+        }
             //scene.debugLayer.show();
 
             gM("start").isVisible = false;
