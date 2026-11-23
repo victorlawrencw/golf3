@@ -612,6 +612,7 @@
 
 
 	function initApp(){
+		const user = Parse.User.current();
 	    showToast('Welcome '+user.get('username'), 1, 2000);
 		//hide the form field and rename login as donate
 		ge('usertab').style.display = 'none'
