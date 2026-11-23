@@ -338,7 +338,7 @@ var createScene = async function () {
             snapcam.radius = bbxz;
             snapcam.lowerRadiusLimit = bbxz - (bbxz * 0.25);
             snapcam.upperRadiusLimit = bbxz + (bbxz * 0.25);
-            if(scene.getMeshByName('ball') != null){
+            if(scene.getMeshByName('ball') == null){
                 switch (gshape) {
                 case null:
                     ball = BABYLON.MeshBuilder.CreateIcoSphere("ball", { radius: startbbx, subdivisions: 4, flat: true }, scene);
