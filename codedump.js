@@ -429,3 +429,13 @@ scene.enablePhysics(new BABYLON.Vector3(0, -9.81, 0), ammoPlugin);
 
     return;
   }
+
+
+  scene.meshes.slice().forEach((mesh) => {
+    //if(mesh.name != 'ball' || mesh.name != 'pulling disk' || mesh.name == 'water' ||mesh.name) mesh.dispose();
+    if(mesh.name.indexOf('course')>-1 || mesh.name.indexOf('end')>-1){
+        //will add more mesh type instances to this later
+        mesh.dispose();
+    }
+    
+})

@@ -16,6 +16,8 @@ let intid = null;
 sessionStorage.setItem('kicks', 3);
 let userusername;
 let ball;
+let importedmeshes = [];
+let rend;
 
 
 let musicA;
@@ -379,6 +381,7 @@ var createScene = async function () {
         }
         else{
             //disable ball physics for a while
+            //get unique id and dispose appropriate meshes
         }
             //scene.debugLayer.show();
 
@@ -391,6 +394,7 @@ var createScene = async function () {
                     //WILL DEFINATELY ATTEND TO THIS LATER!
                     let m = task.loadedMeshes[ms];
                     let mname = m.name.toLowerCase();
+                    importedmeshes.push(String(m.uniqueId));
 
                     //ALL EXPLOSIVES WILL BE VISIBLE, and They give out a radial explosion
                     //The variable are as follows: radius(0-9), strength(0-9) and Countdown(0-9) eg explosive34 ... the origin equals the position of the explosive itself
@@ -407,6 +411,7 @@ var createScene = async function () {
                             if (mname.length > iom + 9) radius = Number(mname.slice(iom + 9, iom + 10));
                             if (mname.length > iom + 10) strength = Number(mname.slice(iom + 10, iom + 11)) * 0.1;
                             if (mname.length > iom + 11) cdx = Number(mname.slice(iom + 11, iom + 12)) * 0.1;
+                            
 
                             explosivex.physicsImpostor = new BABYLON.PhysicsImpostor(explosivex, BABYLON.PhysicsImpostor.MeshImpostor, { mass: 1, restitution: 0, friction: 0 }, scene);
                             explosivex.registerOnPhysicsCollide(ball, function (main, collided) {
@@ -730,7 +735,7 @@ var createScene = async function () {
             console.log("kicks = "+sessionStorage.getItem('kicks'));
 
         /****** SPECIAL SECTION ******/
-        scene.registerBeforeRender(async function () {
+         rend = scene.onBeforeRenderObservable.add(() => {
             let bv = ball.physicsImpostor.getLinearVelocity();
             let t_v = BABYLON.Vector3.Distance(bv, BABYLON.Vector3.Zero());
             
@@ -829,9 +834,7 @@ var createScene = async function () {
                 //water.physicsImpostor.registerOnPhysicsCollide(ball.physicsImpostor, function(){console.log("hitt")});
                 let newvelocity = ball.physicsImpostor.getLinearVelocity();
 
-                scene.onBeforeRenderObservable.add(() => {
 
-                })
                 //console.log(checkPoint)
                 const anlv = ball.physicsImpostor.getAngularVelocity();
                 ball.physicsImpostor.setAngularVelocity(anlv.scale(0.93));
@@ -907,12 +910,6 @@ var createScene = async function () {
             castRay();
 
         });
-
-        /*scene.onBeforeRenderObservable.add(() => {
-            if (water.intersectsMesh(ball, false)) {
-                console.log('collided with ground')
-            }
-        });*/
 
         //NORMALIZE PICKER POSITION.
         function mousemovef() {
@@ -1176,12 +1173,9 @@ var createScene = async function () {
     }
 
     async function fullreset(){
-scene.meshes.slice().forEach((mesh) => {
-    //if(mesh.name != 'ball' || mesh.name != 'pulling disk' || mesh.name == 'water' ||mesh.name) mesh.dispose();
-    if(mesh.name.indexOf('course')>-1 || mesh.name.indexOf('end')>-1){
-        //will add more mesh type instances to this later
-        mesh.dispose();
-    }
+        scene.onBeforeRenderObservable.remove(rend);
+importedmeshes.forEach(function(im){
+    im.dispose()
 })
     }
 
