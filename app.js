@@ -1172,7 +1172,7 @@ var createScene = async function () {
         // Copy the array first so mutating scene.meshes doesn't skip items
 scene.meshes.slice().forEach((mesh) => {
     //if(mesh.name != 'ball' || mesh.name != 'pulling disk' || mesh.name == 'water' ||mesh.name) mesh.dispose();
-    if(mesh.name == 'course' || mesh.name == 'end' || mesh.name == 'start'){
+    if(mesh.name.indexOf('course')>-1 || mesh.name.indexOf('end')>-1 || mesh.name.indexOf('start')>-1){
         //will add more mesh type instances to this later
         mesh.dispose;
 
