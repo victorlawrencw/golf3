@@ -20,7 +20,9 @@ let musicA;
 
 //this loads sound... hopefully an be called outside the whole function
 
-
+if (Parse.User.Current()) {
+    //if we have user logged in
+}
 var createDefaultEngine = function () { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false }); };
 var createScene = async function () {
     //const audioEngine = await BABYLON.CreateAudioEngineAsync({ volume: 0 });
@@ -762,12 +764,12 @@ var createScene = async function () {
                 ge('wintime').innerHTML = 'Time :- '+endtime+' seconds';
 
                 //GET AND SET DATA FOR WIN ON SERVER SIDE AND CLIENT SIDE
-                let dB = JSON.parse(ls.getItem('dB'));
+                /*let dB = JSON.parse(ls.getItem('dB'));
                 if (dB.levels.findIndex(d => d.link == courseloc) == -1) { dB.levels.push({ link: courseloc, score: stoppedx, finishTime: finishTime }) }
                 else {
                     dB.levels.find(d => d.link == courseloc) = { link: courseloc, score: stoppedx, finishTime: finishTime }
                 }
-                ls.setItem('dB', JSON.stringify(dB));
+                ls.setItem('dB', JSON.stringify(dB));*/
                 xyz = 1;
 
                 //ask if user wants to replay or go to menu to load a new course
@@ -775,9 +777,9 @@ var createScene = async function () {
 
                 //Save to SERVER if user is logged in!
                 if (Parse.User.Current()) {
-                    const levels = Parse.Object.extend("record", dB);
+                    const levels = Parse.Object.extend("record");
                     const lve = new levels();
-                    lve.save({ creator: creator, unique: id, time: ccx, strikes: getkicks }).then((levels) => {
+                    lve.save({ creator: creator, time: endtime, strikes: getkicks }).then((levels) => {
 
                     },
                         (error) => {
@@ -1381,7 +1383,6 @@ function checkkicks(){
 }
 
 ge('homer').onclick = function(){
-    ge('won').style.display = 'none';
     ge('won').style.display = 'none';
     ge('menu').style.display = 'block';
     ge('menu').style.pointerEvents = 'auto';
