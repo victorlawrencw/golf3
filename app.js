@@ -394,7 +394,7 @@ var createScene = async function () {
                     //WILL DEFINATELY ATTEND TO THIS LATER!
                     let m = task.loadedMeshes[ms];
                     let mname = m.name.toLowerCase();
-                    importedmeshes.push(String(m.uniqueId));
+                    importedmeshes.push(m.uniqueId);
 
                     //ALL EXPLOSIVES WILL BE VISIBLE, and They give out a radial explosion
                     //The variable are as follows: radius(0-9), strength(0-9) and Countdown(0-9) eg explosive34 ... the origin equals the position of the explosive itself
