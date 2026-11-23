@@ -382,6 +382,7 @@ var createScene = async function () {
         else{
             //disable ball physics for a while
             scene.physicsEnabled = false;
+
             //get unique id and dispose appropriate meshes
             await fullreset();
             importedmeshes = [];
@@ -571,10 +572,11 @@ var createScene = async function () {
                     m.enableEdgesRendering(0.007);
                     m.edgesColor = new BABYLON.Color4(0.2, 0.2, 0.2, 0.5);
                     m.edgesWidth = 4;
-                }, 10);
 
                 scene.physicsEnabled = true;
                 console.log(ball.position)
+
+                }, 10);
             }
         }
 
