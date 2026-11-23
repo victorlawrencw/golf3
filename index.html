@@ -419,7 +419,7 @@
 		<!--STATS ON THE CURRENT GAME, FOR PROPS AND RANKING-->
 			<div id="kicked" style="margin-right: 80px;">Kicks:</div>
 			<div id="remains">Remaining:</div>
-			<div id="timeelapsed">Time Elapsed:</div>
+			<div id="timeelapsed" style="padding-left: 10px;">Time Elapsed:</div>
 		
 	</div>
 </div>
@@ -496,8 +496,7 @@
 	/*MOUSE FUNCTIONS ENDS HERE*/
 	
 	//touchthrough
-	if(name == null || name == ''){ ge('name?').style.display = 'block'}
-	//ge("ingamemenu").addEventListener("touchstart", function(ex){ex.preventDefault()})
+	if(name == null || name == ''){ ge('name?').style.display = 'block'};
 
 	if(name==null||name == ""){
 		ge("name?").style.display ="block";
@@ -508,13 +507,14 @@
 		ls.setItem(data, toggled);
 		let nso = ls.getItem(data);
 		if(element != 'sndop'){if(nso == "true"){ge(element).style.color = "var(--pink)";}else{ge(element).style.color = "var(--black)";}}
-		else{if(nso == "true"){ge(element).style.color = "var(--green)";}else{ge(element).style.color = "var(--black)";}
+		else{if(nso == "true"){ge(element).style.color = "var(--green)";ge(element).innerHTML = 'SOUND: ON'}else{ge(element).style.color = "var(--black)"; ge(element).innerHTML = 'SOUND: OFF'}
 }
 	}
 	ge('dudname').addEventListener('submit', async (e) =>{
 		e.preventDefault();
 		saveName()
-	})
+	});
+	
 	let saveName = function(){
 		//VALIDATE NAME and SAVE IT
 		const hhname = ge('name_input').value;
