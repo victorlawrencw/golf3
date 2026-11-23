@@ -325,15 +325,6 @@ var createScene = async function () {
                 var bbxz = bbz + (gM("course").scaling.z * 0)
             }
 
-                    // Copy the array first so mutating scene.meshes doesn't skip items
-scene.meshes.slice().forEach((mesh) => {
-    //if(mesh.name != 'ball' || mesh.name != 'pulling disk' || mesh.name == 'water' ||mesh.name) mesh.dispose();
-    if(mesh.name.indexOf('course')>-1 || mesh.name.indexOf('end')>-1 || mesh.name.indexOf('start')>-1){
-        //will add more mesh type instances to this later
-        mesh.dispose();
-    }
-    gM('ball').dispose()
-});
             //THE WATER IS RIGHT BELOW THE COURSE, ONCE THE BALL HITS THE MESH IT WILL RESET THE BALL... while the helper ground will show the shadow. this setup will increase performance
             water.physicsImpostor = new BABYLON.PhysicsImpostor(water, BABYLON.PhysicsImpostor.BoxImpostor, { restitution: 0, friction: 15, mass: 0 }, scene);
             water.position.y = (gM('course').getBoundingInfo().boundingBox.extendSize.y * -1) - 1;
@@ -1136,14 +1127,14 @@ scene.meshes.slice().forEach((mesh) => {
 
         const newCOURSE = assetsManager.addMeshTask("NEWSCENE", "", 'file:', filename);
 
-        newCOURSE.onSuccess = function (task) {
-            console.log('mesh loaded');
+        newCOURSE.onSuccess = async function (task) {
+            await fullreset();
+            console.log('mesh loaded')
         }
         newCOURSE.onError = function (task) {
             console.log("tis a bust")
         }
         assetsManager.load();
-        //ge("playb").disable()
     }
 
     document.getElementById("urlinput").onsubmit = async function(e){
@@ -1161,14 +1152,34 @@ scene.meshes.slice().forEach((mesh) => {
 
         let rooturl = urldata.slice(0, urldata.lastIndexOf('/'));
         let filename = urldata.slice(urldata.lastIndexOf('/') + 1);
-        assetsManager.addMeshTask("NEWSCENE", "", rooturl, filename);
-        
+        const newCOURSE = assetsManager.addMeshTask("NEWSCENE", "", rooturl, filename);
+
+        newCOURSE.onSuccess = async function (task) {
+            await fullreset();
+            console.log('mesh loaded')
+        }
+        newCOURSE.onError = function (task) {
+            console.log("tis a bust")
+        }
+
         assetsManager.load();
         loadtype = 'url';
         courseloc = urldata;
 
         loader = showToast("", 3, 100000, function () { });
         loader.innerHTML = "URL Loading";
+    }
+
+    async function fullreset(){
+                            // Copy the array first so mutating scene.meshes doesn't skip items
+scene.meshes.slice().forEach((mesh) => {
+    //if(mesh.name != 'ball' || mesh.name != 'pulling disk' || mesh.name == 'water' ||mesh.name) mesh.dispose();
+    if(mesh.name.indexOf('course')>-1 || mesh.name.indexOf('end')>-1 || mesh.name.indexOf('start')>-1){
+        //will add more mesh type instances to this later
+        mesh.dispose();
+    }
+    gM('ball').dispose()
+})
     }
 
     assetsManager.onProgress = function (remaining, totalC) {
