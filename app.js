@@ -1118,7 +1118,7 @@ var createScene = async function () {
         ge('replacer').style.display = 'block';
         //assetsManager.reset();
 
-        var blob = new Blob([file[0]]);
+        var blob = new Blob([file]);
         console.log(blob);
 
         BABYLON.FilesInput.FilesToLoad[filename.toLowerCase()] = blob;
