@@ -1175,7 +1175,7 @@ var createScene = async function () {
     async function fullreset(){
         scene.onBeforeRenderObservable.remove(rend);
 importedmeshes.forEach(function(im){
-    im.dispose()
+    scene.getMeshByUniqueId(im).dispose()
 })
     }
 
