@@ -460,6 +460,8 @@ var createScene = async function () {
                             ball.position = startpoint;
                             sessionStorage.setItem('checkpoint', JSON.stringify(rvec(startpoint)));
 
+                            
+                            console.log(ball.position)
                             m.dispose();
                         }
                     }
@@ -572,9 +574,6 @@ var createScene = async function () {
                     m.enableEdgesRendering(0.007);
                     m.edgesColor = new BABYLON.Color4(0.2, 0.2, 0.2, 0.5);
                     m.edgesWidth = 4;
-
-                scene.physicsEnabled = true;
-                console.log(ball.position)
 
                 }, 10);
             }
@@ -1188,6 +1187,7 @@ importedmeshes.forEach(function(im){
     }
 
     assetsManager.onFinish = function () {
+        scene.physicsEnabled = true;
 
         if(courseloc != 'https://golf3.onrender.com/boredApes.glb/' && loadtype == 'file'){
          loader.innerHTML = "Capturing Preview";
