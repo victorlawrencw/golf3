@@ -14,6 +14,7 @@ let kicked = 0;
 let blinkk = 1;
 let intid = null;
 sessionStorage.setItem('kicks', 3);
+let userusername;
 
 
 let musicA;
@@ -22,6 +23,7 @@ let musicA;
 
 if (Parse.User.current()) {
     //if we have user logged in
+    userusername = Parse.User.current().get('username')
 }
 var createDefaultEngine = function () { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false }); };
 var createScene = async function () {
@@ -750,7 +752,7 @@ var createScene = async function () {
                 if (Parse.User.current()) {
                     const levels = Parse.Object.extend("record");
                     const lve = new levels();
-                    lve.save({ creator: creator, time: endtime, strikes: getkicks, stat:'lost' }).then((levels) => {
+                    lve.save({ creator: userusername, time: endtime, strikes: getkicks, stat:'lost' }).then((levels) => {
                         console.log('saved info');
                     },
                         (error) => {
@@ -793,7 +795,7 @@ var createScene = async function () {
                 if (Parse.User.current()) {
                     const levels = Parse.Object.extend("record");
                     const lve = new levels();
-                    lve.save({ creator: creator, time: endtime, strikes: getkicks, stat:'won' }).then((levels) => {
+                    lve.save({ creator: userusername, time: endtime, strikes: getkicks, stat:'won' }).then((levels) => {
                         console.log('saved info');
                     },
                         (error) => {
