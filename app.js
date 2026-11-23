@@ -383,6 +383,7 @@ var createScene = async function () {
             //disable ball physics for a while
             //get unique id and dispose appropriate meshes
             await fullreset();
+            importedmeshes = [];
         }
             //scene.debugLayer.show();
 
