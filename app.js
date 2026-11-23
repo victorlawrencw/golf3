@@ -1119,7 +1119,7 @@ var createScene = async function () {
         //assetsManager.reset();
 
         var blob = new Blob([file]);
-        console.log(blob);
+        //console.log(blob);
 
         BABYLON.FilesInput.FilesToLoad[filename.toLowerCase()] = blob;
         //const cou = URL.createObjectURL(file[0]);
@@ -1168,6 +1168,12 @@ var createScene = async function () {
     }
 
     assetsManager.onFinish = function () {
+
+        // Copy the array first so mutating scene.meshes doesn't skip items
+scene.meshes.slice().forEach((mesh) => {
+    //if(mesh.name != 'ball' || mesh.name != 'pulling disk' || mesh.name == 'water' ||mesh.name) mesh.dispose();
+    if(mesh.name == 'course'){mesh.dispose}
+})
 
         if(courseloc != 'https://golf3.onrender.com/boredApes.glb/'){
          loader.innerHTML = "Capturing Preview";
