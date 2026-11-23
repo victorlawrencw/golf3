@@ -382,6 +382,7 @@ var createScene = async function () {
         else{
             //disable ball physics for a while
             //get unique id and dispose appropriate meshes
+            await fullreset();
         }
             //scene.debugLayer.show();
 
@@ -1130,7 +1131,6 @@ var createScene = async function () {
         const newCOURSE = assetsManager.addMeshTask("NEWSCENE", "", 'file:', filename);
 
         newCOURSE.onSuccess = async function (task) {
-            await fullreset();
             console.log('mesh loaded')
         }
         newCOURSE.onError = function (task) {
@@ -1157,7 +1157,6 @@ var createScene = async function () {
         const newCOURSE = assetsManager.addMeshTask("NEWSCENE", "", rooturl, filename);
 
         newCOURSE.onSuccess = async function (task) {
-            await fullreset();
             console.log('mesh loaded')
         }
         newCOURSE.onError = function (task) {
