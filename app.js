@@ -1176,7 +1176,7 @@ var createScene = async function () {
         scene.onBeforeRenderObservable.remove(rend);
 importedmeshes.forEach(function(im){
     console.log(im);
-    scene.getMeshByUniqueId(im).dispose();
+    if(scene.getMeshByUniqueId(im) != null) scene.getMeshByUniqueId(im).dispose();
     console.log('disposed ' + im)
 })
     }
