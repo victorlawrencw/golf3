@@ -325,6 +325,14 @@ var createScene = async function () {
                 var bbxz = bbz + (gM("course").scaling.z * 0)
             }
 
+                    // Copy the array first so mutating scene.meshes doesn't skip items
+scene.meshes.slice().forEach((mesh) => {
+    //if(mesh.name != 'ball' || mesh.name != 'pulling disk' || mesh.name == 'water' ||mesh.name) mesh.dispose();
+    if(mesh.name.indexOf('course')>-1 || mesh.name.indexOf('end')>-1 || mesh.name.indexOf('start')>-1){
+        //will add more mesh type instances to this later
+        mesh.dispose;
+    }
+});
             //THE WATER IS RIGHT BELOW THE COURSE, ONCE THE BALL HITS THE MESH IT WILL RESET THE BALL... while the helper ground will show the shadow. this setup will increase performance
             water.physicsImpostor = new BABYLON.PhysicsImpostor(water, BABYLON.PhysicsImpostor.BoxImpostor, { restitution: 0, friction: 15, mass: 0 }, scene);
             water.position.y = (gM('course').getBoundingInfo().boundingBox.extendSize.y * -1) - 1;
@@ -1170,15 +1178,6 @@ var createScene = async function () {
 
     assetsManager.onFinish = function () {
 
-        // Copy the array first so mutating scene.meshes doesn't skip items
-scene.meshes.slice().forEach((mesh) => {
-    //if(mesh.name != 'ball' || mesh.name != 'pulling disk' || mesh.name == 'water' ||mesh.name) mesh.dispose();
-    if(mesh.name.indexOf('course')>-1 || mesh.name.indexOf('end')>-1 || mesh.name.indexOf('start')>-1){
-        //will add more mesh type instances to this later
-        mesh.dispose;
-    }
-})
-
         if(courseloc != 'https://golf3.onrender.com/boredApes.glb/' && loadtype == 'file'){
          loader.innerHTML = "Capturing Preview";
         //FAST 10 secs SCREENSHOT FOR GOLF COURSE SHOWCASE... this will be useful when other users are looking for a particular course.
@@ -1242,7 +1241,7 @@ scene.meshes.slice().forEach((mesh) => {
                     fileInfo.set('owner_name', Parse.User.current().get("username"));
                     //Will change it to server time later
                     fileInfo.set('date', Date.now());
-                    fileInfo.set('file', dfile);
+                    fileInfo.set('file', dFile);
                     fileInfo.set('thumbnail', ximg);
                     fileInfo.set('url', cc);
 
