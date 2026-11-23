@@ -20,7 +20,7 @@ let musicA;
 
 //this loads sound... hopefully an be called outside the whole function
 
-if (Parse.User.Current()) {
+if (Parse.User.current()) {
     //if we have user logged in
 }
 var createDefaultEngine = function () { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false }); };
@@ -747,7 +747,7 @@ var createScene = async function () {
             xyz = 1
 
                             //Save to SERVER if user is logged in!
-                if (Parse.User.Current()) {
+                if (Parse.User.current()) {
                     const levels = Parse.Object.extend("record");
                     const lve = new levels();
                     lve.save({ creator: creator, time: endtime, strikes: getkicks, stat:'lost' }).then((levels) => {
@@ -790,7 +790,7 @@ var createScene = async function () {
 
 
                 //Save to SERVER if user is logged in!
-                if (Parse.User.Current()) {
+                if (Parse.User.current()) {
                     const levels = Parse.Object.extend("record");
                     const lve = new levels();
                     lve.save({ creator: creator, time: endtime, strikes: getkicks, stat:'won' }).then((levels) => {
