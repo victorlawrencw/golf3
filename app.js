@@ -283,7 +283,7 @@ var createScene = async function () {
             }
             */
 
-    assetsManager.onTaskSuccessObservable.add(function (task) {
+    assetsManager.onTaskSuccessObservable.add(async function (task) {
         //TYPES OF BALL AVAILABLE FOR USER                
         if (putted == "Shadow") {
             let puttLight = new BABYLON.DirectionalLight("shadowmaker", new BABYLON.Vector3(0, -1, 0), scene);
@@ -337,8 +337,8 @@ var createScene = async function () {
             snapcam.radius = bbxz;
             snapcam.lowerRadiusLimit = bbxz - (bbxz * 0.25);
             snapcam.upperRadiusLimit = bbxz + (bbxz * 0.25);
-
-            switch (gshape) {
+            if(scene.getMeshByName('ball') != null){
+                switch (gshape) {
                 case null:
                     var ball = BABYLON.MeshBuilder.CreateIcoSphere("ball", { radius: startbbx, subdivisions: 4, flat: true }, scene);
                     ball.physicsImpostor = new BABYLON.PhysicsImpostor(ball, BABYLON.PhysicsImpostor.SphereImpostor, phs, scene);
@@ -374,7 +374,7 @@ var createScene = async function () {
             ball.isPickable = false;
             shadowGenerator.addShadowCaster(ball);
 
-            camera.lockedTarget = ball;
+            camera.lockedTarget = ball;}
             //scene.debugLayer.show();
 
             gM("start").isVisible = false;
@@ -1171,14 +1171,12 @@ var createScene = async function () {
     }
 
     async function fullreset(){
-                            // Copy the array first so mutating scene.meshes doesn't skip items
 scene.meshes.slice().forEach((mesh) => {
     //if(mesh.name != 'ball' || mesh.name != 'pulling disk' || mesh.name == 'water' ||mesh.name) mesh.dispose();
-    if(mesh.name.indexOf('course')>-1 || mesh.name.indexOf('end')>-1 || mesh.name.indexOf('start')>-1){
+    if(mesh.name.indexOf('course')>-1 || mesh.name.indexOf('end')>-1){
         //will add more mesh type instances to this later
         mesh.dispose();
     }
-    gM('ball').dispose()
 })
     }
 
