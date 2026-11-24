@@ -463,7 +463,7 @@ var createScene = async function () {
 
                             
                             console.log(ball.position)
-                            m.dispose();
+                            //m.dispose();
                         }
                     }
                     else if (mname.indexOf("end") > -1) {
