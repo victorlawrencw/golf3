@@ -33,8 +33,8 @@ if (Parse.User.current()) {
 var createDefaultEngine = function () { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false }); };
 var createScene = async function () {
     //const audioEngine = await BABYLON.CreateAudioEngineAsync({ volume: 0 });
-    Ammo();
-    
+    //Ammo();
+
     BABYLON.SceneLoader.ShowLoadingScreen = false;
     engine.enableOfflineSupport = false;
     const phs = { mass: 0.3, restitution: 0.6, friction: 40 };
@@ -52,11 +52,13 @@ var createScene = async function () {
 
     //async function loadammo(){
     //await Ammo();
-    const ammoPlugin = new BABYLON.AmmoJSPlugin(true);
+    //const ammoPlugin = new BABYLON.AmmoJSPlugin(true);
+    const hvk = await HavokPhysics();
+    const hk = new BABYLON.HavokPlugin(true, hvk);
 
-    scene.enablePhysics(new BABYLON.Vector3(0, -10, 0), ammoPlugin);
+    scene.enablePhysics(new BABYLON.Vector3(0, -10, 0), hk);
     scene.getPhysicsEngine().setTimeStep(1 / 120);
-    scene.getPhysicsEngine().setSubTimeStep(1000/120)
+    scene.getPhysicsEngine().setSubTimeStep(1000 / 120)
     //timesstep
     // };
 
@@ -125,7 +127,7 @@ var createScene = async function () {
     camera.useAutoRotationBehavior = true;
     const arb = camera.autoRotationBehavior;
 
-    if(arb){
+    if (arb) {
         arb.idleRotationSpeed = 0.1;
         arb.idleRotationWaitTime = 1000;
         arb.idleRotationSpinupTime = 4000;
@@ -205,7 +207,7 @@ var createScene = async function () {
     water.position.y = 0;
     water.material = watermat;
 
-    
+
     const shadowGenerator = new BABYLON.ShadowGenerator(2048, elight);
     shadowGenerator.bias = 0.00001; // Try values between 0.0005 and 0.01
     shadowGenerator.usePercentageCloserFiltering = true;
@@ -223,28 +225,28 @@ var createScene = async function () {
 
     assetsManager.autoHideLoadingUI = false;
 
-    
-            
-            sessionStorage.setItem('kicks', 3);
-                        //ADDS ALL THE KICKS INDICATORS
-            {
-                ge('infoblock').innerHTML ='';
-                const kxnum = 3;
-                        for(let opx = 0; opx<kxnum; opx++){
-                            let dud = document.createElement('button');
-                            dud.className = 'buttons duds';
-                            ge('infoblock').appendChild(dud);
-                        }
-                        checkkicks()
-            }
+
+
+    sessionStorage.setItem('kicks', 3);
+    //ADDS ALL THE KICKS INDICATORS
+    {
+        ge('infoblock').innerHTML = '';
+        const kxnum = 3;
+        for (let opx = 0; opx < kxnum; opx++) {
+            let dud = document.createElement('button');
+            dud.className = 'buttons duds';
+            ge('infoblock').appendChild(dud);
+        }
+        checkkicks()
+    }
 
 
     async function playsound(nm) {
-    //await audioEngine.unlockAsync();
-    //if(sounds[nm]){
+        //await audioEngine.unlockAsync();
+        //if(sounds[nm]){
         //sounds[nm].play()
-    //}
-}
+        //}
+    }
 
 
     //load default course :)
@@ -303,18 +305,19 @@ var createScene = async function () {
         console.log(courseloc);
 
         //still dont understand why I did this, removed their parent, and set positions to their own positions???
-        
-        if(courseloc == 'https://golf3.onrender.com/boredApes.glb/'){
+
+        if (courseloc == 'https://golf3.onrender.com/boredApes.glb/') {
             for (var rt = 0; rt < task.loadedMeshes.length; rt++) {
-            task.loadedMeshes[rt].parent = null;
-            task.loadedMeshes[rt].position = task.loadedMeshes[rt].position
-        }}
+                task.loadedMeshes[rt].parent = null;
+                task.loadedMeshes[rt].position = task.loadedMeshes[rt].position
+            }
+        }
 
-            //task.loadedMeshes[0].position = task.loadedMeshes[0].position
-            //const root = task.loadedMeshes;
-            //root.computeWorldMatrix(true);
+        //task.loadedMeshes[0].position = task.loadedMeshes[0].position
+        //const root = task.loadedMeshes;
+        //root.computeWorldMatrix(true);
 
-            console.log(gM("start").getAbsolutePosition());
+        console.log(gM("start").getAbsolutePosition());
 
         let startbbx = (gM("start").getBoundingInfo().boundingBox.extendSize.y * gM("start").scaling.y);
 
@@ -344,7 +347,7 @@ var createScene = async function () {
             }
 
             //THE WATER IS RIGHT BELOW THE COURSE, ONCE THE BALL HITS THE MESH IT WILL RESET THE BALL... while the helper ground will show the shadow. this setup will increase performance
-            water.physicsImpostor = new BABYLON.PhysicsImpostor(water, BABYLON.PhysicsImpostor.BoxImpostor, { restitution: 0, friction: 15, mass: 0 }, scene);
+            new BABYLON.PhysicsAggregates(water, BABYLON.PhysicsShapeType.BOX, { restitution: 0, friction: 15, mass: 0 }, scene);
             water.position.y = (gM('course').getBoundingInfo().boundingBox.extendSize.y * -1) - 1;
             helper.ground.position.y = (gM('course').getBoundingInfo().boundingBox.extendSize.y * -1) - 1;
 
@@ -355,50 +358,50 @@ var createScene = async function () {
             snapcam.radius = bbxz;
             snapcam.lowerRadiusLimit = bbxz - (bbxz * 0.25);
             snapcam.upperRadiusLimit = bbxz + (bbxz * 0.25);
-            if(scene.getMeshByName('ball') == null){
+            if (scene.getMeshByName('ball') == null) {
                 switch (gshape) {
-                case null:
-                    ball = BABYLON.MeshBuilder.CreateIcoSphere("ball", { radius: startbbx, subdivisions: 4, flat: true }, scene);
-                    ball.physicsImpostor = new BABYLON.PhysicsImpostor(ball, BABYLON.PhysicsImpostor.SphereImpostor, phs, scene);
-                    break;
-                case "Box":
-                    ball = BABYLON.MeshBuilder.CreateBox("ball", { size: (startbbx * 2) }, scene);
-                    ball.physicsImpostor = new BABYLON.PhysicsImpostor(ball, BABYLON.PhysicsImpostor.BoxImpostor, phs, scene);
-                    break;
-                case "Cylinder":
-                    ball = BABYLON.MeshBuilder.CreateCylinder("ball", { diameter: (startbbx * 2), tessalation: 3, height: 0.2 }, scene);
-                    ball.physicsImpostor = new BABYLON.PhysicsImpostor(ball, BABYLON.PhysicsImpostor.CylinderImpostor, phs, scene);
-                    break;
-                case "Sphere":
-                    ball = BABYLON.MeshBuilder.CreateIcoSphere("ball", { radius: (startbbx), subdivisions: 1, flat: true }, scene);
-                    ball.physicsImpostor = new BABYLON.PhysicsImpostor(ball, BABYLON.PhysicsImpostor.SphereImpostor, phs, scene);
-                    break;
+                    case null:
+                        ball = BABYLON.MeshBuilder.CreateIcoSphere("ball", { radius: startbbx, subdivisions: 4, flat: true }, scene);
+                        new BABYLON.PhysicsAggregates(ball, BABYLON.PhysicsShapeType.SPHERE, phs, scene);
+                        break;
+                    case "Box":
+                        ball = BABYLON.MeshBuilder.CreateBox("ball", { size: (startbbx * 2) }, scene);
+                        new BABYLON.PhysicsAggregates(ball, BABYLON.PhysicsShapeType.BOX, phs, scene);
+                        break;
+                    case "Cylinder":
+                        ball = BABYLON.MeshBuilder.CreateCylinder("ball", { diameter: (startbbx * 2), tessalation: 3, height: 0.2 }, scene);
+                        new BABYLON.PhysicsAggregates(ball, BABYLON.PhysicsShapeType.CYLINDER, phs, scene);
+                        break;
+                    case "Sphere":
+                        ball = BABYLON.MeshBuilder.CreateIcoSphere("ball", { radius: (startbbx), subdivisions: 1, flat: true }, scene);
+                        new BABYLON.PhysicsAggregates(ball, BABYLON.PhysicsShapeType.SPHERE, phs, scene);
+                        break;
+                }
+
+                let trail = new BABYLON.TrailMesh('trail', ball, scene, startbbx, 20, true);
+
+                let trailM = new BABYLON.StandardMaterial('trailm', scene);
+                trailM.diffuseColor = new BABYLON.Color3(0.8, 0.7, 0.7); //A PERFECT GRAY!
+                trailM.alpha = 0.08; //SWEET IN THE MIDDLE
+
+                ball.enableEdgesRendering(0.99);
+                ball.edgesColor = new BABYLON.Color4(0.2, 0.2, 0.2, 0.5);
+                ball.edgesWidth = 0.7;
+
+                ball.material = ballmat;
+                trail.material = trailM;
+                ball.checkCollisions = true;
+
+                ball.isPickable = false;
+                shadowGenerator.addShadowCaster(ball);
+
+                camera.lockedTarget = ball
             }
-
-            let trail = new BABYLON.TrailMesh('trail', ball, scene, startbbx, 20, true);
-
-            let trailM = new BABYLON.StandardMaterial('trailm', scene);
-            trailM.diffuseColor = new BABYLON.Color3(0.8, 0.7, 0.7); //A PERFECT GRAY!
-            trailM.alpha = 0.08; //SWEET IN THE MIDDLE
-
-            ball.enableEdgesRendering(0.99);
-            ball.edgesColor = new BABYLON.Color4(0.2, 0.2, 0.2, 0.5);
-            ball.edgesWidth = 0.7;
-
-            ball.material = ballmat;
-            trail.material = trailM;
-            ball.checkCollisions = true;
-
-            ball.isPickable = false;
-            shadowGenerator.addShadowCaster(ball);
-
-            camera.lockedTarget = ball
-        }
-        else{
-            //get unique id and dispose appropriate meshes
-            await fullreset();
-            importedmeshes = [];
-        }
+            else {
+                //get unique id and dispose appropriate meshes
+                await fullreset();
+                importedmeshes = [];
+            }
             //scene.debugLayer.show();
 
             gM("start").isVisible = false;
@@ -429,10 +432,11 @@ var createScene = async function () {
                             if (mname.length > iom + 9) radius = Number(mname.slice(iom + 9, iom + 10));
                             if (mname.length > iom + 10) strength = Number(mname.slice(iom + 10, iom + 11)) * 0.1;
                             if (mname.length > iom + 11) cdx = Number(mname.slice(iom + 11, iom + 12)) * 0.1;
-                            
 
-                            explosivex.physicsImpostor = new BABYLON.PhysicsImpostor(explosivex, BABYLON.PhysicsImpostor.MeshImpostor, { mass: 1, restitution: 0, friction: 0 }, scene);
-                            explosivex.registerOnPhysicsCollide(ball, function (main, collided) {
+
+                            const expag = new BABYLON.PhysicsAggregates(explosivex, BABYLON.PhysicsShapeType.MESH, { mass: 1, restitution: 0, friction: 0 }, scene);
+                            expag.setCollisionCallbackEnabled(true);
+                            (ball.physicsBody?.getCollisionCallbackEnabled).add(ball, function (main, collided) {
                                 explode(origin, strength, radius, cdx)
                             })
                         }
@@ -448,7 +452,7 @@ var createScene = async function () {
                             let bouncerx = m;
                             let restitution = 3;
                             if (mname.length > iom + 7) restitution = Number(mname.slice(iom + 7, iom + 8)) * 0.1;
-                            m.physicsImpostor = new BABYLON.PhysicsImpostor(bouncerx, BABYLON.PhysicsImpostor.MeshImpostor, { mass: 1, restitution: restitution, friction: 0 }, scene)
+                            new BABYLON.PhysicsAggregates(bouncerx, BABYLON.PhysicsShapeType.MESH, { mass: 1, restitution: restitution, friction: 0 }, scene)
                         }
                     }
 
@@ -461,12 +465,12 @@ var createScene = async function () {
                             let friction = 0.5;
                             if (mname.length > iom + 7) restitution = Number(mname.slice(iom + 7, iom + 8)) * 0.1
                             if (mname.length > iom + 8) friction = Number(mname.slice(iom + 8, iom + 9)) * 0.1
-                            m.physicsImpostor = new BABYLON.PhysicsImpostor(bouncerx, BABYLON.PhysicsImpostor.MeshImpostor, { mass: mass, restitution: restitution, friction: friction }, scene)
+                            new BABYLON.PhysicsAggregates(bouncerx, BABYLON.PhysicsShapeType.CONVEXHULL, { mass: mass, restitution: restitution, friction: friction }, scene)
                         }
                     }
                     else if (mname.indexOf("start") > -1) {
                         {
-                            ball.physicsImpostor.disablePreStep = false;
+                            ball.physicsBody?.disablePreStep = false;
                             //Starting point
                             let startpoint = m.position;
                             console.log(startpoint);
@@ -474,7 +478,7 @@ var createScene = async function () {
                             ball.position = startloc;
                             sessionStorage.setItem('checkpoint', JSON.stringify(rvec(startloc)));
 
-                            
+
                             console.log(ball.position)
                             m.dispose();
                         }
@@ -500,7 +504,7 @@ var createScene = async function () {
                             coursex.isPickable = false;
                             if (mname.length > iom + 7) restitution = Number(mname.slice(iom + 7, iom + 8)) * 0.1
                             if (mname.length > iom + 8) friction = Number(mname.slice(iom + 8, iom + 9)) * 0.1
-                            coursex.physicsImpostor = new BABYLON.PhysicsImpostor(coursex, BABYLON.PhysicsImpostor.MeshImpostor, { mass: 0, restitution: restitution, friction: friction }, scene);
+                            new BABYLON.PhysicsAggregates(coursex, BABYLON.PhysicsShapeType.MESH, { mass: 0, restitution: restitution, friction: friction }, scene);
 
                             if (coursex.material.name == '__GLTFLoader._default' || scene.getMaterialByName("__GLTFLoader._default")) {
                                 let newdefault = new BABYLON.StandardMaterial("newdefault", scene);
@@ -516,18 +520,19 @@ var createScene = async function () {
                                 coursex.material = newdefault;
 
                                 shadowGenerator.forceBackFacesOnly = true;
-                                
+
                                 //shadowGenerator.addShadowCaster(coursex);
                                 coursex.receiveShadows = true;
                             }
                             else {/*load normal material*/ }
 
 
-                            ball.physicsImpostor.disablePreStep = true;
-                            ball.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 0, 0));
+                            ball.physicsBody?.disablePreStep = true;
+                            ball.physicsBody?.setLinearVelocity(new BABYLON.Vector3(0, 0, 0));
 
                             //CHECK IF BALL COLLIDES WITH PHYSICAL MATERIAL TO PLAY SOUND
-                            ball.physicsImpostor.registerOnPhysicsCollide(coursex.physicsImpostor, function (main, collided) {
+                            ball.physicsBody?.setCollisionCallbackEnabled(true);
+                            (ball.physicsBody?.getCollisionCallbackEnabled).add(coursex.aggregrate.body, function (main, collided) {
                                 //console.log("collided");
                                 let ioxd = BABYLON.Vector3.Distance(main.getLinearVelocity(), BABYLON.Vector3.Zero());
                                 //USE THE IMPULSE TO CALCULATE HOW LOUD THE SOUND WILL BE.
@@ -541,15 +546,39 @@ var createScene = async function () {
                                     //identifier... function for alerting the user of the ball hit... some sort of assurance when sound is disabled.
                                 }
                             });
+                            const parentNode = scene.getNodeByName('course');
+                            if (mname.indexOf('primitive') > -1) {
+                                const parentBody = new BABYLON.PhysicsBody(
+                                    parentNode,
+                                    BABYLON.PhysicsMotionType.DYNAMIC,
+                                    false,
+                                    scene
+                                );
+
+                                // 2. Create a container shape and add each child mesh's shape to it
+                                const containerShape = new BABYLON.PhysicsShapeContainer(scene);
+
+                                parentNode.getChildMeshes().forEach((childMesh) => {
+                                    if (childMesh.getTotalVertices() > 0) {
+                                        // Compute child offset relative to parent
+                                        const childShape = new BABYLON.PhysicsShapeConvexHull(childMesh, scene);
+                                        containerShape.addChildFromParent(parentNode, childShape, childMesh);
+                                    }
+                                });
+
+                                // 3. Assign the compound shape and mass to the parent body
+                                parentBody.shape = containerShape;
+                                parentBody.setMassProperties({ mass: 10 });
+                            }
 
                         }
                     }
-                    else if(mname == "kicks"){
+                    else if (mname == "kicks") {
                         sessionStorage.setItem('kicks', mname.slice(5));
-                        ge('infoblock').innerHTML ='';
+                        ge('infoblock').innerHTML = '';
                         //ADDS ALL THE KICKS INDICATORS
                         const knum = parseInt(mname.slice(5));
-                        for(let opx = 0; opx<knum; opx++){
+                        for (let opx = 0; opx < knum; opx++) {
                             let dud = document.createElement('button');
                             dud.className = 'buttons duds';
                             ge('infoblock').appendChild(dud);
@@ -593,8 +622,8 @@ var createScene = async function () {
         ge('resetball').onclick = function () {
             let resetpos = JSON.parse(sessionStorage.getItem('checkpoint'));
             let bal = gM('ball');
-            bal.physicsImpostor.setLinearVelocity( BABYLON.Vector3.Zero());
-            bal.physicsImpostor.setAngularVelocity( BABYLON.Vector3.Zero());
+            bal.physicsBody?.setLinearVelocity(BABYLON.Vector3.Zero());
+            bal.physicsBody?.setAngularVelocity(BABYLON.Vector3.Zero());
 
             bal.position.x = resetpos.x;
             bal.position.y = resetpos.y;
@@ -666,13 +695,13 @@ var createScene = async function () {
             }
         }
 
-        var inpointer = BABYLON.MeshBuilder.CreateBox("inpointer", {size: 0.2}, scene);
+        var inpointer = BABYLON.MeshBuilder.CreateBox("inpointer", { size: 0.2 }, scene);
         inpointer.parent = pulling_disk;
         inpointer.isPickable = false;
         inpointer.material = inmat;
         inpointer.isVisible = false;
 
-        var spect = BABYLON.MeshBuilder.CreateBox("boxx", {size: 0.1}, scene);
+        var spect = BABYLON.MeshBuilder.CreateBox("boxx", { size: 0.1 }, scene);
         spect.material = pullmat;
         spect.isPickable = false;
         spect.position = ball.position;
@@ -699,8 +728,8 @@ var createScene = async function () {
 
         {
             if (stoppedx == 1 && Parse.User.current()) {
-                
-    const games = Parse.Object.extend('games');
+
+                const games = Parse.Object.extend('games');
                 //start the time immediately
                 const current_game = new games();
 
@@ -723,9 +752,9 @@ var createScene = async function () {
 
 
 
-        ball.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 0, 0));
-        ball.physicsImpostor.physicsBody.linearDamping = 15;
-        ball.physicsImpostor.physicsBody.angularDamping = 15;
+        ball.physicsBody?.setLinearVelocity(new BABYLON.Vector3(0, 0, 0));
+        ball.physicsBody?.physicsBody.linearDamping = 15;
+        ball.physicsBody?.physicsBody.angularDamping = 15;
 
 
 
@@ -738,46 +767,46 @@ var createScene = async function () {
 
 
 
-            {
-                if (ls.getItem('sound') == "false") {
-                    //audioEngine.volume = 0
-                }
-                else {
-                    //audioEngine.volume = 1
-                }
+        {
+            if (ls.getItem('sound') == "false") {
+                //audioEngine.volume = 0
             }
+            else {
+                //audioEngine.volume = 1
+            }
+        }
 
 
 
         /****** SPECIAL SECTION ******/
-         rend = scene.onBeforeRenderObservable.add(() => {
-            if(failsafe == 1) return
+        rend = scene.onBeforeRenderObservable.add(() => {
+            if (failsafe == 1) return
 
-            let bv = ball.physicsImpostor.getLinearVelocity();
+            let bv = ball.physicsBody?.getLinearVelocity();
             let t_v = BABYLON.Vector3.Distance(bv, BABYLON.Vector3.Zero());
-            
-        let getkicks = parseInt(sessionStorage.getItem('kicks'));
-        if(kicked!=0 && getkicks == 0 && ball.intersectsPoint(gM("end").position, true) == false && t_v < 0.05 && xyz == 0){
-            //USER LOST
-            //ge("loseimage").style.display = "block";
-            ge('losewinin').innerHTML = "YOU LOSE";
-            ge('losewinin').style.color = "var(--pink)";
 
-            showToast('YOU LOST, BRO!', 2, 5000);
-            ge("won").style.display = "flex";
-            //Calculate finish time
-            const stt = parseInt(sessionStorage.getItem('start time'));
-            const endtime = ((Date.now() - stt)/1000).toFixed(2);
+            let getkicks = parseInt(sessionStorage.getItem('kicks'));
+            if (kicked != 0 && getkicks == 0 && ball.intersectsPoint(gM("end").position, true) == false && t_v < 0.05 && xyz == 0) {
+                //USER LOST
+                //ge("loseimage").style.display = "block";
+                ge('losewinin').innerHTML = "YOU LOSE";
+                ge('losewinin').style.color = "var(--pink)";
 
-            
-            ge('wintime').innerHTML = 'Time : '+endtime+'s';
-            xyz = 1
+                showToast('YOU LOST, BRO!', 2, 5000);
+                ge("won").style.display = "flex";
+                //Calculate finish time
+                const stt = parseInt(sessionStorage.getItem('start time'));
+                const endtime = ((Date.now() - stt) / 1000).toFixed(2);
 
-                            //Save to SERVER if user is logged in!
+
+                ge('wintime').innerHTML = 'Time : ' + endtime + 's';
+                xyz = 1
+
+                //Save to SERVER if user is logged in!
                 if (Parse.User.current()) {
                     const levels = Parse.Object.extend("record");
                     const lve = new levels();
-                    lve.save({ creator: userusername, time: endtime, strikes: getkicks, stat:'lost' }).then((levels) => {
+                    lve.save({ creator: userusername, time: endtime, strikes: getkicks, stat: 'lost' }).then((levels) => {
                         console.log('saved info');
                     },
                         (error) => {
@@ -786,14 +815,14 @@ var createScene = async function () {
                     );
                 }
 
-        }
+            }
 
             else if (ball.intersectsPoint(gM("end").position, true) == true && xyz == 0) {
                 showToast('WINNNNNNNN!', 2, 5000);
                 //USER WIN
                 //Calculate finish time
                 const stt = parseInt(sessionStorage.getItem('start time'));
-                const endtime = ((Date.now() - stt)/1000).toFixed(2);
+                const endtime = ((Date.now() - stt) / 1000).toFixed(2);
 
                 //ge("won").style.display = "block";
                 //ge("winimage").style.display = "block";
@@ -801,7 +830,7 @@ var createScene = async function () {
                 ge('losewinin').style.color = "var(-green)";
 
 
-                ge('wintime').innerHTML = 'Time :- '+endtime+' seconds';
+                ge('wintime').innerHTML = 'Time :- ' + endtime + ' seconds';
 
                 //GET AND SET DATA FOR WIN ON SERVER SIDE AND CLIENT SIDE
                 /*let dB = JSON.parse(ls.getItem('dB'));
@@ -819,7 +848,7 @@ var createScene = async function () {
                 if (Parse.User.current()) {
                     const levels = Parse.Object.extend("record");
                     const lve = new levels();
-                    lve.save({ creator: userusername, time: endtime, strikes: getkicks, stat:'won' }).then((levels) => {
+                    lve.save({ creator: userusername, time: endtime, strikes: getkicks, stat: 'won' }).then((levels) => {
                         console.log('saved info');
                     },
                         (error) => {
@@ -837,21 +866,21 @@ var createScene = async function () {
 
                 /*
 
-                ball.physicsImpostor.registerOnPhysicsCollide(gM('water').physicsImpostor, function(main, collided) {
+                ball.physicsBody?.registerOnPhysicsCollide(gM('water').aggregrate.body, function(main, collided) {
                     //THE BALL WILL BE PUT IN THE PREVIOUS POSITION
                     resetBall();
-                    ball.physicsImpostor.unregisterOnPhysicsCollide(gM('water').physicsImpostor, function(){});
+                    ball.physicsBody?.unregisterOnPhysicsCollide(gM('water').aggregrate.body, function(){});
                 });
             	
 */
 
-                //water.physicsImpostor.registerOnPhysicsCollide(ball.physicsImpostor, function(){console.log("hitt")});
-                let newvelocity = ball.physicsImpostor.getLinearVelocity();
+                //water.physicsBody?.registerOnPhysicsCollide(ball.aggregrate.body, function(){console.log("hitt")});
+                let newvelocity = ball.physicsBody?.getLinearVelocity();
 
 
                 //console.log(checkPoint)
-                const anlv = ball.physicsImpostor.getAngularVelocity();
-                ball.physicsImpostor.setAngularVelocity(anlv.scale(0.93));
+                const anlv = ball.physicsBody?.getAngularVelocity();
+                ball.physicsBody?.setAngularVelocity(anlv.scale(0.93));
 
                 //let this calc the difference in position of the ball.
                 let lastpos = JSON.parse(sessionStorage.getItem('checkpoint'));
@@ -860,8 +889,8 @@ var createScene = async function () {
                     //THE BALL WILL BE PUT IN THE PREVIOUS POSITION
                     setTimeout(
                         function () {
-                            ball.physicsImpostor.setLinearVelocity( BABYLON.Vector3.Zero());
-                            ball.physicsImpostor.setAngularVelocity( BABYLON.Vector3.Zero());
+                            ball.physicsBody?.setLinearVelocity(BABYLON.Vector3.Zero());
+                            ball.physicsBody?.setAngularVelocity(BABYLON.Vector3.Zero());
 
                             ball.position.x = lastpos.x;
                             ball.position.y = lastpos.y;
@@ -876,7 +905,7 @@ var createScene = async function () {
                     //ALLOW DRAG FUNCTION...
                     stoppedx = true;
 
-                    scene.getPhysicsEngine().setSubTimeStep(1000/120);
+                    scene.getPhysicsEngine().setSubTimeStep(1000 / 120);
 
                     if (position_disk.isVisible == false || pulling_disk.isVisible == false) {
 
@@ -1011,17 +1040,17 @@ var createScene = async function () {
                 //set as new checkpoint as well :)
                 let newpos = rvec(ball.position);
                 sessionStorage.setItem('checkpoint', JSON.stringify(newpos));
-                if(strr>3.5){scene.getPhysicsEngine().setSubTimeStep(1000/60)}
+                if (strr > 3.5) { scene.getPhysicsEngine().setSubTimeStep(1000 / 60) }
                 //APPLY IMPULSE ON THE BALL WHEN THE ePUTT IS BEING RELEASED WITH MORE OR EQUAL TO THE MINIMUM THRESHOLD!
-                ball.applyImpulse(strr, ball.getAbsolutePosition());
+                ball.physicsBody?.applyImpulse(strr, ball.getAbsolutePosition());
                 position_disk.dispose();
                 scene.getMeshByName("inpointer").position = new BABYLON.Vector3(0, 0, 0);
                 //playsound('puckhit');
                 kicked++;
-                sessionStorage.setItem('kicks', parseInt(sessionStorage.getItem('kicks'))-1);
+                sessionStorage.setItem('kicks', parseInt(sessionStorage.getItem('kicks')) - 1);
                 //now we remove one indicator
                 ge('infoblock').childNodes[0].remove();
-                document.getElementById('kicked').innerHTML = 'played '+kicked+' times';
+                document.getElementById('kicked').innerHTML = 'played ' + kicked + ' times';
                 checkkicks()
             }
             else {
@@ -1150,15 +1179,15 @@ var createScene = async function () {
         assetsManager.load();
     }
 
-    document.getElementById("urlinput").onsubmit = async function(e){
+    document.getElementById("urlinput").onsubmit = async function (e) {
         e.preventDefault();
         await urlOpener();
     }
-    
+
     async function urlOpener(urlx) {
         let urldata;
 
-        if(urlx == undefined) urldata = document.getElementById("inputz").value;
+        if (urlx == undefined) urldata = document.getElementById("inputz").value;
         else urldata = urlx;
 
         assetsManager.reset();
@@ -1182,14 +1211,14 @@ var createScene = async function () {
         loader.innerHTML = "URL Loading";
     }
 
-    async function fullreset(){
+    async function fullreset() {
         failsafe = 1;
         scene.onBeforeRenderObservable.remove(rend);
-importedmeshes.forEach(function(im){
-    console.log(im);
-    if(scene.getMeshByUniqueId(im) != null) scene.getMeshByUniqueId(im).dispose();
-    console.log('disposed ' + im)
-})
+        importedmeshes.forEach(function (im) {
+            console.log(im);
+            if (scene.getMeshByUniqueId(im) != null) scene.getMeshByUniqueId(im).dispose();
+            console.log('disposed ' + im)
+        })
     }
 
     assetsManager.onProgress = function (remaining, totalC) {
@@ -1201,101 +1230,101 @@ importedmeshes.forEach(function(im){
     assetsManager.onFinish = function () {
         scene.physicsEnabled = true;
 
-        if(courseloc != 'https://golf3.onrender.com/boredApes.glb/' && loadtype == 'file'){
-         loader.innerHTML = "Capturing Preview";
-        //FAST 10 secs SCREENSHOT FOR GOLF COURSE SHOWCASE... this will be useful when other users are looking for a particular course.
-        if (scene.getMeshByName('course')) {
-            console.log('course exists');
-            let imgT = 0;
-            let frames = [];
-            let snapper = setInterval(function () {
-                if (imgT < 10) {
-                    console.log('rendering.....');
+        if (courseloc != 'https://golf3.onrender.com/boredApes.glb/' && loadtype == 'file') {
+            loader.innerHTML = "Capturing Preview";
+            //FAST 10 secs SCREENSHOT FOR GOLF COURSE SHOWCASE... this will be useful when other users are looking for a particular course.
+            if (scene.getMeshByName('course')) {
+                console.log('course exists');
+                let imgT = 0;
+                let frames = [];
+                let snapper = setInterval(function () {
+                    if (imgT < 10) {
+                        console.log('rendering.....');
 
-                    BABYLON.Tools.CreateScreenshot(engine, snapcam, 1600, function (gif) {
-                        frames.push(gif);
-                    });
-                    imgT++
-                }
-                else {
-                    clearInterval(snapper);
-                    console.log(frames);
-                    loader.innerHTML = "Loaded :)";
-                    setTimeout(function () { loader.click() }, 3000);
-
-                    
-            //process the image and save the image with the course itself
-            //ximg = processed gif
-            gifshot.createGIF({
-                images:frames,
-                gifWidth: 800,
-                interval: 0.5,
-            }, function (obj) {
-                if (!obj.error) {
-                    let nim = obj.image;
-                    console.log(nim);
-                    const splitimg = nim.split('1')[1];
-                    const thegif = new Parse.File(random_name+'.gif', {base64: nim}, 'image/gif');
-                    thegif.save().then(function () {
-                    ximg = thegif.url();
+                        BABYLON.Tools.CreateScreenshot(engine, snapcam, 1600, function (gif) {
+                            frames.push(gif);
+                        });
+                        imgT++
+                    }
+                    else {
+                        clearInterval(snapper);
+                        console.log(frames);
+                        loader.innerHTML = "Loaded :)";
+                        setTimeout(function () { loader.click() }, 3000);
 
 
+                        //process the image and save the image with the course itself
+                        //ximg = processed gif
+                        gifshot.createGIF({
+                            images: frames,
+                            gifWidth: 800,
+                            interval: 0.5,
+                        }, function (obj) {
+                            if (!obj.error) {
+                                let nim = obj.image;
+                                console.log(nim);
+                                const splitimg = nim.split('1')[1];
+                                const thegif = new Parse.File(random_name + '.gif', { base64: nim }, 'image/gif');
+                                thegif.save().then(function () {
+                                    ximg = thegif.url();
 
-                            //STORE the file on user request
-        showToast("Save Course&quest;", 3, 5000, function () {
-            //maybe i should show a naming box
-            if (!Parse.User.current()) {
-                let ggv = showToast("You have to login first", 1, 3000, function () { ge('logger').click() });
-                ggv.style.left = '0px';
+
+
+                                    //STORE the file on user request
+                                    showToast("Save Course&quest;", 3, 5000, function () {
+                                        //maybe i should show a naming box
+                                        if (!Parse.User.current()) {
+                                            let ggv = showToast("You have to login first", 1, 3000, function () { ge('logger').click() });
+                                            ggv.style.left = '0px';
+                                        }
+                                        else {
+                                            ///const myexport = btoa(JSON.stringify(BABYLON.SceneSerializer.SerializeMesh()));
+
+                                            //const dFile = new Parse.File(random_name, {base64:myexport});
+                                            const dFile = new Parse.File(random_name, file);
+                                            let lll = showToast('Saving...', 3, 5000, function () { lll = showToast('Patience Maaaam...', 3, 10000) });
+                                            dFile.save().then(function () {
+                                                lll.remove();
+                                                cc = dFile.url();
+
+                                                // Save file reference to Parse ------ this will be read to append courses
+                                                const fileInfo = new Parse.Object('Courses');
+                                                fileInfo.set('name', random_name + '.glb');
+                                                fileInfo.set('owner_name', Parse.User.current().get("username"));
+                                                //Will change it to server time later
+                                                fileInfo.set('date', Date.now());
+                                                fileInfo.set('file', dFile);
+                                                fileInfo.set('thumbnail', ximg);
+                                                fileInfo.set('url', cc);
+
+                                                var ioj = showToast('Saved. Copy link?', 1, 1000, function () { let link = dFile.url(); navigator.clipboard.writeText(link) });
+                                                ioj.style.left = '0px';
+                                                ioj.style.top = '62px';
+
+                                                ls.setItem('current_course', cc)
+                                            }, function (error) {
+                                                showToast("ERROR: Not Saved", 2, 3000);
+                                            })
+                                        }
+                                    })
+                                })
+                            }
+                            else { alert('error capturing course'); }
+                        });
+
+
+                    }
+
+                }, 1000);
+
+                //ALSO SAVE THE COURSE AS WELL
+
             }
-            else {
-                ///const myexport = btoa(JSON.stringify(BABYLON.SceneSerializer.SerializeMesh()));
-
-                //const dFile = new Parse.File(random_name, {base64:myexport});
-                const dFile = new Parse.File(random_name, file);
-                let lll = showToast('Saving...', 3, 5000, function () { lll = showToast('Patience Maaaam...', 3, 10000) });
-                dFile.save().then(function () {
-                    lll.remove();
-                    cc = dFile.url();
-
-                    // Save file reference to Parse ------ this will be read to append courses
-                    const fileInfo = new Parse.Object('Courses');
-                    fileInfo.set('name', random_name+'.glb');
-                    fileInfo.set('owner_name', Parse.User.current().get("username"));
-                    //Will change it to server time later
-                    fileInfo.set('date', Date.now());
-                    fileInfo.set('file', dFile);
-                    fileInfo.set('thumbnail', ximg);
-                    fileInfo.set('url', cc);
-
-                    var ioj = showToast('Saved. Copy link?', 1, 1000, function () { let link = dFile.url(); navigator.clipboard.writeText(link) });
-                    ioj.style.left = '0px';
-                    ioj.style.top = '62px';
-
-                    ls.setItem('current_course', cc)
-                }, function (error) {
-                    showToast("ERROR: Not Saved", 2, 3000);
-                })
-            }
-        })
-            })
-                }
-                else{alert('error capturing course');}
-            });
-
-
-                }
-
-            }, 1000);
-
-            //ALSO SAVE THE COURSE AS WELL
-
         }
-    }
-    else{
-        loader.click();
-        console.log("after loader clicked")
-    }
+        else {
+            loader.click();
+            console.log("after loader clicked")
+        }
 
 
     }
@@ -1304,7 +1333,7 @@ importedmeshes.forEach(function(im){
     }
 
 
-    document.addEventListener("keydown", function (opk){
+    document.addEventListener("keydown", function (opk) {
         let keyc = opk.keyCode;
         let keyn = opk.key;
         if (keyn == "control") {
@@ -1319,42 +1348,42 @@ importedmeshes.forEach(function(im){
 
 
     ///////PLAY BUTTON HERE
-    ge('play').onclick = function(){
-        ge('menu').style.opacity='0';
+    ge('play').onclick = function () {
+        ge('menu').style.opacity = '0';
         ge('menu').style.pointerEvents = 'none';
-		setTimeout(function(){
-			ge('menu').style.display='none';
-			ge('ingamemenu').style.display='flex'
-		}, 200);
-		sessionStorage.setItem('start time', Date.now());
+        setTimeout(function () {
+            ge('menu').style.display = 'none';
+            ge('ingamemenu').style.display = 'flex'
+        }, 200);
+        sessionStorage.setItem('start time', Date.now());
         camera.useAutoRotationBehavior = false;
     }
 
-        ge('replaycl').onclick = function(){
-        if(loadtype = 'url'){
+    ge('replaycl').onclick = function () {
+        if (loadtype = 'url') {
             //reload the course through url
             urlOpener(courseloc)
         }
-        else{
+        else {
             //reload the course through already uploaded file
-            const eventx = new Event('change', {bubbles:true});
+            const eventx = new Event('change', { bubbles: true });
             ge('large-importer').dispatchEvent(eventx)
         }
     }
-    
-    ge('resumer').onclick = function(){
+
+    ge('resumer').onclick = function () {
         ge("gameMenu").style.display = "none";
-        scene.getPhysicsEngine().setTimeStep(1/120);
+        scene.getPhysicsEngine().setTimeStep(1 / 120);
         camera.useAutoRotationBehavior = false;
     }
 
     //PAUSE THE GAME... LIKE A BOSS.
-    ge('pauseb').onclick = function() {
-		console.log("paused");
+    ge('pauseb').onclick = function () {
+        console.log("paused");
         ge("gameMenu").style.display = "block";
-        ge('timeelapsed').innerHTML = "Total time: <div style='color:var(--blue)'>"+ ((Date.now() - parseInt(sessionStorage.getItem('start time')))/1000).toFixed(2) + 's </div>';
-        ge('kicked').innerHTML = 'Kicked: <div style="color:var(--green)">'+ kicked +' times</div>';
-        ge('remains').innerHTML = "remaining <div style='color:var(--pink)'>"+sessionStorage.getItem('kicks')+" kicks</div>";
+        ge('timeelapsed').innerHTML = "Total time: <div style='color:var(--blue)'>" + ((Date.now() - parseInt(sessionStorage.getItem('start time'))) / 1000).toFixed(2) + 's </div>';
+        ge('kicked').innerHTML = 'Kicked: <div style="color:var(--green)">' + kicked + ' times</div>';
+        ge('remains').innerHTML = "remaining <div style='color:var(--pink)'>" + sessionStorage.getItem('kicks') + " kicks</div>";
         //physics engine must slow down & the counter must do the same, or rather counter completely and ball completely
         //also make it smooth slow mo both for the ball and camera. real smooth
         scene.getPhysicsEngine().setTimeStep(1 / 50000);
@@ -1362,28 +1391,28 @@ importedmeshes.forEach(function(im){
     }
 
 
-   ge("captureb").onclick = async function () {
+    ge("captureb").onclick = async function () {
         BABYLON.Tools.CreateScreenshot(engine, camera, { precision: 3 }, async function (png) {
-             try {
-        const response = await fetch(png);
-        const blob = await response.blob();
-        const blobUrl = URL.createObjectURL(blob);
-                    console.log('screenshot taken - ' + png);
+            try {
+                const response = await fetch(png);
+                const blob = await response.blob();
+                const blobUrl = URL.createObjectURL(blob);
+                console.log('screenshot taken - ' + png);
 
 
-        const linkim = document.createElement('a');
-        linkim.href = blobUrl;
-        linkim.download = 'snapshotxyz.png';
-        
-        document.body.appendChild(linkim);
-        linkim.click();
-        document.body.removeChild(linkim);
+                const linkim = document.createElement('a');
+                linkim.href = blobUrl;
+                linkim.download = 'snapshotxyz.png';
 
-        // Clean up memory after the download triggers
-        setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
-    } catch (error) {
-        console.error('Download failed:', error);
-    }
+                document.body.appendChild(linkim);
+                linkim.click();
+                document.body.removeChild(linkim);
+
+                // Clean up memory after the download triggers
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
+            } catch (error) {
+                console.error('Download failed:', error);
+            }
 
             //store the image under 'pictures taken', which can be used for showcase or flaunting
             /*const simg = new Parse.File('screenshots', png);
@@ -1398,46 +1427,46 @@ importedmeshes.forEach(function(im){
 
         }, true);
 
-            //when the mouse is off page/document
-    /*document.addEventListener('onmouseout', function () {
-        console.log('mouse out of document, pause the game');
-        ge('pauseb').click()
-    })*/
-   
+        //when the mouse is off page/document
+        /*document.addEventListener('onmouseout', function () {
+            console.log('mouse out of document, pause the game');
+            ge('pauseb').click()
+        })*/
+
     }
 
 
-function checkkicks(){
-    console.log("checking kicks");
-    //if(intid != null) clearInterval(intid);
-    if(parseInt(sessionStorage.getItem('kicks')) == 1){
+    function checkkicks() {
+        console.log("checking kicks");
+        //if(intid != null) clearInterval(intid);
+        if (parseInt(sessionStorage.getItem('kicks')) == 1) {
             let cho = ge('infoblock');
             Array.from(cho.children).forEach((e) => {
                 e.className = 'buttons duds red'
             })
-    }
-    else if(parseInt(sessionStorage.getItem('kicks'))==2){
+        }
+        else if (parseInt(sessionStorage.getItem('kicks')) == 2) {
             let cho = ge('infoblock');
             Array.from(cho.children).forEach((e) => {
                 e.className = 'buttons duds yellow'
             })
-    }
-    else{
+        }
+        else {
             let cho = ge('infoblock');
             Array.from(cho.children).forEach((e) => {
                 e.className = 'buttons duds green'
             })
+        }
     }
-}
 
-ge('homer').onclick = function(){
-    ge('won').style.display = 'none';
-    ge('menu').style.display = 'block';
-    ge('menu').style.pointerEvents = 'auto';
+    ge('homer').onclick = function () {
+        ge('won').style.display = 'none';
+        ge('menu').style.display = 'block';
+        ge('menu').style.pointerEvents = 'auto';
 
-    if(loadtype) replayGame();
-    camera.useAutoRotationBehavior = true;
-}
+        if (loadtype) replayGame();
+        camera.useAutoRotationBehavior = true;
+    }
 
 
 
@@ -1445,7 +1474,7 @@ ge('homer').onclick = function(){
 }
 
 
-window.initFunction = async function(){
+window.initFunction = async function () {
     var asyncEngineCreation = async function () {
         try {
             console.log("engine started");
@@ -1455,7 +1484,7 @@ window.initFunction = async function(){
             return createDefaultEngine();
         }
     }
- 
+
     window.engine = await asyncEngineCreation();
     //BABYLON.Effect.ShadersStore["shadowsFragmentFunctions"] = "precision highp sampler2DShadow;\n" + BABYLON.Effect.ShadersStore["shadowsFragmentFunctions"];
     console.log('windows innit')
