@@ -296,6 +296,7 @@ var createScene = async function () {
             shadower.isVisible = false;
             shadower.isPickable = false;
         }
+        console.log(courseloc);
 
         //still dont understand why I did this, removed their parent, and set positions to their own positions???
         
