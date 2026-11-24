@@ -454,7 +454,7 @@ var createScene = async function () {
                         {
                             ball.physicsImpostor.disablePreStep = false;
                             //Starting point
-                            let startpoint = gM("start").position;
+                            let startpoint = m.position;
                             console.log(startpoint);
 
                             ball.position = startpoint;
@@ -1187,7 +1187,7 @@ importedmeshes.forEach(function(im){
     }
 
     assetsManager.onFinish = function () {
-        scene.physicsEnabled = true;
+        //scene.physicsEnabled = true;
 
         if(courseloc != 'https://golf3.onrender.com/boredApes.glb/' && loadtype == 'file'){
          loader.innerHTML = "Capturing Preview";
