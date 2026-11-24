@@ -311,8 +311,11 @@ var createScene = async function () {
         }}
 
             //task.loadedMeshes[0].position = task.loadedMeshes[0].position
+            const root = task.loadedMeshes;
+            root.computeWorldMatrix(true);
 
-            startloc = (gM("start").position);
+            startloc = (gM("start").getAbsolutePosition());
+            console.log(gM("start").getAbsolutePosition());
 
         let startbbx = (gM("start").getBoundingInfo().boundingBox.extendSize.y * gM("start").scaling.y);
 
