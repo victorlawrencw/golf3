@@ -297,10 +297,12 @@ var createScene = async function () {
             shadower.isPickable = false;
         }
 
-        for (var rt = 0; rt < task.loadedMeshes.length; rt++) {
+        //still dont understand why I did this, removed their parent, and set positions to their own positions???
+        /*for (var rt = 0; rt < task.loadedMeshes.length; rt++) {
             task.loadedMeshes[rt].parent = null;
             task.loadedMeshes[rt].position = task.loadedMeshes[rt].position
-        }
+        }*/
+
         let startbbx = (gM("start").getBoundingInfo().boundingBox.extendSize.y * gM("start").scaling.y);
         console.log(startbbx);
 
