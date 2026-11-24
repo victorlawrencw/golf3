@@ -436,7 +436,7 @@ var createScene = async function () {
 
                             const expag = new BABYLON.PhysicsAggregates(explosivex, BABYLON.PhysicsShapeType.MESH, { mass: 1, restitution: 0, friction: 0 }, scene);
                             expag.setCollisionCallbackEnabled(true);
-                            (ball.physicsBody?.getCollisionCallbackEnabled).add(ball, function (main, collided) {
+                            (ball.physicsBody.getCollisionCallbackEnabled).add(ball, function (main, collided) {
                                 explode(origin, strength, radius, cdx)
                             })
                         }
@@ -470,7 +470,7 @@ var createScene = async function () {
                     }
                     else if (mname.indexOf("start") > -1) {
                         {
-                            ball.physicsBody?.disablePreStep = false;
+                            ball.physicsBody.disablePreStep = false;
                             //Starting point
                             let startpoint = m.position;
                             console.log(startpoint);
@@ -560,12 +560,12 @@ var createScene = async function () {
 
 
 
-                            ball.physicsBody?.disablePreStep = true;
-                            ball.physicsBody?.setLinearVelocity(new BABYLON.Vector3(0, 0, 0));
+                            ball.physicsBody.disablePreStep = true;
+                            ball.physicsBody.setLinearVelocity(new BABYLON.Vector3(0, 0, 0));
 
                             //CHECK IF BALL COLLIDES WITH PHYSICAL MATERIAL TO PLAY SOUND
-                            ball.physicsBody?.setCollisionCallbackEnabled(true);
-                            (ball.physicsBody?.getCollisionCallbackEnabled).add(coursex.aggregrate.body, function (main, collided) {
+                            ball.physicsBody.setCollisionCallbackEnabled(true);
+                            (ball.physicsBody.getCollisionCallbackEnabled).add(coursex.aggregrate.body, function (main, collided) {
                                 //console.log("collided");
                                 let ioxd = BABYLON.Vector3.Distance(main.getLinearVelocity(), BABYLON.Vector3.Zero());
                                 //USE THE IMPULSE TO CALCULATE HOW LOUD THE SOUND WILL BE.
@@ -631,8 +631,8 @@ var createScene = async function () {
         ge('resetball').onclick = function () {
             let resetpos = JSON.parse(sessionStorage.getItem('checkpoint'));
             let bal = gM('ball');
-            bal.physicsBody?.setLinearVelocity(BABYLON.Vector3.Zero());
-            bal.physicsBody?.setAngularVelocity(BABYLON.Vector3.Zero());
+            bal.physicsBody.setLinearVelocity(BABYLON.Vector3.Zero());
+            bal.physicsBody.setAngularVelocity(BABYLON.Vector3.Zero());
 
             bal.position.x = resetpos.x;
             bal.position.y = resetpos.y;
@@ -761,9 +761,9 @@ var createScene = async function () {
 
 
 
-        ball.physicsBody?.setLinearVelocity(new BABYLON.Vector3(0, 0, 0));
-        ball.physicsBody?.physicsBody.linearDamping = 15;
-        ball.physicsBody?.physicsBody.angularDamping = 15;
+        ball.physicsBody.setLinearVelocity(new BABYLON.Vector3(0, 0, 0));
+        ball.physicsBody.physicsBody.linearDamping = 15;
+        ball.physicsBody.physicsBody.angularDamping = 15;
 
 
 
@@ -791,7 +791,7 @@ var createScene = async function () {
         rend = scene.onBeforeRenderObservable.add(() => {
             if (failsafe == 1) return
 
-            let bv = ball.physicsBody?.getLinearVelocity();
+            let bv = ball.physicsBody.getLinearVelocity();
             let t_v = BABYLON.Vector3.Distance(bv, BABYLON.Vector3.Zero());
 
             let getkicks = parseInt(sessionStorage.getItem('kicks'));
@@ -875,21 +875,21 @@ var createScene = async function () {
 
                 /*
 
-                ball.physicsBody?.registerOnPhysicsCollide(gM('water').aggregrate.body, function(main, collided) {
+                ball.physicsBody.registerOnPhysicsCollide(gM('water').aggregrate.body, function(main, collided) {
                     //THE BALL WILL BE PUT IN THE PREVIOUS POSITION
                     resetBall();
-                    ball.physicsBody?.unregisterOnPhysicsCollide(gM('water').aggregrate.body, function(){});
+                    ball.physicsBody.unregisterOnPhysicsCollide(gM('water').aggregrate.body, function(){});
                 });
             	
 */
 
-                //water.physicsBody?.registerOnPhysicsCollide(ball.aggregrate.body, function(){console.log("hitt")});
-                let newvelocity = ball.physicsBody?.getLinearVelocity();
+                //water.physicsBody.registerOnPhysicsCollide(ball.aggregrate.body, function(){console.log("hitt")});
+                let newvelocity = ball.physicsBody.getLinearVelocity();
 
 
                 //console.log(checkPoint)
-                const anlv = ball.physicsBody?.getAngularVelocity();
-                ball.physicsBody?.setAngularVelocity(anlv.scale(0.93));
+                const anlv = ball.physicsBody.getAngularVelocity();
+                ball.physicsBody.setAngularVelocity(anlv.scale(0.93));
 
                 //let this calc the difference in position of the ball.
                 let lastpos = JSON.parse(sessionStorage.getItem('checkpoint'));
@@ -898,8 +898,8 @@ var createScene = async function () {
                     //THE BALL WILL BE PUT IN THE PREVIOUS POSITION
                     setTimeout(
                         function () {
-                            ball.physicsBody?.setLinearVelocity(BABYLON.Vector3.Zero());
-                            ball.physicsBody?.setAngularVelocity(BABYLON.Vector3.Zero());
+                            ball.physicsBody.setLinearVelocity(BABYLON.Vector3.Zero());
+                            ball.physicsBody.setAngularVelocity(BABYLON.Vector3.Zero());
 
                             ball.position.x = lastpos.x;
                             ball.position.y = lastpos.y;
@@ -1051,7 +1051,7 @@ var createScene = async function () {
                 sessionStorage.setItem('checkpoint', JSON.stringify(newpos));
                 if (strr > 3.5) { scene.getPhysicsEngine().setSubTimeStep(1000 / 60) }
                 //APPLY IMPULSE ON THE BALL WHEN THE ePUTT IS BEING RELEASED WITH MORE OR EQUAL TO THE MINIMUM THRESHOLD!
-                ball.physicsBody?.applyImpulse(strr, ball.getAbsolutePosition());
+                ball.physicsBody.applyImpulse(strr, ball.getAbsolutePosition());
                 position_disk.dispose();
                 scene.getMeshByName("inpointer").position = new BABYLON.Vector3(0, 0, 0);
                 //playsound('puckhit');
