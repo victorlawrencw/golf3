@@ -311,6 +311,8 @@ var createScene = async function () {
 
             //task.loadedMeshes[0].position = task.loadedMeshes[0].position
 
+            console.log(gM("start").position);
+
         let startbbx = (gM("start").getBoundingInfo().boundingBox.extendSize.y * gM("start").scaling.y);
 
         if (gM("start") == null || gM("end") == null || gM("course") == null) {
