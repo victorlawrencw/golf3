@@ -347,7 +347,7 @@ var createScene = async function () {
             }
 
             //THE WATER IS RIGHT BELOW THE COURSE, ONCE THE BALL HITS THE MESH IT WILL RESET THE BALL... while the helper ground will show the shadow. this setup will increase performance
-            new BABYLON.PhysicsAggregates(water, BABYLON.PhysicsShapeType.BOX, { restitution: 0, friction: 15, mass: 0 }, scene);
+            new BABYLON.PhysicsAggregate(water, BABYLON.PhysicsShapeType.BOX, { restitution: 0, friction: 15, mass: 0 }, scene);
             water.position.y = (gM('course').getBoundingInfo().boundingBox.extendSize.y * -1) - 1;
             helper.ground.position.y = (gM('course').getBoundingInfo().boundingBox.extendSize.y * -1) - 1;
 
@@ -362,19 +362,19 @@ var createScene = async function () {
                 switch (gshape) {
                     case null:
                         ball = BABYLON.MeshBuilder.CreateIcoSphere("ball", { radius: startbbx, subdivisions: 4, flat: true }, scene);
-                        new BABYLON.PhysicsAggregates(ball, BABYLON.PhysicsShapeType.SPHERE, phs, scene);
+                        new BABYLON.PhysicsAggregate(ball, BABYLON.PhysicsShapeType.SPHERE, phs, scene);
                         break;
                     case "Box":
                         ball = BABYLON.MeshBuilder.CreateBox("ball", { size: (startbbx * 2) }, scene);
-                        new BABYLON.PhysicsAggregates(ball, BABYLON.PhysicsShapeType.BOX, phs, scene);
+                        new BABYLON.PhysicsAggregate(ball, BABYLON.PhysicsShapeType.BOX, phs, scene);
                         break;
                     case "Cylinder":
                         ball = BABYLON.MeshBuilder.CreateCylinder("ball", { diameter: (startbbx * 2), tessalation: 3, height: 0.2 }, scene);
-                        new BABYLON.PhysicsAggregates(ball, BABYLON.PhysicsShapeType.CYLINDER, phs, scene);
+                        new BABYLON.PhysicsAggregate(ball, BABYLON.PhysicsShapeType.CYLINDER, phs, scene);
                         break;
                     case "Sphere":
                         ball = BABYLON.MeshBuilder.CreateIcoSphere("ball", { radius: (startbbx), subdivisions: 1, flat: true }, scene);
-                        new BABYLON.PhysicsAggregates(ball, BABYLON.PhysicsShapeType.SPHERE, phs, scene);
+                        new BABYLON.PhysicsAggregate(ball, BABYLON.PhysicsShapeType.SPHERE, phs, scene);
                         break;
                 }
 
@@ -434,7 +434,7 @@ var createScene = async function () {
                             if (mname.length > iom + 11) cdx = Number(mname.slice(iom + 11, iom + 12)) * 0.1;
 
 
-                            const expag = new BABYLON.PhysicsAggregates(explosivex, BABYLON.PhysicsShapeType.MESH, { mass: 1, restitution: 0, friction: 0 }, scene);
+                            const expag = new BABYLON.PhysicsAggregate(explosivex, BABYLON.PhysicsShapeType.MESH, { mass: 1, restitution: 0, friction: 0 }, scene);
                             expag.setCollisionCallbackEnabled(true);
                             (ball.physicsBody.getCollisionCallbackEnabled).add(ball, function (main, collided) {
                                 explode(origin, strength, radius, cdx)
@@ -452,7 +452,7 @@ var createScene = async function () {
                             let bouncerx = m;
                             let restitution = 3;
                             if (mname.length > iom + 7) restitution = Number(mname.slice(iom + 7, iom + 8)) * 0.1;
-                            new BABYLON.PhysicsAggregates(bouncerx, BABYLON.PhysicsShapeType.MESH, { mass: 1, restitution: restitution, friction: 0 }, scene)
+                            new BABYLON.PhysicsAggregate(bouncerx, BABYLON.PhysicsShapeType.MESH, { mass: 1, restitution: restitution, friction: 0 }, scene)
                         }
                     }
 
@@ -465,7 +465,7 @@ var createScene = async function () {
                             let friction = 0.5;
                             if (mname.length > iom + 7) restitution = Number(mname.slice(iom + 7, iom + 8)) * 0.1
                             if (mname.length > iom + 8) friction = Number(mname.slice(iom + 8, iom + 9)) * 0.1
-                            new BABYLON.PhysicsAggregates(bouncerx, BABYLON.PhysicsShapeType.CONVEXHULL, { mass: mass, restitution: restitution, friction: friction }, scene)
+                            new BABYLON.PhysicsAggregate(bouncerx, BABYLON.PhysicsShapeType.CONVEXHULL, { mass: mass, restitution: restitution, friction: friction }, scene)
                         }
                     }
                     else if (mname.indexOf("start") > -1) {
@@ -509,7 +509,7 @@ var createScene = async function () {
 
                             if(m.getChildMeshes().length == 0){
 
-                            new BABYLON.PhysicsAggregates(coursex, BABYLON.PhysicsShapeType.MESH, basephy, scene);
+                            new BABYLON.PhysicsAggregate(coursex, BABYLON.PhysicsShapeType.MESH, basephy, scene);
 
                             if (coursex.material.name == '__GLTFLoader._default' || scene.getMaterialByName("__GLTFLoader._default")) {
                                 let newdefault = new BABYLON.StandardMaterial("newdefault", scene);
