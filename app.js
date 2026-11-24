@@ -314,7 +314,6 @@ var createScene = async function () {
             //const root = task.loadedMeshes;
             //root.computeWorldMatrix(true);
 
-            startloc = (gM("start").getAbsolutePosition());
             console.log(gM("start").getAbsolutePosition());
 
         let startbbx = (gM("start").getBoundingInfo().boundingBox.extendSize.y * gM("start").scaling.y);
@@ -406,6 +405,8 @@ var createScene = async function () {
             gM("end").isVisible = true;
 
 
+            startloc = (gM("start").getAbsolutePosition());
+
             for (let ms = 0; ms < task.loadedMeshes.length; ms++) {
                 setTimeout(function () {
                     //WILL DEFINATELY ATTEND TO THIS LATER!
@@ -471,7 +472,7 @@ var createScene = async function () {
                             console.log(startpoint);
 
                             ball.position = startloc;
-                            sessionStorage.setItem('checkpoint', JSON.stringify(rvec(startpoint)));
+                            sessionStorage.setItem('checkpoint', JSON.stringify(rvec(startloc)));
 
                             
                             console.log(ball.position)
