@@ -495,16 +495,21 @@ var createScene = async function () {
                     else if (mname == "water") {
                         let water = m;
                     }
-                    else if (mname == "course") {
+                    else if (mname.indexOf("course") > -1) {
                         {
                             let iom = mname.indexOf("course");
                             let coursex = m;
+                            
                             let restitution = 0;
                             let friction = 400;
                             coursex.isPickable = false;
-                            if (mname.length > iom + 7) restitution = Number(mname.slice(iom + 7, iom + 8)) * 0.1
-                            if (mname.length > iom + 8) friction = Number(mname.slice(iom + 8, iom + 9)) * 0.1
-                            new BABYLON.PhysicsAggregates(coursex, BABYLON.PhysicsShapeType.MESH, { mass: 0, restitution: restitution, friction: friction }, scene);
+                            if (mname.length > iom + 7) restitution = Number(mname.slice(iom + 7, iom + 8)) * 0.1;
+                            if (mname.length > iom + 8) friction = Number(mname.slice(iom + 8, iom + 9)) * 0.1;
+                            let basephy = { mass: 0, restitution: restitution, friction: friction };
+
+                            if(m.getChildMeshes().length == 0){
+
+                            new BABYLON.PhysicsAggregates(coursex, BABYLON.PhysicsShapeType.MESH, basephy, scene);
 
                             if (coursex.material.name == '__GLTFLoader._default' || scene.getMaterialByName("__GLTFLoader._default")) {
                                 let newdefault = new BABYLON.StandardMaterial("newdefault", scene);
@@ -526,6 +531,34 @@ var createScene = async function () {
                             }
                             else {/*load normal material*/ }
 
+                            }
+                            else{
+                                //if it does have child meshes inside it
+                            const parentNode = coursex;
+
+                                const parentBody = new BABYLON.PhysicsBody(
+                                    parentNode,
+                                    BABYLON.PhysicsMotionType.DYNAMIC,
+                                    false,
+                                    scene
+                                );
+
+                                const containerShape = new BABYLON.PhysicsShapeContainer(scene);
+
+                                parentNode.getChildMeshes().forEach((childMesh) => {
+                                    if (childMesh.getTotalVertices() > 0) {
+                                        const childShape = new BABYLON.PhysicsShapeConvexHull(childMesh, scene);
+                                        containerShape.addChildFromParent(parentNode, childShape, childMesh);
+                                    }
+                                });
+
+                                //Assigning the compound shape and mass to the parent body
+                                parentBody.shape = containerShape;
+                                parentBody.shape.material = basephy;
+                                parentBody.setMassProperties({ mass: 0 });
+                            }
+
+
 
                             ball.physicsBody?.disablePreStep = true;
                             ball.physicsBody?.setLinearVelocity(new BABYLON.Vector3(0, 0, 0));
@@ -546,30 +579,6 @@ var createScene = async function () {
                                     //identifier... function for alerting the user of the ball hit... some sort of assurance when sound is disabled.
                                 }
                             });
-                            const parentNode = scene.getNodeByName('course');
-                            if (mname.indexOf('primitive') > -1) {
-                                const parentBody = new BABYLON.PhysicsBody(
-                                    parentNode,
-                                    BABYLON.PhysicsMotionType.DYNAMIC,
-                                    false,
-                                    scene
-                                );
-
-                                // 2. Create a container shape and add each child mesh's shape to it
-                                const containerShape = new BABYLON.PhysicsShapeContainer(scene);
-
-                                parentNode.getChildMeshes().forEach((childMesh) => {
-                                    if (childMesh.getTotalVertices() > 0) {
-                                        // Compute child offset relative to parent
-                                        const childShape = new BABYLON.PhysicsShapeConvexHull(childMesh, scene);
-                                        containerShape.addChildFromParent(parentNode, childShape, childMesh);
-                                    }
-                                });
-
-                                // 3. Assign the compound shape and mass to the parent body
-                                parentBody.shape = containerShape;
-                                parentBody.setMassProperties({ mass: 10 });
-                            }
 
                         }
                     }
