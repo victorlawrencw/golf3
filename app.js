@@ -288,6 +288,9 @@ var createScene = async function () {
             */
 
     assetsManager.onTaskSuccessObservable.add(async function (task) {
+        //disable ball physics for a while
+        scene.physicsEnabled = false;
+
         //TYPES OF BALL AVAILABLE FOR USER                
         if (putted == "Shadow") {
             let puttLight = new BABYLON.DirectionalLight("shadowmaker", new BABYLON.Vector3(0, -1, 0), scene);
@@ -296,6 +299,7 @@ var createScene = async function () {
             shadower.isVisible = false;
             shadower.isPickable = false;
         }
+        console.log(courseloc);
 
         //still dont understand why I did this, removed their parent, and set positions to their own positions???
         
@@ -308,7 +312,6 @@ var createScene = async function () {
             //task.loadedMeshes[0].position = task.loadedMeshes[0].position
 
         let startbbx = (gM("start").getBoundingInfo().boundingBox.extendSize.y * gM("start").scaling.y);
-        console.log(startbbx);
 
         if (gM("start") == null || gM("end") == null || gM("course") == null) {
             //IF YOU DIDN'T LABEL A START OR A END FOR THE GOLF COURSE
@@ -387,9 +390,6 @@ var createScene = async function () {
             camera.lockedTarget = ball
         }
         else{
-            //disable ball physics for a while
-            scene.physicsEnabled = false;
-
             //get unique id and dispose appropriate meshes
             await fullreset();
             importedmeshes = [];
@@ -469,7 +469,7 @@ var createScene = async function () {
 
                             
                             console.log(ball.position)
-                            m.dispose();
+                            //m.dispose();
                         }
                     }
                     else if (mname.indexOf("end") > -1) {
