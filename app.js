@@ -18,6 +18,7 @@ let userusername;
 let ball;
 let importedmeshes = [];
 let rend;
+failsafe = 0;
 
 
 let musicA;
@@ -742,6 +743,8 @@ var createScene = async function () {
 
         /****** SPECIAL SECTION ******/
          rend = scene.onBeforeRenderObservable.add(() => {
+            if(failsafe == 1) return
+
             let bv = ball.physicsImpostor.getLinearVelocity();
             let t_v = BABYLON.Vector3.Distance(bv, BABYLON.Vector3.Zero());
             
@@ -1172,6 +1175,7 @@ var createScene = async function () {
     }
 
     async function fullreset(){
+        failsafe = 1;
         scene.onBeforeRenderObservable.remove(rend);
 importedmeshes.forEach(function(im){
     console.log(im);
