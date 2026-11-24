@@ -298,12 +298,14 @@ var createScene = async function () {
         }
 
         //still dont understand why I did this, removed their parent, and set positions to their own positions???
-        /*for (var rt = 0; rt < task.loadedMeshes.length; rt++) {
+        
+        if(courseloc == 'https://golf3.onrender.com/boredApes.glb/'){
+            for (var rt = 0; rt < task.loadedMeshes.length; rt++) {
             task.loadedMeshes[rt].parent = null;
             task.loadedMeshes[rt].position = task.loadedMeshes[rt].position
-        }*/
+        }}
 
-            task.loadedMeshes[0].position = task.loadedMeshes[0].position
+            //task.loadedMeshes[0].position = task.loadedMeshes[0].position
 
         let startbbx = (gM("start").getBoundingInfo().boundingBox.extendSize.y * gM("start").scaling.y);
         console.log(startbbx);
@@ -467,7 +469,7 @@ var createScene = async function () {
 
                             
                             console.log(ball.position)
-                            //m.dispose();
+                            m.dispose();
                         }
                     }
                     else if (mname.indexOf("end") > -1) {
@@ -1195,7 +1197,7 @@ importedmeshes.forEach(function(im){
     }
 
     assetsManager.onFinish = function () {
-        //scene.physicsEnabled = true;
+        scene.physicsEnabled = true;
 
         if(courseloc != 'https://golf3.onrender.com/boredApes.glb/' && loadtype == 'file'){
          loader.innerHTML = "Capturing Preview";
