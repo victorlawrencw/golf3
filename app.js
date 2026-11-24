@@ -515,14 +515,6 @@ var createScene = async function () {
                             }
                             else {/*load normal material*/ }
 
-                            setTimeout(function () {
-                                //SHADOWS
-                                //shadowGenerator.getShadowMap().renderList.push(shba);
-
-                                console.log("shadow added");
-
-                            }, 100
-                            );
 
                             ball.physicsImpostor.disablePreStep = true;
                             ball.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 0, 0));
