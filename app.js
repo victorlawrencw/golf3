@@ -581,6 +581,9 @@ var createScene = async function () {
                     m.edgesColor = new BABYLON.Color4(0.2, 0.2, 0.2, 0.5);
                     m.edgesWidth = 4;
 
+
+                    failsafe = 0;
+
                 }, 10);
             }
         }
