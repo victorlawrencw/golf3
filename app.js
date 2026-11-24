@@ -18,7 +18,8 @@ let userusername;
 let ball;
 let importedmeshes = [];
 let rend;
-failsafe = 0;
+let failsafe = 0;
+let startloc;
 
 
 let musicA;
@@ -311,7 +312,7 @@ var createScene = async function () {
 
             //task.loadedMeshes[0].position = task.loadedMeshes[0].position
 
-            console.log(gM("start").position);
+            startloc = (gM("start").position);
 
         let startbbx = (gM("start").getBoundingInfo().boundingBox.extendSize.y * gM("start").scaling.y);
 
@@ -466,7 +467,7 @@ var createScene = async function () {
                             let startpoint = m.position;
                             console.log(startpoint);
 
-                            ball.position = startpoint;
+                            ball.position = startloc;
                             sessionStorage.setItem('checkpoint', JSON.stringify(rvec(startpoint)));
 
                             
