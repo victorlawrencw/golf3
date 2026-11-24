@@ -311,8 +311,8 @@ var createScene = async function () {
         }}
 
             //task.loadedMeshes[0].position = task.loadedMeshes[0].position
-            const root = task.loadedMeshes;
-            root.computeWorldMatrix(true);
+            //const root = task.loadedMeshes;
+            //root.computeWorldMatrix(true);
 
             startloc = (gM("start").getAbsolutePosition());
             console.log(gM("start").getAbsolutePosition());
