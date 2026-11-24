@@ -303,6 +303,8 @@ var createScene = async function () {
             task.loadedMeshes[rt].position = task.loadedMeshes[rt].position
         }*/
 
+            task.loadedMeshes[0].position = task.loadedMeshes[0].position
+
         let startbbx = (gM("start").getBoundingInfo().boundingBox.extendSize.y * gM("start").scaling.y);
         console.log(startbbx);
 
