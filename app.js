@@ -1341,7 +1341,7 @@ var createScene = async function () {
                                     })
                                 })
                             }
-                            else { alert('error capturing course'); }
+                            else { console.log('error capture'); alert('error capturing course'); }
                         });
 
 
