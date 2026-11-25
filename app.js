@@ -762,8 +762,8 @@ var createScene = async function () {
 
 
         ball.physicsBody.setLinearVelocity(new BABYLON.Vector3(0, 0, 0));
-        ball.physicsBody.physicsBody.linearDamping = 15;
-        ball.physicsBody.physicsBody.angularDamping = 15;
+        ball.physicsBody.linearDamping = 15;
+        ball.physicsBody.angularDamping = 15;
 
 
 
