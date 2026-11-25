@@ -627,7 +627,7 @@ var createScene = async function () {
                     if(ms == (task.loadedMeshes.length - 1) && failsafe == 1){
                     //this is the last mesh or node in the loaded task..
                     failsafe = 0;
-                    scene.onBeforeRenderObservable.add(rend);                        
+                    //scene.onBeforeRenderObservable.add(rend);                        
                     }
 
 
@@ -797,7 +797,7 @@ var createScene = async function () {
 
 
         /****** SPECIAL SECTION ******/
-        rend = scene.onBeforeRenderObservable.add(() => {
+        scene.onBeforeRenderObservable.add(() => {
             if (failsafe == 1) return
 
             let bv = ball.physicsBody.getLinearVelocity();
