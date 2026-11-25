@@ -1265,6 +1265,7 @@ var createScene = async function () {
                 console.log('course exists');
                 let imgT = 0;
                 let frames = [];
+                console.log('before interval');
                 let snapper = setInterval(function () {
                     if (imgT < 10) {
                         console.log('rendering.....');
