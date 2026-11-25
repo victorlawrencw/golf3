@@ -631,8 +631,7 @@ var createScene = async function () {
                     if (ms == (task.loadedMeshes.length - 1) && failsafe == 1) {
                         //this is the last mesh or node in the loaded task..
                         scene.physicsEnabled = true;
-                        failsafe = 0;
-                        //scene.onBeforeRenderObservable.add(rend);                        
+                        failsafe = 0;                       
                     }
 
 
