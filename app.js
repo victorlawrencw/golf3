@@ -436,8 +436,9 @@ var createScene = async function () {
 
                             const expag = new BABYLON.PhysicsAggregate(explosivex, BABYLON.PhysicsShapeType.MESH, { mass: 1, restitution: 0, friction: 0 }, scene);
                             expag.setCollisionCallbackEnabled(true);
-                            (ball.physicsBody.getCollisionCallbackEnabled).add(ball, function (main, collided) {
-                                explode(origin, strength, radius, cdx)
+                            (ball.physicsBody.getCollisionObservable).add(function (collision) {
+                                //if it collided against ball, it will explode
+                                if(collision.collidedAgainst.transformNode.name == 'ball'){explode(origin, strength, radius, cdx)}
                             })
                         }
                     }
@@ -565,8 +566,9 @@ var createScene = async function () {
 
                             //CHECK IF BALL COLLIDES WITH PHYSICAL MATERIAL TO PLAY SOUND
                             ball.physicsBody.setCollisionCallbackEnabled(true);
-                            (ball.physicsBody.getCollisionCallbackEnabled).add(coursex.aggregrate.body, function (main, collided) {
+                            ball.physicsBody.getCollisionObservable().add(function (main, collided) {
                                 //console.log("collided");
+                                //collisionEvent.collidedAgainst.transformNode.name
                                 let ioxd = BABYLON.Vector3.Distance(main.getLinearVelocity(), BABYLON.Vector3.Zero());
                                 //USE THE IMPULSE TO CALCULATE HOW LOUD THE SOUND WILL BE.
                                 //max v is 1;
@@ -617,7 +619,7 @@ var createScene = async function () {
                     m.position = m.position;
                     m.enableEdgesRendering(0.007);
                     m.edgesColor = new BABYLON.Color4(0.2, 0.2, 0.2, 0.5);
-                    m.edgesWidth = 4;
+                    m.edgesWidth = 1;
 
 
                     failsafe = 0;
