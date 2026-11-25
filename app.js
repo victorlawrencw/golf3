@@ -815,6 +815,7 @@ var createScene = async function () {
                 //ge("loseimage").style.display = "block";
                 ge('losewinin').innerHTML = "YOU LOSE";
                 ge('losewinin').style.color = "var(--pink)";
+                camera.useAutoRotationBehavior = true;
 
                 showToast('YOU LOST, BRO!', 2, 5000);
                 ge("won").style.display = "flex";
@@ -852,6 +853,7 @@ var createScene = async function () {
                 //ge("winimage").style.display = "block";
                 ge('losewinin').innerHTML = "YOU WIN";
                 ge('losewinin').style.color = "var(-green)";
+                camera.useAutoRotationBehavior = true;
 
 
                 ge('wintime').innerHTML = 'Time :- ' + endtime + ' seconds';
@@ -1412,7 +1414,7 @@ var createScene = async function () {
         //physics engine must slow down & the counter must do the same, or rather counter completely and ball completely
         //also make it smooth slow mo both for the ball and camera. real smooth
         scene.getPhysicsEngine().setTimeStep(1 / 50000);
-        camera.useAutoRotationBehavior = true;
+        camera.useAutoRotationBehavior = true
     }
 
 
