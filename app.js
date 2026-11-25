@@ -1260,6 +1260,7 @@ var createScene = async function () {
 
         if (courseloc != 'https://golf3.onrender.com/boredApes.glb/' && loadtype == 'file') {
             loader.innerHTML = "Capturing Preview";
+            console.log(gT('courseCHILD').length);
             //FAST 10 secs SCREENSHOT FOR GOLF COURSE SHOWCASE... this will be useful when other users are looking for a particular course.
             if (gT('courseCHILD').length > 0) {
                 console.log('course exists');
