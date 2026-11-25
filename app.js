@@ -509,12 +509,14 @@ var createScene = async function () {
                             let basephy = { mass: 0, restitution: restitution, friction: friction };
 
                             if(m.getChildMeshes().length == 0){
+                                //HE HAS NO CHILD... CHILDLESS.... Cant make a good joke out of this
 
                             new BABYLON.PhysicsAggregate(coursex, BABYLON.PhysicsShapeType.MESH, basephy, scene);
                             BABYLON.Tags.AddTagsTo(coursex, 'courseCHILD');
 
                             if (coursex.material.name == '__GLTFLoader._default' || scene.getMaterialByName("__GLTFLoader._default")) {
                                 let newdefault = new BABYLON.StandardMaterial("newdefault", scene);
+
                                 /*newdefault.specularColor = (.3,.3,.3);
                                 newdefault.specularPower = 1;
                                 newdefault.ambientColor = new BABYLON.Color3(0.9,0.1,0.1);
