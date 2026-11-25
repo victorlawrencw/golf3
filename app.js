@@ -624,7 +624,7 @@ var createScene = async function () {
                     m.edgesColor = new BABYLON.Color4(0.2, 0.2, 0.2, 0.5);
                     m.edgesWidth = 1;
 
-                    if(ms == (task.loadedMeshes.length - 1)){
+                    if(ms == (task.loadedMeshes.length - 1) && failsafe == 1){
                     //this is the last mesh or node in the loaded task..
                     failsafe = 0;
                     scene.onBeforeRenderObservable.add(rend);                        
