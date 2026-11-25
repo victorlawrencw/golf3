@@ -293,6 +293,7 @@ var createScene = async function () {
     assetsManager.onTaskSuccessObservable.add(async function (task) {
         //disable ball physics for a while
         scene.physicsEnabled = false;
+        console.log(scene.physicsEnabled);
 
         //TYPES OF BALL AVAILABLE FOR USER                
         if (putted == "Shadow") {
@@ -302,7 +303,6 @@ var createScene = async function () {
             shadower.isVisible = false;
             shadower.isPickable = false;
         }
-        console.log(courseloc);
 
         //still dont understand why I did this, removed their parent, and set positions to their own positions???
 
@@ -574,7 +574,7 @@ var createScene = async function () {
                                 //if it collided against the course itself
                                 if((collision.collidedAgainst.transformNode.name).indexOf('course') >-1){
                                 let ioxd = BABYLON.Vector3.Distance(ball.physicsBody.getLinearVelocity(), BABYLON.Vector3.Zero());
-                                console.log('hit course: '+ioxd)
+                                //console.log('hit course: '+ioxd)
                                 //USE THE IMPULSE TO CALCULATE HOW LOUD THE SOUND WILL BE.
                                 //max v is 1;
                                 if (ioxd > 5) {
