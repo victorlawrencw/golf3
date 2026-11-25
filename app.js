@@ -570,6 +570,7 @@ var createScene = async function () {
                                 //if it collided against the course itself
                                 if((collision.collidedAgainst.transformNode.name).indexOf('course') >-1){
                                 let ioxd = BABYLON.Vector3.Distance(ball.physicsBody.getLinearVelocity(), BABYLON.Vector3.Zero());
+                                console.log('hit course: '+ioxd)
                                 //USE THE IMPULSE TO CALCULATE HOW LOUD THE SOUND WILL BE.
                                 //max v is 1;
                                 if (ioxd > 5) {
@@ -623,8 +624,12 @@ var createScene = async function () {
                     m.edgesColor = new BABYLON.Color4(0.2, 0.2, 0.2, 0.5);
                     m.edgesWidth = 1;
 
-
+                    if(ms == (task.loadedMeshes.length - 1)){
+                    //this is the last mesh or node in the loaded task..
                     failsafe = 0;
+                    scene.onBeforeRenderObservable.add(rend);                        
+                    }
+
 
                 }, 10);
             }
