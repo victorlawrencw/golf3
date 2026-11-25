@@ -913,7 +913,7 @@ var createScene = async function () {
                 const taggedMeshes = gT('courseCHILD');
                 const hitAny = taggedMeshes.some((target) => ball.intersectsMesh(target, true));
 
-                if (ball.intersectsMesh(water, false)) {
+                if (ball.intersectsMesh(water, true)&&kicked != 0) {
                     //THE BALL WILL BE PUT IN THE PREVIOUS POSITION
                     setTimeout(
                         function () {
