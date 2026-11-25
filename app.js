@@ -1246,7 +1246,8 @@ var createScene = async function () {
             console.log(im);
             if (scene.getMeshByUniqueId(im) != null) scene.getMeshByUniqueId(im).dispose();
             console.log('disposed ' + im)
-        })
+        });
+        gM('holder').dispose()
     }
 
     assetsManager.onProgress = function (remaining, totalC) {
