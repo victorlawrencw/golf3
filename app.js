@@ -438,7 +438,7 @@ var createScene = async function () {
                             expag.setCollisionCallbackEnabled(true);
                             (ball.physicsBody.getCollisionObservable).add(function (collision) {
                                 //if it collided against ball, it will explode
-                                if(collision.collidedAgainst.transformNode.name == 'ball'){explode(origin, strength, radius, cdx)}
+                                if (collision.collidedAgainst.transformNode.name == 'ball') { explode(origin, strength, radius, cdx) }
                             })
                         }
                     }
@@ -476,9 +476,9 @@ var createScene = async function () {
                             let startpoint = m.position;
                             console.log(startpoint);
 
-                            ball.position = startloc;
-                            sessionStorage.setItem('checkpoint', JSON.stringify(rvec(startloc)));
 
+                            sessionStorage.setItem('checkpoint', JSON.stringify(rvec(startloc)));
+                            ball.position = startloc;
 
                             console.log(ball.position)
                             m.dispose();
@@ -500,7 +500,7 @@ var createScene = async function () {
                         {
                             let iom = mname.indexOf("course");
                             let coursex = m;
-                            
+
                             let restitution = 0;
                             let friction = 400;
                             coursex.isPickable = false;
@@ -508,37 +508,37 @@ var createScene = async function () {
                             if (mname.length > iom + 8) friction = Number(mname.slice(iom + 8, iom + 9)) * 0.1;
                             let basephy = { mass: 0, restitution: restitution, friction: friction };
 
-                            if(m.getChildMeshes().length == 0){
+                            if (m.getChildMeshes().length == 0) {
                                 //HE HAS NO CHILD... CHILDLESS.... Cant make a good joke out of this
 
-                            new BABYLON.PhysicsAggregate(coursex, BABYLON.PhysicsShapeType.MESH, basephy, scene);
-                            BABYLON.Tags.AddTagsTo(coursex, 'courseCHILD');
+                                new BABYLON.PhysicsAggregate(coursex, BABYLON.PhysicsShapeType.MESH, basephy, scene);
+                                BABYLON.Tags.AddTagsTo(coursex, 'courseCHILD');
 
-                            if (coursex.material.name == '__GLTFLoader._default' || scene.getMaterialByName("__GLTFLoader._default")) {
-                                let newdefault = new BABYLON.StandardMaterial("newdefault", scene);
+                                if (coursex.material.name == '__GLTFLoader._default' || scene.getMaterialByName("__GLTFLoader._default")) {
+                                    let newdefault = new BABYLON.StandardMaterial("newdefault", scene);
 
-                                /*newdefault.specularColor = (.3,.3,.3);
-                                newdefault.specularPower = 1;
-                                newdefault.ambientColor = new BABYLON.Color3(0.9,0.1,0.1);
-                                newdefault.diffuseColor=new BABYLON.Color3(1,1,1);*/
+                                    /*newdefault.specularColor = (.3,.3,.3);
+                                    newdefault.specularPower = 1;
+                                    newdefault.ambientColor = new BABYLON.Color3(0.9,0.1,0.1);
+                                    newdefault.diffuseColor=new BABYLON.Color3(1,1,1);*/
 
-                                newdefault.specularColor = new BABYLON.Color3(.3, .3, .3);
-                                newdefault.specularPower = 1;
-                                newdefault.ambientColor = new BABYLON.Color3(.1, .1, .1);
-                                newdefault.diffuseColor = new BABYLON.Color3(.9, .9, .9);
-                                coursex.material = newdefault;
+                                    newdefault.specularColor = new BABYLON.Color3(.3, .3, .3);
+                                    newdefault.specularPower = 1;
+                                    newdefault.ambientColor = new BABYLON.Color3(.1, .1, .1);
+                                    newdefault.diffuseColor = new BABYLON.Color3(.9, .9, .9);
+                                    coursex.material = newdefault;
 
-                                shadowGenerator.forceBackFacesOnly = true;
+                                    shadowGenerator.forceBackFacesOnly = true;
 
-                                //shadowGenerator.addShadowCaster(coursex);
-                                coursex.receiveShadows = true;
+                                    //shadowGenerator.addShadowCaster(coursex);
+                                    coursex.receiveShadows = true;
+                                }
+                                else {/*load normal material*/ }
+
                             }
-                            else {/*load normal material*/ }
-
-                            }
-                            else{
+                            else {
                                 //if it does have child meshes inside it
-                            const parentNode = coursex;
+                                const parentNode = coursex;
 
                                 const parentBody = new BABYLON.PhysicsBody(
                                     parentNode,
@@ -572,20 +572,20 @@ var createScene = async function () {
                             ball.physicsBody.setCollisionCallbackEnabled(true);
                             ball.physicsBody.getCollisionObservable().add(function (collision) {
                                 //if it collided against the course itself
-                                if((collision.collidedAgainst.transformNode.name).indexOf('course') >-1){
-                                let ioxd = BABYLON.Vector3.Distance(ball.physicsBody.getLinearVelocity(), BABYLON.Vector3.Zero());
-                                //console.log('hit course: '+ioxd)
-                                //USE THE IMPULSE TO CALCULATE HOW LOUD THE SOUND WILL BE.
-                                //max v is 1;
-                                if (ioxd > 5) {
-                                    //ballhit.setVolume(1*baseVOL);
-                                    //ballhit.play();
+                                if ((collision.collidedAgainst.transformNode.name).indexOf('course') > -1) {
+                                    let ioxd = BABYLON.Vector3.Distance(ball.physicsBody.getLinearVelocity(), BABYLON.Vector3.Zero());
+                                    //console.log('hit course: '+ioxd)
+                                    //USE THE IMPULSE TO CALCULATE HOW LOUD THE SOUND WILL BE.
+                                    //max v is 1;
+                                    if (ioxd > 5) {
+                                        //ballhit.setVolume(1*baseVOL);
+                                        //ballhit.play();
+                                    }
+                                    else {
+                                        //ballhit.setVolume((ioxd*5*baseVOL));
+                                        //identifier... function for alerting the user of the ball hit... some sort of assurance when sound is disabled.
+                                    }
                                 }
-                                else {
-                                    //ballhit.setVolume((ioxd*5*baseVOL));
-                                    //identifier... function for alerting the user of the ball hit... some sort of assurance when sound is disabled.
-                                }
-                            }
 
                             });
 
@@ -628,10 +628,11 @@ var createScene = async function () {
                     m.edgesColor = new BABYLON.Color4(0.2, 0.2, 0.2, 0.5);
                     m.edgesWidth = 1;
 
-                    if(ms == (task.loadedMeshes.length - 1) && failsafe == 1){
-                    //this is the last mesh or node in the loaded task..
-                    failsafe = 0;
-                    //scene.onBeforeRenderObservable.add(rend);                        
+                    if (ms == (task.loadedMeshes.length - 1) && failsafe == 1) {
+                        //this is the last mesh or node in the loaded task..
+                        //scene.physicsEnabled = true;
+                        failsafe = 0;
+                        //scene.onBeforeRenderObservable.add(rend);                        
                     }
 
 
@@ -1252,7 +1253,6 @@ var createScene = async function () {
     }
 
     assetsManager.onFinish = function () {
-        scene.physicsEnabled = true;
 
         if (courseloc != 'https://golf3.onrender.com/boredApes.glb/' && loadtype == 'file') {
             loader.innerHTML = "Capturing Preview";
