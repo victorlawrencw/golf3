@@ -566,10 +566,10 @@ var createScene = async function () {
 
                             //CHECK IF BALL COLLIDES WITH PHYSICAL MATERIAL TO PLAY SOUND
                             ball.physicsBody.setCollisionCallbackEnabled(true);
-                            ball.physicsBody.getCollisionObservable().add(function (main, collided) {
-                                //console.log("collided");
-                                //collisionEvent.collidedAgainst.transformNode.name
-                                let ioxd = BABYLON.Vector3.Distance(main.getLinearVelocity(), BABYLON.Vector3.Zero());
+                            ball.physicsBody.getCollisionObservable().add(function (collision) {
+                                //if it collided against the course itself
+                                if((collisionEvent.collidedAgainst.transformNode.name).indexOf('course') >-1){
+                                let ioxd = BABYLON.Vector3.Distance(ball.physicsBody.getLinearVelocity(), BABYLON.Vector3.Zero());
                                 //USE THE IMPULSE TO CALCULATE HOW LOUD THE SOUND WILL BE.
                                 //max v is 1;
                                 if (ioxd > 5) {
@@ -580,6 +580,8 @@ var createScene = async function () {
                                     //ballhit.setVolume((ioxd*5*baseVOL));
                                     //identifier... function for alerting the user of the ball hit... some sort of assurance when sound is disabled.
                                 }
+                            }
+
                             });
 
                         }
