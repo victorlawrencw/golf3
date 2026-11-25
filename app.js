@@ -568,7 +568,7 @@ var createScene = async function () {
                             ball.physicsBody.setCollisionCallbackEnabled(true);
                             ball.physicsBody.getCollisionObservable().add(function (collision) {
                                 //if it collided against the course itself
-                                if((collisionEvent.collidedAgainst.transformNode.name).indexOf('course') >-1){
+                                if((collision.collidedAgainst.transformNode.name).indexOf('course') >-1){
                                 let ioxd = BABYLON.Vector3.Distance(ball.physicsBody.getLinearVelocity(), BABYLON.Vector3.Zero());
                                 //USE THE IMPULSE TO CALCULATE HOW LOUD THE SOUND WILL BE.
                                 //max v is 1;
