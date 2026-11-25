@@ -1325,6 +1325,8 @@ var createScene = async function () {
                                                 fileInfo.set('thumbnail', ximg);
                                                 fileInfo.set('url', cc);
 
+                                                fileInfo.save();
+
                                                 var ioj = showToast('Saved. Copy link?', 1, 1000, function () { let link = dFile.url(); navigator.clipboard.writeText(link) });
                                                 ioj.style.left = '0px';
                                                 ioj.style.top = '62px';
