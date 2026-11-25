@@ -511,6 +511,7 @@ var createScene = async function () {
                             if(m.getChildMeshes().length == 0){
 
                             new BABYLON.PhysicsAggregate(coursex, BABYLON.PhysicsShapeType.MESH, basephy, scene);
+                            BABYLON.Tags.AddTagsTo(coursex, 'courseCHILD');
 
                             if (coursex.material.name == '__GLTFLoader._default' || scene.getMaterialByName("__GLTFLoader._default")) {
                                 let newdefault = new BABYLON.StandardMaterial("newdefault", scene);
@@ -550,6 +551,7 @@ var createScene = async function () {
                                     if (childMesh.getTotalVertices() > 0) {
                                         const childShape = new BABYLON.PhysicsShapeConvexHull(childMesh, scene);
                                         containerShape.addChildFromParent(parentNode, childShape, childMesh);
+                                        BABYLON.Tags.AddTagsTo(childMesh, 'courseCHILD')
                                     }
                                 });
 
@@ -902,6 +904,8 @@ var createScene = async function () {
 
                 //let this calc the difference in position of the ball.
                 let lastpos = JSON.parse(sessionStorage.getItem('checkpoint'));
+                const taggedMeshes = gT('courseCHILD');
+                const hitAny = taggedMeshes.some((target) => ball.intersectsMesh(target, true));
 
                 if (ball.intersectsMesh(water, false)) {
                     //THE BALL WILL BE PUT IN THE PREVIOUS POSITION
@@ -919,7 +923,7 @@ var createScene = async function () {
                         }, 2000
                     )
                 }
-                else if (t_v < 0.05 && ball.intersectsMesh(gM('course'), true)/* && actt==false*/) {
+                else if (t_v < 0.05 && hitAny/* && actt==false*/) {
                     //ALLOW DRAG FUNCTION...
                     stoppedx = true;
 
