@@ -631,6 +631,7 @@ var createScene = async function () {
                     if (ms == (task.loadedMeshes.length - 1) && failsafe == 1) {
                         //this is the last mesh or node in the loaded task..
                         scene.physicsEnabled = true;
+                        console.log('enabled physics again')
                         failsafe = 0;                       
                     }
 
@@ -803,6 +804,7 @@ var createScene = async function () {
         /****** SPECIAL SECTION ******/
         scene.onBeforeRenderObservable.add(() => {
             if (failsafe == 1) return
+            else if (failsafe == 0 && scene.physicsEnabled == false) scene.physicsEnabled = true;
 
             let bv = ball.physicsBody.getLinearVelocity();
             let t_v = BABYLON.Vector3.Distance(bv, BABYLON.Vector3.Zero());
