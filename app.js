@@ -425,7 +425,8 @@ var createScene = async function () {
             }
 
             //THE WATER IS RIGHT BELOW THE COURSE, ONCE THE BALL HITS THE MESH IT WILL RESET THE BALL... while the helper ground will show the shadow. this setup will increase performance
-            new BABYLON.PhysicsAggregate(water, BABYLON.PhysicsShapeType.BOX, { restitution: 0, friction: 15, mass: 0 }, scene);
+            wateragg = new BABYLON.PhysicsAggregate(water, BABYLON.PhysicsShapeType.BOX, { restitution: 0, friction: 15, mass: 0 }, scene);
+            wateragg.body.setPrestepType(BABYLON.PhysicsPrestepType.TELEPORT);
             water.position.y = (gM('course').getBoundingInfo().boundingBox.extendSize.y * -1) - 1;
             helper.ground.position.y = (gM('course').getBoundingInfo().boundingBox.extendSize.y * -1) - 1;
 
