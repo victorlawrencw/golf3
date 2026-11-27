@@ -988,6 +988,8 @@ var createScene = async function () {
                 const taggedMeshes = gT('courseCHILD');
                 const hitAny = taggedMeshes.some((target) => ball.intersectsMesh(target, true));
 
+                console.log(t_v);
+                
                 if (ball.intersectsMesh(water, true) && kicked != 0) {
                     //THE BALL WILL BE PUT IN THE PREVIOUS POSITION
                     setTimeout(
@@ -1046,7 +1048,7 @@ var createScene = async function () {
                     }
                     //console.log('is movin'+t_v);
                 }
-                else if(t_v<1 && t_v>0.1){
+                else if(t_v<2 && t_v>0.1){
                     //slows the ball more when it is slow
                 const anlv = ball.physicsBody.getAngularVelocity();
                 ball.physicsBody.setAngularVelocity(anlv.scale(0.93));
