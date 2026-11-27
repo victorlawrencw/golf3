@@ -277,7 +277,29 @@ html, body {
     box-shadow: 3px -3px 0px -1px var(--orange);
     padding-left: 5px;
 }
-
+@keyframes txs {
+    0%{box-shadow:0px 0px 0px 2px var(--white);}
+    25%{box-shadow:0px 0px 0px 2px var(--white), 5px 0 0px 1px var(--blue);}
+    50%{box-shadow:0px 0px 0px 2px var(--white), 0 -5px 0 1px var(--pink);}
+    75%{box-shadow:0px 0px 0px 2px var(--white), -5px 0 0 1px var(--orange);}
+    100%{box-shadow:0px 0px 0px 2px var(--white), 0 5px 0 1px var(--yellow);}
+}
+#titlecard{
+    display: flex;
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
+    position: fixed;
+    z-index: 1000;
+    left: 5px;
+    top: 5px;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    /*animation: txs 1s linear 0s infinite;*/
+}
+#tclogo{
+    scale: 1.6;
+}
 #settings{
     width:250px;
     right:0;
