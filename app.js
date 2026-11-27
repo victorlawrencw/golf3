@@ -315,11 +315,11 @@ var createScene = async function () {
             //let me write it mathematically and plainly first... this is still hard to understand
             const runx = (val.toFixed());//rounds up the value. val can only be 0<4 float, results in int
 
-            for (let nmx; nmx < 5; nmx++) {
+            for (let nmx=0; nmx < 5; nmx++) {
                 const pow = 5 - nmx;//the furher the putt, the lower the value
                 const prima = val * (0.18 * (nmx + 1));
                 //for each putt box. if nmx = 0; 0x4
-                let echx = gM('putt' + nmx);
+                let echx = gM('putt' + (nmx).toString());
                 let echb = echx.material;
                 let zpos = echx.position.z;
                 const diff = pow * zpos;
