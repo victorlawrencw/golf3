@@ -53,8 +53,6 @@ function scaleCeilingDecimal(x, max = 3.6, steepness = 0.05) {
 
 var createDefaultEngine = function () { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false }); };
 var createScene = async function () {
-    //const audioEngine = await BABYLON.CreateAudioEngineAsync({ volume: 0 });
-    //Ammo();
 
     BABYLON.SceneLoader.ShowLoadingScreen = false;
     engine.enableOfflineSupport = false;
@@ -69,11 +67,7 @@ var createScene = async function () {
     let scene = new BABYLON.Scene(engine);
     scene.clearColor = new BABYLON.Color3(0.7, 0.7, 0.7);
     scene.collisionsEnabled = true;
-    //loadammo();
 
-    //async function loadammo(){
-    //await Ammo();
-    //const ammoPlugin = new BABYLON.AmmoJSPlugin(true);
     const hvk = await HavokPhysics();
     const hk = new BABYLON.HavokPlugin(true, hvk);
 
@@ -311,17 +305,9 @@ var createScene = async function () {
             return gts;
         }
 
-    assetsManager.onTaskSuccessObservable.add(async function (task) {
-        //disable ball physics for a while
-        scene.physicsEnabled = false;
-        console.log(scene.physicsEnabled);
 
 
-
-
-
-
-
+        
         //creating color/material function
         function tension(val, lastbox) {
             //4 is the limit... the value is a float
@@ -344,6 +330,7 @@ var createScene = async function () {
                 //SEEMS I WILL SCRAP THIS FOR A MORE DETERMINED NO-MATHS APPROACH. Would just get Z of the boxes and process appropriately
                 //const scaled = scaleAndClamp(zpos);
                 const scd = scaleCeilingDecimal(zpos, val); //moves closer to the val hehe
+                console.log(scd);
                 switch (scd) {
                     case scd >= 2.9: {
                         //green
@@ -373,6 +360,15 @@ var createScene = async function () {
 
         }
 
+
+
+
+    assetsManager.onTaskSuccessObservable.add(async function (task) {
+        //disable ball physics for a while
+        scene.physicsEnabled = false;
+
+
+
         //TYPES OF BALL AVAILABLE FOR USER                
         if (putted == "Shadow") {
             let puttLight = new BABYLON.DirectionalLight("shadowmaker", new BABYLON.Vector3(0, -1, 0), scene);
@@ -395,7 +391,6 @@ var createScene = async function () {
         //const root = task.loadedMeshes;
         //root.computeWorldMatrix(true);
 
-        console.log(gM("start").getAbsolutePosition());
 
         let startbbx = (gM("start").getBoundingInfo().boundingBox.extendSize.y * gM("start").scaling.y);
 
@@ -552,13 +547,11 @@ var createScene = async function () {
                             ball.physicsBody.disablePreStep = false;
                             //Starting point
                             let startpoint = m.position;
-                            console.log(startpoint);
 
 
                             sessionStorage.setItem('checkpoint', JSON.stringify(rvec(startloc)));
                             ball.position = startloc;
 
-                            console.log(ball.position)
                             m.dispose();
                         }
                     }
@@ -588,7 +581,6 @@ var createScene = async function () {
 
                             if (m.getChildMeshes().length == 0) {
                                 //HE HAS NO CHILD... CHILDLESS.... Cant make a good joke out of this
-                                console.log('without child meshes')
 
                                 //const baseShape = new BABYLON.PhysicsBody(coursex, BABYLON.PhysicsMotionType.DYNAMIC, false, scene);
                                 //baseShape.setMassProperties({ mass: 0 });
@@ -655,10 +647,8 @@ var createScene = async function () {
                             ball.physicsBody.setCollisionCallbackEnabled(true);
                             ball.physicsBody.getCollisionObservable().add(function (collision) {
                                 //if it collided against the course itself
-                                //console.log(collision.collidedAgainst.transformNode.name);
                                 if ((collision.collidedAgainst.transformNode.name).indexOf('course') > -1) {
                                     let ioxd = BABYLON.Vector3.Distance(ball.physicsBody.getLinearVelocity(), BABYLON.Vector3.Zero());
-                                    //console.log('hit course: '+ioxd)
                                     //USE THE IMPULSE TO CALCULATE HOW LOUD THE SOUND WILL BE.
                                     //max v is 1;
                                     if (ioxd > 5) {
@@ -717,10 +707,9 @@ var createScene = async function () {
                     if (ms == (task.loadedMeshes.length - 1) && failsafe == 1) {
                         //this is the last mesh or node in the loaded task..
                         scene.physicsEnabled = true;
-                        console.log('enabled physics again')
                         failsafe = 0;
+                        finishedsetup()
                     }
-
 
                 }, 10);
             }
@@ -1334,9 +1323,7 @@ var createScene = async function () {
         failsafe = 1;
         scene.onBeforeRenderObservable.remove(rend);
         importedmeshes.forEach(function (im) {
-            console.log(im);
             if (scene.getMeshByUniqueId(im) != null) scene.getMeshByUniqueId(im).dispose();
-            console.log('disposed ' + im)
         });
         gM('holder').dispose()
     }
@@ -1347,11 +1334,10 @@ var createScene = async function () {
         loader.innerHTML = loader.innerHTML + "Loading..." + percentage.toString() + "%";
     }
 
-    assetsManager.onFinish = function () {
+    function finishedsetup() {
 
         if (courseloc != 'https://golf3.onrender.com/boredApes.glb/' && loadtype == 'file') {
             loader.innerHTML = "Capturing Preview";
-            console.log(scene.getMeshesByTags('courseCHILD').length);
             //FAST 10 secs SCREENSHOT FOR GOLF COURSE SHOWCASE... this will be useful when other users are looking for a particular course.
             if (gT('courseCHILD').length > 0) {
                 console.log('course exists');
