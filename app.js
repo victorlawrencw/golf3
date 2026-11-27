@@ -655,7 +655,7 @@ var createScene = async function () {
                             ball.physicsBody.setCollisionCallbackEnabled(true);
                             ball.physicsBody.getCollisionObservable().add(function (collision) {
                                 //if it collided against the course itself
-                                console.log(collision.collidedAgainst.transformNode.name);
+                                //console.log(collision.collidedAgainst.transformNode.name);
                                 if ((collision.collidedAgainst.transformNode.name).indexOf('course') > -1) {
                                     let ioxd = BABYLON.Vector3.Distance(ball.physicsBody.getLinearVelocity(), BABYLON.Vector3.Zero());
                                     //console.log('hit course: '+ioxd)
