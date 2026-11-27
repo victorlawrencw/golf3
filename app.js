@@ -38,78 +38,17 @@ if (Parse.User.current()) {
     userusername = Parse.User.current().get('username')
 }
 
-    function gM(name) {
-        let gmm = scene.getMeshByName(name);
-        return gmm;
-    }
-
-    function gT(name) {
-        let gts = scene.getMeshesByTags(name);
-        return gts;
-    }
-
 function scalePower(x, multiplier = 2.5, exponent = 0.5) {
-  return Math.round(Math.pow(x, exponent) * multiplier);
+    return Math.round(Math.pow(x, exponent) * multiplier);
 }
 function scaleAndClamp(x, max = 4) {
-  const scaled = Math.sqrt(x) * 2;
-  return Math.min(scaled, max);
+    const scaled = Math.sqrt(x) * 2;
+    return Math.min(scaled, max);
 }
 
 function scaleCeilingDecimal(x, max = 3.6, steepness = 0.05) {
-  const result = max * (x / (x + steepness));
-  return Number(result.toFixed(2));
-}
-
-//creating color/material function
-function tension(val, lastbox) {
-    //4 is the limit... the value is a float
-    //0-4 both the boxes and the distance
-    //let me write it mathematically and plainly first... this is still hard to understand
-    const runx = (val.toFixed());//rounds up the value. val can only be 0<4 float, results in int
-
-    for (let nmx; nmx < 5; nmx++) {
-        const pow = 5 - nmx;//the furher the putt, the lower the value
-        const prima = val * (0.18 * (nmx + 1));
-        //for each putt box. if nmx = 0; 0x4
-        let echx = gM('putt' + nmx);
-        let echb = echx.material;
-        let zpos = echx.position.z;
-        const diff = pow * zpos;
-        const lbx = lastbox / zpos;//divide will make the number smaller the farther its pulled... i think
-
-        //it will be runx x distance so it will apply to those below when pulled completely
-        //threshhold for all of them is different as well
-        //SEEMS I WILL SCRAP THIS FOR A MORE DETERMINED NO-MATHS APPROACH. Would just get Z of the boxes and process appropriately
-        //const scaled = scaleAndClamp(zpos);
-        const scd = scaleCeilingDecimal(zpos, val); //moves closer to the val hehe
-        switch (scd) {
-            case scd >= 2.9: {
-                //green
-                echb.color = givenColor.color1
-            }
-                break;
-            case scd >= 1&scd<2.9: {
-                //yellow
-                echb.color = givenColor.color2
-            }
-                break;
-            case scd < 1: {
-                //red
-                echb.color = givenColor.color3
-            }
-                break;
-
-            default: {
-
-            }
-                break;
-        }
-
-
-    }
-
-
+    const result = max * (x / (x + steepness));
+    return Number(result.toFixed(2));
 }
 
 var createDefaultEngine = function () { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false }); };
@@ -148,7 +87,7 @@ var createScene = async function () {
     helper.setMainColor(new BABYLON.Color3(0.9, 0.9, 0.9));
     helper.ground.position.y = -1;
 
-    let skybox = gM("BackgroundSkybox");
+    let skybox = scene.getMeshByName("BackgroundSkybox");
     //skybox.scaling = new BABYLON.Vector3(10, 1, 10);
     skybox.isPickable = false;
 
@@ -366,6 +305,72 @@ var createScene = async function () {
         //disable ball physics for a while
         scene.physicsEnabled = false;
         console.log(scene.physicsEnabled);
+
+
+
+
+        function gM(name) {
+            let gmm = scene.getMeshByName(name);
+            return gmm;
+        }
+
+        function gT(name) {
+            let gts = scene.getMeshesByTags(name);
+            return gts;
+        }
+
+
+
+        //creating color/material function
+        function tension(val, lastbox) {
+            //4 is the limit... the value is a float
+            //0-4 both the boxes and the distance
+            //let me write it mathematically and plainly first... this is still hard to understand
+            const runx = (val.toFixed());//rounds up the value. val can only be 0<4 float, results in int
+
+            for (let nmx; nmx < 5; nmx++) {
+                const pow = 5 - nmx;//the furher the putt, the lower the value
+                const prima = val * (0.18 * (nmx + 1));
+                //for each putt box. if nmx = 0; 0x4
+                let echx = gM('putt' + nmx);
+                let echb = echx.material;
+                let zpos = echx.position.z;
+                const diff = pow * zpos;
+                const lbx = lastbox / zpos;//divide will make the number smaller the farther its pulled... i think
+
+                //it will be runx x distance so it will apply to those below when pulled completely
+                //threshhold for all of them is different as well
+                //SEEMS I WILL SCRAP THIS FOR A MORE DETERMINED NO-MATHS APPROACH. Would just get Z of the boxes and process appropriately
+                //const scaled = scaleAndClamp(zpos);
+                const scd = scaleCeilingDecimal(zpos, val); //moves closer to the val hehe
+                switch (scd) {
+                    case scd >= 2.9: {
+                        //green
+                        echb.color = givenColor.color1
+                    }
+                        break;
+                    case scd >= 1 & scd < 2.9: {
+                        //yellow
+                        echb.color = givenColor.color2
+                    }
+                        break;
+                    case scd < 1: {
+                        //red
+                        echb.color = givenColor.color3
+                    }
+                        break;
+
+                    default: {
+
+                    }
+                        break;
+                }
+
+
+            }
+
+
+        }
 
         //TYPES OF BALL AVAILABLE FOR USER                
         if (putted == "Shadow") {
