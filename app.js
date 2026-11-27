@@ -989,7 +989,7 @@ var createScene = async function () {
                 const hitAny = taggedMeshes.some((target) => ball.intersectsMesh(target, true));
 
                 console.log(t_v);
-                
+
                 if (ball.intersectsMesh(water, true) && kicked != 0) {
                     //THE BALL WILL BE PUT IN THE PREVIOUS POSITION
                     setTimeout(
@@ -1074,7 +1074,7 @@ var createScene = async function () {
 
             pulling_disk.rotation.y = Math.atan2(diffX, diffY);
             spect.rotation.y = Math.atan2(diffX, diffY);
-            tension(distance, pullpos);
+            tension(distance, gM("putt4").position.z);
 
             if (pickResult.hit) {
                 if (distance <= 4) {
