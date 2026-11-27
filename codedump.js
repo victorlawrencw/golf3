@@ -439,3 +439,100 @@ scene.enablePhysics(new BABYLON.Vector3(0, -9.81, 0), ammoPlugin);
     }
     
 })
+
+
+    //if the rounded up number is EQUAL to 1, GIVE EM THE COLOR
+    if(runx == 1 ){
+    
+    }
+    //else assign the lesser color
+    else{
+
+    }
+
+
+
+    
+function altyy(runx) {
+    //alternate shameless method... FORGIVE ME
+    //COLORED IN BUNDLES IF NEED BE
+    for (let nmx; nmx < 5; nmx++) {
+        let echx = gM('putt' + nmx);
+        let echb = echx.material;
+    }
+    switch (runx) {
+        case runx > 3.6: {
+            //MAX PULL ----- ALL GREEN
+            for (let nmx; nmx < 5; nmx++) {
+                let echx = gM('putt' + nmx);
+                let echb = echx.material;
+                echb.color = givenColor.color1;
+            }
+        }
+            break;
+        case runx > 3: {
+            //4 GREEN ONE YELLOW
+            for (let nmx; nmx < 5; nmx++) {
+                let echx = gM('putt' + nmx);
+                let echb = echx.material;
+                echb.color = givenColor.color1;
+            }
+            gM('putt0').material.color = givenColor.color2;
+        }
+            break;
+        case runx > 2: {
+            //1 GREEN 4 YELLOW
+            echb.color = givenColor.color3
+            for (let nmx; nmx < 4; nmx++) {
+                let echx = gM('putt' + nmx);
+                let echb = echx.material;
+                echb.color = givenColor.color1;
+            }
+            gM('putt4').material.color = givenColor.color2;
+        }
+            break;
+        case runx > 1:
+            //ALL YELLOW
+            for (let nmx; nmx < 5; nmx++) {
+                let echx = gM('putt' + nmx);
+                let echb = echx.material;
+                echb.color = givenColor.color2;
+            }
+            break;
+        case runx > 0.5:
+            //4 REDS 1 YELLOW
+            for (let nmx; nmx < 4; nmx++) {
+                let echx = gM('putt' + nmx);
+                let echb = echx.material;
+                echb.color = givenColor.color3;
+            }
+            break;
+
+        default: {
+            //LOWEST ---- ALL RED
+            for (let nmx; nmx < 5; nmx++) {
+                let echx = gM('putt' + nmx);
+                let echb = echx.material;
+                echb.color = givenColor.color3;
+            }
+
+        }
+            break;
+    }
+
+}
+
+
+
+    const thresholdz = { 'nm1': [0, 2], 'nm2': {}, 'nm3': {}, 'nm4': {}, 'nm5': {} }
+
+    const randco = {
+        randx(x) {
+            return 'logger' + x
+        },
+        randy(y) {
+            console.log('logger');
+            return 'logged' + y
+        }
+    }
+    randco.randx();

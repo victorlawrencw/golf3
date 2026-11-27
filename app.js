@@ -1,3 +1,4 @@
+
 let canvas = document.getElementById("renderCanvas");
 var engine = null;
 var scene = null;
@@ -21,6 +22,12 @@ let rend;
 let failsafe = 0;
 let startloc;
 
+const color1 = new BABYLON.Color3(0.1, 0.9, 0.1);//green
+const color2 = new BABYLON.Color3(0.9, 0.9, 0.1);//yellow
+const color3 = new BABYLON.Color3(1, 0.1, 0.1);//red
+
+const givenColor = { color1, color2, color3 };
+
 
 let musicA;
 
@@ -30,6 +37,71 @@ if (Parse.User.current()) {
     //if we have user logged in
     userusername = Parse.User.current().get('username')
 }
+
+function scalePower(x, multiplier = 2.5, exponent = 0.5) {
+  return Math.round(Math.pow(x, exponent) * multiplier);
+}
+function scaleAndClamp(x, max = 4) {
+  const scaled = Math.sqrt(x) * 2;
+  return Math.min(scaled, max);
+}
+
+function scaleCeilingDecimal(x, max = 3.6, steepness = 0.05) {
+  const result = max * (x / (x + steepness));
+  return Number(result.toFixed(2));
+}
+
+//creating color/material function
+function tension(val, lastbox) {
+    //4 is the limit... the value is a float
+    //0-4 both the boxes and the distance
+    //let me write it mathematically and plainly first... this is still hard to understand
+    const runx = (val.toFixed());//rounds up the value. val can only be 0<4 float, results in int
+
+    for (let nmx; nmx < 5; nmx++) {
+        const pow = 5 - nmx;//the furher the putt, the lower the value
+        const prima = val * (0.18 * (nmx + 1));
+        //for each putt box. if nmx = 0; 0x4
+        let echx = gM('putt' + nmx);
+        let echb = echx.material;
+        let zpos = echx.position.z;
+        const diff = pow * zpos;
+        const lbx = lastbox / zpos;//divide will make the number smaller the farther its pulled... i think
+
+        //it will be runx x distance so it will apply to those below when pulled completely
+        //threshhold for all of them is different as well
+        //SEEMS I WILL SCRAP THIS FOR A MORE DETERMINED NO-MATHS APPROACH. Would just get Z of the boxes and process appropriately
+        //const scaled = scaleAndClamp(zpos);
+        const scd = scaleCeilingDecimal(zpos, val); //moves closer to the val hehe
+        switch (scd) {
+            case scd >= 2.9: {
+                //green
+                echb.color = givenColor.color1
+            }
+                break;
+            case scd >= 1&scd<2.9: {
+                //yellow
+                echb.color = givenColor.color2
+            }
+                break;
+            case scd < 1: {
+                //red
+                echb.color = givenColor.color3
+            }
+                break;
+
+            default: {
+
+            }
+                break;
+        }
+
+
+    }
+
+
+}
+
 var createDefaultEngine = function () { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true, disableWebGL2Support: false }); };
 var createScene = async function () {
     //const audioEngine = await BABYLON.CreateAudioEngineAsync({ volume: 0 });
@@ -66,12 +138,12 @@ var createScene = async function () {
     helper.setMainColor(new BABYLON.Color3(0.9, 0.9, 0.9));
     helper.ground.position.y = -1;
 
-    let skybox = scene.getMeshByName("BackgroundSkybox");
+    let skybox = gM("BackgroundSkybox");
     //skybox.scaling = new BABYLON.Vector3(10, 1, 10);
     skybox.isPickable = false;
 
     function gM(name) {
-        let gmm = scene.getMeshByName(name);
+        let gmm = gM(name);
         return gmm;
     }
 
@@ -358,7 +430,7 @@ var createScene = async function () {
             snapcam.radius = bbxz;
             snapcam.lowerRadiusLimit = bbxz - (bbxz * 0.25);
             snapcam.upperRadiusLimit = bbxz + (bbxz * 0.25);
-            if (scene.getMeshByName('ball') == null) {
+            if (gM('ball') == null) {
                 switch (gshape) {
                     case null:
                         ball = BABYLON.MeshBuilder.CreateIcoSphere("ball", { radius: startbbx, subdivisions: 4, flat: true }, scene);
@@ -442,7 +514,6 @@ var createScene = async function () {
                             })
                         }
                     }
-
                     else if (mname.indexOf("glass") > -1) {
                         //The imported GLASS will be replaced by SPS or PCS with its corresponding shape - this one might be hard
                     }
@@ -506,12 +577,17 @@ var createScene = async function () {
                             coursex.isPickable = false;
                             if (mname.length > iom + 7) restitution = Number(mname.slice(iom + 7, iom + 8)) * 0.1;
                             if (mname.length > iom + 8) friction = Number(mname.slice(iom + 8, iom + 9)) * 0.1;
-                            let basephy = { mass: 0, restitution: restitution, friction: friction };
+                            let basephy = { restitution: restitution, friction: friction };
 
                             if (m.getChildMeshes().length == 0) {
                                 //HE HAS NO CHILD... CHILDLESS.... Cant make a good joke out of this
+                                console.log('without child meshes')
 
-                                new BABYLON.PhysicsAggregate(coursex, BABYLON.PhysicsShapeType.MESH, basephy, scene);
+                                const baseShape = new BABYLON.PhysicsShapeConvexHull(coursex, scene);
+                                baseShape.setMassProperties({ mass: 0 });
+                                baseShape.material = basephy;
+
+                                //new BABYLON.PhysicsAggregate(coursex, BABYLON.PhysicsShapeType.CONVEXHULL, basephy, scene);
                                 BABYLON.Tags.AddTagsTo(coursex, 'courseCHILD');
 
                                 if (coursex.material.name == '__GLTFLoader._default' || scene.getMaterialByName("__GLTFLoader._default")) {
@@ -591,9 +667,10 @@ var createScene = async function () {
 
                         }
                     }
-                    else if (mname == "kicks") {
+                    else if (mname.indexOf("kicks") > -1) {
                         sessionStorage.setItem('kicks', mname.slice(5));
                         ge('infoblock').innerHTML = '';
+
                         //ADDS ALL THE KICKS INDICATORS
                         const knum = parseInt(mname.slice(5));
                         for (let opx = 0; opx < knum; opx++) {
@@ -601,7 +678,8 @@ var createScene = async function () {
                             dud.className = 'buttons duds';
                             ge('infoblock').appendChild(dud);
                         }
-                        checkkicks()
+                        checkkicks();
+                        m.dispose()
                     }
                     else if (mname == "deco") {
                         //DECO
@@ -632,7 +710,7 @@ var createScene = async function () {
                         //this is the last mesh or node in the loaded task..
                         scene.physicsEnabled = true;
                         console.log('enabled physics again')
-                        failsafe = 0;                       
+                        failsafe = 0;
                     }
 
 
@@ -712,6 +790,7 @@ var createScene = async function () {
                     }
                 };
                 case "Simple": {
+                    //THIS WILL HAVE MORE COLOR VARIANTS THAN OTHERS. green-yellow-orange--redish orange-red
 
                 };
                     break;
@@ -913,7 +992,7 @@ var createScene = async function () {
                 const taggedMeshes = gT('courseCHILD');
                 const hitAny = taggedMeshes.some((target) => ball.intersectsMesh(target, true));
 
-                if (ball.intersectsMesh(water, true)&&kicked != 0) {
+                if (ball.intersectsMesh(water, true) && kicked != 0) {
                     //THE BALL WILL BE PUT IN THE PREVIOUS POSITION
                     setTimeout(
                         function () {
@@ -952,8 +1031,8 @@ var createScene = async function () {
                         position_disk.edgesColor = new BABYLON.Color4(1, 1, 1, 1);
                         position_disk.rotation.z = Math.PI / 2;
                         for (var pn = 0; pn < 5; pn++) {
-                            scene.getMeshByName("putt" + pn.toString()).isVisible = true;
-                            //scene.getMeshByName("putt"+pn.toString()).position.z=0*(0.18*(pn+1));
+                            gM("putt" + pn.toString()).isVisible = true;
+                            //gM("putt"+pn.toString()).position.z=0*(0.18*(pn+1));
                         }
                     }
 
@@ -967,7 +1046,7 @@ var createScene = async function () {
                     gM('inpointer').isVisible = false;
 
                     for (var pn = 0; pn < 5; pn++) {
-                        scene.getMeshByName("putt" + pn.toString()).isVisible = false;
+                        gM("putt" + pn.toString()).isVisible = false;
                     }
                     //console.log('is movin'+t_v);
                 }
@@ -994,7 +1073,7 @@ var createScene = async function () {
             spect.rotation.y = Math.atan2(diffX, diffY);
 
             if (pickResult.hit) {
-                if (distance < 4) {
+                if (distance <= 4) {
 
                     if (putted == "Classic") {
                         position_disk.isVisible = true;
@@ -1008,23 +1087,26 @@ var createScene = async function () {
                         position_disk.edgesColor = new BABYLON.Color4(1, 1, 1, 1);
                         position_disk.rotation.z = Math.PI / 2;
 
-                        for (var pn = 0; pn < 5; pn++) {
-                            scene.getMeshByName("putt" + pn.toString()).isVisible = true;
-                            scene.getMeshByName("putt" + pn.toString()).position.z = distance * (0.18 * (pn + 1));
+                        for (var pn = 0; pn < 5; pn++) {//DIFFERENCE IS JUST 1... THIS SHOULD BE SIMPLE TO USE
+                            gM("putt" + pn.toString()).isVisible = true;
+                            gM("putt" + pn.toString()).position.z = distance * (0.18 * (pn + 1));
                         }
                         //This can be used for the pull instead of spect mesh
                     }
                     else if (putted == "Boxes") {
                         for (var pn = 0; pn < 5; pn++) {
-                            scene.getMeshByName("putt" + pn.toString()).isVisible = true;
-                            scene.getMeshByName("putt" + pn.toString()).position.z = distance * (0.18 * (pn + 1));
+                            gM("putt" + pn.toString()).isVisible = true;
+                            gM("putt" + pn.toString()).position.z = distance * (0.18 * (pn + 1));
+                            //IF PN = 0; 0+1=1; X0.18=0.18//MAX IS 3.6(z).  EACH MUST HAVE SAME MAX AS THE FURTHEST
                         }
                     }
                     else {
                         shadower.position.z = distance * 0.8;
-                        shadower.scaling.scaleInPlace(1 + (distance * 0.5));
+                        shadower.scaling.scaleInPlace(1 + (distance * 0.5))
                     }
-                    sessionStorage.setItem('pull', scene.getMeshByName("putt4").position.z);
+                    const pullpos = gM("putt4").position.z
+                    tension(distance, pullpos);
+                    sessionStorage.setItem('pull', pullpos);
                     //console.log(pickResult.pickedPoint);    
                 }
                 else {
@@ -1064,7 +1146,7 @@ var createScene = async function () {
 
             //stoppedx++;
             camera.attachControl(canvas, true);
-            if (scene.getMeshByName("putt4").position.z > 0.5) {
+            if (gM("putt4").position.z > 0.5) {
                 //set as new checkpoint as well :)
                 let newpos = rvec(ball.position);
                 sessionStorage.setItem('checkpoint', JSON.stringify(newpos));
@@ -1072,7 +1154,7 @@ var createScene = async function () {
                 //APPLY IMPULSE ON THE BALL WHEN THE ePUTT IS BEING RELEASED WITH MORE OR EQUAL TO THE MINIMUM THRESHOLD!
                 ball.physicsBody.applyImpulse(strr, ball.getAbsolutePosition());
                 position_disk.dispose();
-                scene.getMeshByName("inpointer").position = new BABYLON.Vector3(0, 0, 0);
+                gM("inpointer").position = new BABYLON.Vector3(0, 0, 0);
                 //playsound('puckhit');
                 kicked++;
                 sessionStorage.setItem('kicks', parseInt(sessionStorage.getItem('kicks')) - 1);
@@ -1104,8 +1186,8 @@ var createScene = async function () {
                 }
             }
             for (var pn = 0; pn < 5; pn++) {
-                scene.getMeshByName("putt" + pn.toString()).position.z = 0;
-                scene.getMeshByName("putt" + pn.toString()).isVisible = false;
+                gM("putt" + pn.toString()).position.z = 0;
+                gM("putt" + pn.toString()).isVisible = false;
             }
 
             if (putted == "Shadow") {
@@ -1260,7 +1342,7 @@ var createScene = async function () {
 
         if (courseloc != 'https://golf3.onrender.com/boredApes.glb/' && loadtype == 'file') {
             loader.innerHTML = "Capturing Preview";
-            console.log(gT('courseCHILD').length);
+            console.log(scene.getMeshesByTags('courseCHILD').length);
             //FAST 10 secs SCREENSHOT FOR GOLF COURSE SHOWCASE... this will be useful when other users are looking for a particular course.
             if (gT('courseCHILD').length > 0) {
                 console.log('course exists');
