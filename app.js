@@ -313,48 +313,40 @@ var createScene = async function () {
             //4 is the limit... the value is a float
             //0-4 both the boxes and the distance
             //let me write it mathematically and plainly first... this is still hard to understand
-            const runx = (val.toFixed());//rounds up the value. val can only be 0<4 float, results in int
 
             for (let nmx=0; nmx < 5; nmx++) {
-                const pow = 5 - nmx;//the furher the putt, the lower the value
-                const prima = val * (0.18 * (nmx + 1));
-
                 //for each putt box. if nmx = 0; 0x4
                 let echx = gM('putt' + (nmx).toString());
                 let echb = echx.material;
                 let zpos = echx.position.z;
-                const diff = pow * zpos;
-                const lbx = lastbox / zpos;//divide will make the number smaller the farther its pulled... i think
 
                 //it will be runx x distance so it will apply to those below when pulled completely
                 //threshhold for all of them is different as well
                 //SEEMS I WILL SCRAP THIS FOR A MORE DETERMINED NO-MATHS APPROACH. Would just get Z of the boxes and process appropriately
                 //const scaled = scaleAndClamp(zpos);
                 const scd = scaleCeilingDecimal(zpos, val); //moves closer to the val hehe
-                switch (scd) {
-                    case scd >= 2.9: {
+                if (scd) {
+                    if (scd >= 2.9) {
                         //green
                         console.log('green');
-                        echb.diffuseColor = givenColor.color1
+                        echb.diffuseColor = givenColor.color1;
+                        return
                     }
-                        break;
-                    case scd >= 1 & scd < 2.9: {
+                    else if (scd >= 1 && scd < 2.9) {
                         //yellow
                         console.log('yellow');
-                        echb.diffuseColor = givenColor.color2
+                        echb.diffuseColor = givenColor.color2;
+                        return
                     }
-                        break;
-                    case scd < 1: {
+                    else if (scd < 1) {
                         //red
                         console.log('red');
                         echb.diffuseColor = givenColor.color3
+                        return;
                     }
-                        break;
-
-                    default: {
+                    else{
                         echb.diffuseColor = new BABYLON.Color3(1,1,1)
                     }
-                        break;
                 }
 
 
@@ -988,7 +980,6 @@ var createScene = async function () {
                 const taggedMeshes = gT('courseCHILD');
                 const hitAny = taggedMeshes.some((target) => ball.intersectsMesh(target, true));
 
-                console.log(t_v);
 
                 if (ball.intersectsMesh(water, true) && kicked != 0) {
                     //THE BALL WILL BE PUT IN THE PREVIOUS POSITION
@@ -1048,7 +1039,7 @@ var createScene = async function () {
                     }
                     //console.log('is movin'+t_v);
                 }
-                else if(t_v<2 && t_v>0.1){
+                else if(t_v<2.5 && t_v>0.1){
                     //slows the ball more when it is slow
                 const anlv = ball.physicsBody.getAngularVelocity();
                 ball.physicsBody.setAngularVelocity(anlv.scale(0.93));
