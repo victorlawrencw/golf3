@@ -592,7 +592,7 @@ var createScene = async function () {
                                 //baseShape.setMassProperties({ mass: 0 });
                                 //baseShape.material = basephy;
 
-                                const aggrecou = new BABYLON.PhysicsAggregate(coursex, BABYLON.PhysicsShapeType.CONVEX_HULL, basephy, scene);
+                                const aggrecou = new BABYLON.PhysicsAggregate(coursex, BABYLON.PhysicsShapeType.MESH, basephy, scene);
                                 BABYLON.Tags.AddTagsTo(coursex, 'courseCHILD');
 
                                 if (coursex.material.name == '__GLTFLoader._default' || scene.getMaterialByName("__GLTFLoader._default")) {
