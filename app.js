@@ -318,7 +318,7 @@ var createScene = async function () {
             for (let nmx=0; nmx < 5; nmx++) {
                 const pow = 5 - nmx;//the furher the putt, the lower the value
                 const prima = val * (0.18 * (nmx + 1));
-                
+
                 //for each putt box. if nmx = 0; 0x4
                 let echx = gM('putt' + (nmx).toString());
                 let echb = echx.material;
@@ -1072,6 +1072,7 @@ var createScene = async function () {
 
             pulling_disk.rotation.y = Math.atan2(diffX, diffY);
             spect.rotation.y = Math.atan2(diffX, diffY);
+            tension(distance, pullpos);
 
             if (pickResult.hit) {
                 if (distance <= 4) {
@@ -1106,7 +1107,7 @@ var createScene = async function () {
                         shadower.scaling.scaleInPlace(1 + (distance * 0.5))
                     }
                     const pullpos = gM("putt4").position.z
-                    tension(distance, pullpos);
+                    
                     //sessionStorage.setItem('pull', pullpos);
                     //console.log(pickResult.pickedPoint);    
                 }
