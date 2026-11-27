@@ -301,14 +301,6 @@ var createScene = async function () {
             }
             */
 
-    assetsManager.onTaskSuccessObservable.add(async function (task) {
-        //disable ball physics for a while
-        scene.physicsEnabled = false;
-        console.log(scene.physicsEnabled);
-
-
-
-
         function gM(name) {
             let gmm = scene.getMeshByName(name);
             return gmm;
@@ -318,6 +310,15 @@ var createScene = async function () {
             let gts = scene.getMeshesByTags(name);
             return gts;
         }
+
+    assetsManager.onTaskSuccessObservable.add(async function (task) {
+        //disable ball physics for a while
+        scene.physicsEnabled = false;
+        console.log(scene.physicsEnabled);
+
+
+
+
 
 
 
@@ -513,7 +514,7 @@ var createScene = async function () {
 
                             const expag = new BABYLON.PhysicsAggregate(explosivex, BABYLON.PhysicsShapeType.MESH, { mass: 1, restitution: 0, friction: 0 }, scene);
                             expag.setCollisionCallbackEnabled(true);
-                            (ball.physicsBody.getCollisionObservable).add(function (collision) {
+                            (m.physicsBody.getCollisionObservable).add(function (collision) {
                                 //if it collided against ball, it will explode
                                 if (collision.collidedAgainst.transformNode.name == 'ball') { explode(origin, strength, radius, cdx) }
                             })
@@ -653,6 +654,7 @@ var createScene = async function () {
                             ball.physicsBody.setCollisionCallbackEnabled(true);
                             ball.physicsBody.getCollisionObservable().add(function (collision) {
                                 //if it collided against the course itself
+                                console.log(collision.collidedAgainst.transformNode.name);
                                 if ((collision.collidedAgainst.transformNode.name).indexOf('course') > -1) {
                                     let ioxd = BABYLON.Vector3.Distance(ball.physicsBody.getLinearVelocity(), BABYLON.Vector3.Zero());
                                     //console.log('hit course: '+ioxd)
