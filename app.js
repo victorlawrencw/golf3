@@ -708,8 +708,8 @@ var createScene = async function () {
                         //this is the last mesh or node in the loaded task..
                         scene.physicsEnabled = true;
                         failsafe = 0;
-                        finishedsetup()
                     }
+                    if(ms==(task.loadedMeshes.length - 1)) finishedsetup()
 
                 }, 10);
             }
@@ -1488,7 +1488,6 @@ var createScene = async function () {
 
     //PAUSE THE GAME... LIKE A BOSS.
     ge('pauseb').onclick = function () {
-        console.log("paused");
         ge("gameMenu").style.display = "block";
         ge('timeelapsed').innerHTML = "Total time: <div style='color:var(--blue)'>" + ((Date.now() - parseInt(sessionStorage.getItem('start time'))) / 1000).toFixed(2) + 's </div>';
         ge('kicked').innerHTML = 'Kicked: <div style="color:var(--green)">' + kicked + ' times</div>';
@@ -1506,7 +1505,6 @@ var createScene = async function () {
                 const response = await fetch(png);
                 const blob = await response.blob();
                 const blobUrl = URL.createObjectURL(blob);
-                console.log('screenshot taken - ' + png);
 
 
                 const linkim = document.createElement('a');
@@ -1546,7 +1544,6 @@ var createScene = async function () {
 
 
     function checkkicks() {
-        console.log("checking kicks");
         //if(intid != null) clearInterval(intid);
         if (parseInt(sessionStorage.getItem('kicks')) == 1) {
             let cho = ge('infoblock');
@@ -1586,7 +1583,6 @@ var createScene = async function () {
 window.initFunction = async function () {
     var asyncEngineCreation = async function () {
         try {
-            console.log("engine started");
             return createDefaultEngine();
         } catch (e) {
             console.log("the available createEngine function failed. Creating the default engine instead");
