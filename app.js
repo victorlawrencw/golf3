@@ -318,6 +318,7 @@ var createScene = async function () {
             for (let nmx=0; nmx < 5; nmx++) {
                 const pow = 5 - nmx;//the furher the putt, the lower the value
                 const prima = val * (0.18 * (nmx + 1));
+                
                 //for each putt box. if nmx = 0; 0x4
                 let echx = gM('putt' + (nmx).toString());
                 let echb = echx.material;
@@ -330,26 +331,28 @@ var createScene = async function () {
                 //SEEMS I WILL SCRAP THIS FOR A MORE DETERMINED NO-MATHS APPROACH. Would just get Z of the boxes and process appropriately
                 //const scaled = scaleAndClamp(zpos);
                 const scd = scaleCeilingDecimal(zpos, val); //moves closer to the val hehe
-                console.log(scd);
                 switch (scd) {
                     case scd >= 2.9: {
                         //green
+                        console.log('green');
                         echb.diffuseColor = givenColor.color1
                     }
                         break;
                     case scd >= 1 & scd < 2.9: {
                         //yellow
+                        console.log('yellow');
                         echb.diffuseColor = givenColor.color2
                     }
                         break;
                     case scd < 1: {
                         //red
+                        console.log('red');
                         echb.diffuseColor = givenColor.color3
                     }
                         break;
 
                     default: {
-
+                        echb.diffuseColor = new BABYLON.Color3(1,1,1)
                     }
                         break;
                 }
