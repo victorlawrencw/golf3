@@ -325,22 +325,20 @@ var createScene = async function () {
                 //SEEMS I WILL SCRAP THIS FOR A MORE DETERMINED NO-MATHS APPROACH. Would just get Z of the boxes and process appropriately
                 //const scaled = scaleAndClamp(zpos);
                 const scd = scaleCeilingDecimal(zpos, val); //moves closer to the val hehe
+                console.log(scd);
                 if (scd) {
                     if (scd >= 2.9) {
                         //green
-                        console.log('green');
                         echb.diffuseColor = givenColor.color1;
                         return
                     }
                     else if (scd >= 1 && scd < 2.9) {
                         //yellow
-                        console.log('yellow');
                         echb.diffuseColor = givenColor.color2;
                         return
                     }
                     else if (scd < 1) {
                         //red
-                        console.log('red');
                         echb.diffuseColor = givenColor.color3
                         return;
                     }
@@ -1039,10 +1037,10 @@ var createScene = async function () {
                     }
                     //console.log('is movin'+t_v);
                 }
-                else if(t_v<2.5 && t_v>0.1){
+                else if(t_v<5 && t_v>0.1){
                     //slows the ball more when it is slow
                 const anlv = ball.physicsBody.getAngularVelocity();
-                ball.physicsBody.setAngularVelocity(anlv.scale(0.93));
+                ball.physicsBody.setAngularVelocity(anlv.scale(0.92));
                 }
             }
 
