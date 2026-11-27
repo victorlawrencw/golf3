@@ -214,7 +214,7 @@ var createScene = async function () {
     shadowmat.alpha = 0.2;
 
     var water = BABYLON.MeshBuilder.CreateBox('water', { size: 200 }, scene);
-    water.scaling = new BABYLON.Vector3(10, .01, 10);
+    water.scaling = new BABYLON.Vector3(10, .001, 10);
     water.position.y = 0;
     water.material = watermat;
 
