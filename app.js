@@ -38,6 +38,16 @@ if (Parse.User.current()) {
     userusername = Parse.User.current().get('username')
 }
 
+    function gM(name) {
+        let gmm = scene.getMeshByName(name);
+        return gmm;
+    }
+
+    function gT(name) {
+        let gts = scene.getMeshesByTags(name);
+        return gts;
+    }
+
 function scalePower(x, multiplier = 2.5, exponent = 0.5) {
   return Math.round(Math.pow(x, exponent) * multiplier);
 }
@@ -141,16 +151,6 @@ var createScene = async function () {
     let skybox = gM("BackgroundSkybox");
     //skybox.scaling = new BABYLON.Vector3(10, 1, 10);
     skybox.isPickable = false;
-
-    function gM(name) {
-        let gmm = gM(name);
-        return gmm;
-    }
-
-    function gT(name) {
-        let gts = scene.getMeshesByTags(name);
-        return gts;
-    }
 
     //quickly round up the vectors
     function rvec(vec) {
