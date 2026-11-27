@@ -334,17 +334,17 @@ var createScene = async function () {
                 switch (scd) {
                     case scd >= 2.9: {
                         //green
-                        echb.color = givenColor.color1
+                        echb.diffuseColor = givenColor.color1
                     }
                         break;
                     case scd >= 1 & scd < 2.9: {
                         //yellow
-                        echb.color = givenColor.color2
+                        echb.diffuseColor = givenColor.color2
                     }
                         break;
                     case scd < 1: {
                         //red
-                        echb.color = givenColor.color3
+                        echb.diffuseColor = givenColor.color3
                     }
                         break;
 
@@ -1043,7 +1043,7 @@ var createScene = async function () {
                     }
                     //console.log('is movin'+t_v);
                 }
-                else if(t_v<0.5 && t_v>0.1){
+                else if(t_v<1 && t_v>0.1){
                     //slows the ball more when it is slow
                 const anlv = ball.physicsBody.getAngularVelocity();
                 ball.physicsBody.setAngularVelocity(anlv.scale(0.93));
@@ -1104,7 +1104,7 @@ var createScene = async function () {
                     }
                     const pullpos = gM("putt4").position.z
                     tension(distance, pullpos);
-                    sessionStorage.setItem('pull', pullpos);
+                    //sessionStorage.setItem('pull', pullpos);
                     //console.log(pickResult.pickedPoint);    
                 }
                 else {
