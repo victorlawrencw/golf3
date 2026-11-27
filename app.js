@@ -588,11 +588,11 @@ var createScene = async function () {
                                 //HE HAS NO CHILD... CHILDLESS.... Cant make a good joke out of this
                                 console.log('without child meshes')
 
-                                const baseShape = new BABYLON.PhysicsShapeConvexHull(coursex, scene);
-                                baseShape.setMassProperties({ mass: 0 });
-                                baseShape.material = basephy;
+                                //const baseShape = new BABYLON.PhysicsBody(coursex, BABYLON.PhysicsMotionType.DYNAMIC, false, scene);
+                                //baseShape.setMassProperties({ mass: 0 });
+                                //baseShape.material = basephy;
 
-                                //new BABYLON.PhysicsAggregate(coursex, BABYLON.PhysicsShapeType.CONVEXHULL, basephy, scene);
+                                const aggrecou = new BABYLON.PhysicsAggregate(coursex, BABYLON.PhysicsShapeType.CONVEXHULL, basephy, scene);
                                 BABYLON.Tags.AddTagsTo(coursex, 'courseCHILD');
 
                                 if (coursex.material.name == '__GLTFLoader._default' || scene.getMaterialByName("__GLTFLoader._default")) {
