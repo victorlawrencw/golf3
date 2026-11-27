@@ -58,7 +58,7 @@ var createScene = async function () {
 
     BABYLON.SceneLoader.ShowLoadingScreen = false;
     engine.enableOfflineSupport = false;
-    const phs = { mass: 0.3, restitution: 0.6, friction: 40 };
+    const phs = { mass: 0.3, restitution: 0.1, friction: 40 };
 
 
     let baseVOL;
@@ -991,10 +991,6 @@ var createScene = async function () {
                 let newvelocity = ball.physicsBody.getLinearVelocity();
 
 
-                //console.log(checkPoint)
-                const anlv = ball.physicsBody.getAngularVelocity();
-                ball.physicsBody.setAngularVelocity(anlv.scale(0.93));
-
                 //let this calc the difference in position of the ball.
                 let lastpos = JSON.parse(sessionStorage.getItem('checkpoint'));
                 const taggedMeshes = gT('courseCHILD');
@@ -1057,6 +1053,11 @@ var createScene = async function () {
                         gM("putt" + pn.toString()).isVisible = false;
                     }
                     //console.log('is movin'+t_v);
+                }
+                else if(t_v<0.5 && t_v>0.1){
+                    //slows the ball more when it is slow
+                const anlv = ball.physicsBody.getAngularVelocity();
+                ball.physicsBody.setAngularVelocity(anlv.scale(0.93));
                 }
             }
 
