@@ -396,7 +396,7 @@ var createScene = async function () {
 
                 const x = patchX + Math.cos(angle) * dist;
                 const z = patchZ + Math.sin(angle) * dist;
-                const height = 0 + Math.random() * 0.7; // Random height between 1 and 3.5
+                const height = 0.3 + Math.random() * 0.8; // Random height between 1 and 3.5
 
                 // Create transform matrix (Scale, No Rotation, Position)
                 const matrix = BABYLON.Matrix.Compose(
