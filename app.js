@@ -1034,7 +1034,8 @@ var createScene = async function () {
                     }
                     //console.log('is movin'+t_v);
                 }
-                else if (t_v < 5 && t_v > 0.1) {
+                
+                if (t_v < 5 && t_v > 0.1) {
                     //slows the ball more when it is slow
                     const anlv = ball.physicsBody.getAngularVelocity();
                     ball.physicsBody.setAngularVelocity(anlv.scale(0.92));
