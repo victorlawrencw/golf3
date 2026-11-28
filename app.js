@@ -21,6 +21,7 @@ let importedmeshes = [];
 let rend;
 let failsafe = 0;
 let startloc;
+let threshholdz = [[], [], [], [], []];
 
 const color1 = new BABYLON.Color3(0.1, 0.9, 0.1);//green
 const color2 = new BABYLON.Color3(0.9, 0.9, 0.1);//yellow
@@ -295,63 +296,63 @@ var createScene = async function () {
             }
             */
 
-        function gM(name) {
-            let gmm = scene.getMeshByName(name);
-            return gmm;
-        }
+    function gM(name) {
+        let gmm = scene.getMeshByName(name);
+        return gmm;
+    }
 
-        function gT(name) {
-            let gts = scene.getMeshesByTags(name);
-            return gts;
-        }
+    function gT(name) {
+        let gts = scene.getMeshesByTags(name);
+        return gts;
+    }
 
 
 
-        
-        //creating color/material function
-        function tension(val, lastbox) {
-            //4 is the limit... the value is a float
-            //0-4 both the boxes and the distance
-            //let me write it mathematically and plainly first... this is still hard to understand
 
-            for (let nmx=0; nmx < 5; nmx++) {
-                //for each putt box. if nmx = 0; 0x4
-                let echx = gM('putt' + (nmx).toString());
-                let echb = echx.material;
-                let zpos = echx.position.z;
+    //creating color/material function
+    function tension(val, lastbox) {
+        //4 is the limit... the value is a float
+        //0-4 both the boxes and the distance
+        //let me write it mathematically and plainly first... this is still hard to understand
 
-                //it will be runx x distance so it will apply to those below when pulled completely
-                //threshhold for all of them is different as well
-                //SEEMS I WILL SCRAP THIS FOR A MORE DETERMINED NO-MATHS APPROACH. Would just get Z of the boxes and process appropriately
-                //const scaled = scaleAndClamp(zpos);
-                const scd = scaleCeilingDecimal(zpos, val); //moves closer to the val hehe
-                console.log(scd);
-                if (scd) {
-                    if (scd >= 2.9) {
-                        //green
-                        echb.diffuseColor = givenColor.color1;
-                        return
-                    }
-                    else if (scd >= 1 && scd < 2.9) {
-                        //yellow
-                        echb.diffuseColor = givenColor.color2;
-                        return
-                    }
-                    else if (scd < 1) {
-                        //red
-                        echb.diffuseColor = givenColor.color3
-                        return;
-                    }
-                    else{
-                        echb.diffuseColor = new BABYLON.Color3(1,1,1)
-                    }
+        for (let nmx = 0; nmx < 5; nmx++) {
+            //for each putt box. if nmx = 0; 0x4
+            let echx = gM('putt' + (nmx).toString());
+            let echb = echx.material;
+            let zpos = echx.position.z;
+
+            //it will be runx x distance so it will apply to those below when pulled completely
+            //threshhold for all of them is different as well
+            //SEEMS I WILL SCRAP THIS FOR A MORE DETERMINED NO-MATHS APPROACH. Would just get Z of the boxes and process appropriately
+            //const scaled = scaleAndClamp(zpos);
+            const scd = scaleCeilingDecimal(zpos, val); //moves closer to the val hehe
+            console.log(scd);
+            if (scd) {
+                if (scd >= 2.9) {
+                    //green
+                    echb.diffuseColor = givenColor.color1;
+                    return
                 }
-
-
+                else if (scd >= 1 && scd < 2.9) {
+                    //yellow
+                    echb.diffuseColor = givenColor.color2;
+                    return
+                }
+                else if (scd < 1) {
+                    //red
+                    echb.diffuseColor = givenColor.color3
+                    return;
+                }
+                else {
+                    echb.diffuseColor = new BABYLON.Color3(1, 1, 1)
+                }
             }
 
 
         }
+
+
+    }
 
 
 
@@ -395,14 +396,27 @@ var createScene = async function () {
             ydw.style.right = "auto";
             ydw.style.left = "10px";
             console.error("No GAME : your game has no start or finish marked, watch BASIC GOLF course modeling on <a src='https://'>https</a>");
+            return;
         }
         else {
             ge("play").disabled = false;
             ge("pauseb").disabled = false;
             ge("captureb").disabled = false;
-            let bbx = gM("course").getBoundingInfo().boundingBox.maximumWorld.x;
-            let bby = gM("course").getBoundingInfo().boundingBox.maximumWorld.y;
-            let bbz = gM("course").getBoundingInfo().boundingBox.maximumWorld.z;
+            let bbx;
+            let bby;
+            let bbz;
+
+            if (scene.getNodeByName("course").getChildMeshes().length == 0) {
+                bbx = gM("course").getBoundingInfo().boundingBox.maximumWorld.x;
+                bby = gM("course").getBoundingInfo().boundingBox.maximumWorld.y;
+                bbz = gM("course").getBoundingInfo().boundingBox.maximumWorld.z;
+            }
+            else {
+                bbx = gM("course").getBoundingInfo().boundingBox.maximumWorld.x;
+                bby = gM("course").getBoundingInfo().boundingBox.maximumWorld.y;
+                bbz = gM("course").getBoundingInfo().boundingBox.maximumWorld.z;
+            }
+            
 
             xyz = 0;
             if (bbx > bbz) {
@@ -415,8 +429,8 @@ var createScene = async function () {
             //THE WATER IS RIGHT BELOW THE COURSE, ONCE THE BALL HITS THE MESH IT WILL RESET THE BALL... while the helper ground will show the shadow. this setup will increase performance
             wateragg = new BABYLON.PhysicsAggregate(water, BABYLON.PhysicsShapeType.BOX, { restitution: 0, friction: 15, mass: 0 }, scene);
             wateragg.body.setPrestepType(BABYLON.PhysicsPrestepType.TELEPORT);
-            water.position.y = (gM('course').getBoundingInfo().boundingBox.extendSize.y * -1) - 1;
-            helper.ground.position.y = (gM('course').getBoundingInfo().boundingBox.extendSize.y * -1) - 1;
+            water.position.y = (gM('course').getBoundingInfo().boundingBox.extendSize.y * -1);
+            helper.ground.position.y = (gM('course').getBoundingInfo().boundingBox.extendSize.y * -1);
 
             //camera.radius = bbxz;
             //camera.lowerRadiusLimit = bbxz-(bbxz*0.25);
@@ -702,7 +716,7 @@ var createScene = async function () {
                         scene.physicsEnabled = true;
                         failsafe = 0;
                     }
-                    if(ms==(task.loadedMeshes.length - 1)) finishedsetup()
+                    if (ms == (task.loadedMeshes.length - 1)) finishedsetup()
 
                 }, 10);
             }
@@ -955,23 +969,6 @@ var createScene = async function () {
             else {
                 //NO WIN YET                                            
 
-                function timeout(ms) {
-                    return new Promise(resolve => setTimeout(resolve, ms))
-                }
-
-                /*
-
-                ball.physicsBody.registerOnPhysicsCollide(gM('water').aggregrate.body, function(main, collided) {
-                    //THE BALL WILL BE PUT IN THE PREVIOUS POSITION
-                    resetBall();
-                    ball.physicsBody.unregisterOnPhysicsCollide(gM('water').aggregrate.body, function(){});
-                });
-            	
-*/
-
-                //water.physicsBody.registerOnPhysicsCollide(ball.aggregrate.body, function(){console.log("hitt")});
-                let newvelocity = ball.physicsBody.getLinearVelocity();
-
 
                 //let this calc the difference in position of the ball.
                 let lastpos = JSON.parse(sessionStorage.getItem('checkpoint'));
@@ -992,7 +989,7 @@ var createScene = async function () {
                             showToast("Ball Revived", 2, 2000);
                             //PLAY minus 1 kinda sound
 
-                        }, 2000
+                        }, 1000
                     )
                 }
                 else if (t_v < 0.05 && hitAny/* && actt==false*/) {
@@ -1037,10 +1034,10 @@ var createScene = async function () {
                     }
                     //console.log('is movin'+t_v);
                 }
-                else if(t_v<5 && t_v>0.1){
+                else if (t_v < 5 && t_v > 0.1) {
                     //slows the ball more when it is slow
-                const anlv = ball.physicsBody.getAngularVelocity();
-                ball.physicsBody.setAngularVelocity(anlv.scale(0.92));
+                    const anlv = ball.physicsBody.getAngularVelocity();
+                    ball.physicsBody.setAngularVelocity(anlv.scale(0.92));
                 }
             }
 
@@ -1098,7 +1095,7 @@ var createScene = async function () {
                         shadower.scaling.scaleInPlace(1 + (distance * 0.5))
                     }
                     const pullpos = gM("putt4").position.z
-                    
+
                     //sessionStorage.setItem('pull', pullpos);
                     //console.log(pickResult.pickedPoint);    
                 }
@@ -1115,10 +1112,6 @@ var createScene = async function () {
 
                 strr = BABYLON.Vector3.Clamp(ball.position.subtract(xtrr).multiply(new BABYLON.Vector3(1, 0, 1)), 0.01, 4);
                 inmat.alpha = 1;
-
-                //console.log(strr); xtrr.multiply(new BABYLON.Vector3(0.9,0,0.9)).negate()
-                //new BABYLON.Vector3(0,0,0).normalize();
-                //strr = new BABYLON.Vector3.Clamp(pickResult.pickedPoint.divide(new BABYLON.Vector3(10,1,10)), new BABYLON.Vector3(-2, 0, -3), new BABYLON.Vector3(2,0,3)).negate();
             }
         }
 
@@ -1225,7 +1218,6 @@ var createScene = async function () {
 
     });
 
-    assetsManager.onProgress = function (remaining, total, lastFinished) { }
     assetsManager.onTaskErrorObservable.add(function (task) {
         console.log('task failed', task.errorObject.message, task.errorObject.exception);
     });
@@ -1330,7 +1322,7 @@ var createScene = async function () {
     }
 
     function finishedsetup() {
-
+        //WHEN THE WHOLE SCENE HAS BEEN SET COMPLETELY
         if (courseloc != 'https://golf3.onrender.com/boredApes.glb/' && loadtype == 'file') {
             loader.innerHTML = "Capturing Preview";
             //FAST 10 secs SCREENSHOT FOR GOLF COURSE SHOWCASE... this will be useful when other users are looking for a particular course.
@@ -1432,9 +1424,6 @@ var createScene = async function () {
 
 
     }
-    assetsManager.onError = function () {
-
-    }
 
 
     document.addEventListener("keydown", function (opk) {
@@ -1460,7 +1449,14 @@ var createScene = async function () {
             ge('ingamemenu').style.display = 'flex'
         }, 200);
         sessionStorage.setItem('start time', Date.now());
-        camera.useAutoRotationBehavior = false;
+        //transition the rotation speed.
+        let maxspeed = 0;
+        let auttr = setInterval(function () {
+            if (camera.autoRotationBehavior.idleRotationSpeed == 0) { camera.autoRotationBehavior.idleRotationSpeed = 0.1; camera.useAutoRotationBehavior = false; return clearInterval(auttr) }
+
+            camera.autoRotationBehavior.idleRotationSpeed = camera.autoRotationBehavior.idleRotationSpeed - maxspeed;
+            maxspeed += 0.005;
+        }, 20)
     }
 
     ge('replaycl').onclick = function () {
@@ -1473,6 +1469,7 @@ var createScene = async function () {
             const eventx = new Event('change', { bubbles: true });
             ge('large-importer').dispatchEvent(eventx)
         }
+        camera.autoRotationBehavior.idleRotationSpeed = 0.1;
     }
 
     ge('resumer').onclick = function () {

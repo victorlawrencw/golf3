@@ -592,3 +592,25 @@ function altyy(runx) {
 
 
         }
+
+
+        
+                //console.log(strr); xtrr.multiply(new BABYLON.Vector3(0.9,0,0.9)).negate()
+                //new BABYLON.Vector3(0,0,0).normalize();
+                //strr = new BABYLON.Vector3.Clamp(pickResult.pickedPoint.divide(new BABYLON.Vector3(10,1,10)), new BABYLON.Vector3(-2, 0, -3), new BABYLON.Vector3(2,0,3)).negate();
+
+
+                 bbx = scene.getNodeByName("course").getBoundingInfo().boundingBox.maximumWorld.x;
+                bby = scene.getNodeByName("course").getBoundingInfo().boundingBox.maximumWorld.y;
+                bbz = scene.getNodeByName("course").getBoundingInfo().boundingBox.maximumWorld.z;
+
+
+                                /*
+
+                ball.physicsBody.registerOnPhysicsCollide(gM('water').aggregrate.body, function(main, collided) {
+                    //THE BALL WILL BE PUT IN THE PREVIOUS POSITION
+                    resetBall();
+                    ball.physicsBody.unregisterOnPhysicsCollide(gM('water').aggregrate.body, function(){});
+                });
+            	
+*/
