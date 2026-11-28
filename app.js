@@ -361,15 +361,22 @@ var createScene = async function () {
 
     function genBoxes() {
         //main holder
-        const invish = BABYLON.MeshBuilder.CreateBox('grassHolder', {width:500, depth:500, height:0.5}, scene);
+        const invish = BABYLON.MeshBuilder.CreateBox('grassHolder', { width: 500, depth: 500, height: 0.5 }, scene);
         invish.isVisible = false;
+
+        const box = BABYLON.MeshBuilder.CreateBox("box", { width: 0.4, height: 0.9, depth: 0.4 }, scene);
+        box.setPivotMatrix(BABYLON.Matrix.Translation(0, 0.5, 0), false);
+
+        box.parent = invish;
 
         const mat = new BABYLON.StandardMaterial("mat", scene);
         mat.diffuseColor = new BABYLON.Color3(0.2, 0.7, 0.3); // Solid green
+        mat.specularColor = new BABYLON.Color3(0,0,0);
+        mat.specularPower = 0.2;
         box.material = mat;
 
         // 2. Patch Settings
-        const numPatches = 3;      // Number of groups
+        const numPatches = 4;      // Number of groups
         const boxesPerPatch = 5;   // Boxes per group
         const fieldSize = 15;       // Total area size
         const patchRadius = 2.0;    // Size of each patch
@@ -504,7 +511,7 @@ var createScene = async function () {
                         new BABYLON.PhysicsAggregate(ball, BABYLON.PhysicsShapeType.BOX, phs, scene);
                         break;
                     case "Cylinder":
-                        ball = BABYLON.MeshBuilder.CreateCylinder("ball", { diameter: (startbbx * 2), tessalation: 3, height: (startbbx*0.2) }, scene);
+                        ball = BABYLON.MeshBuilder.CreateCylinder("ball", { diameter: (startbbx * 2), tessalation: 3, height: (startbbx * 0.2) }, scene);
                         new BABYLON.PhysicsAggregate(ball, BABYLON.PhysicsShapeType.CYLINDER, phs, scene);
                         break;
                     case "Sphere":
