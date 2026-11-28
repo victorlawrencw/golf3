@@ -196,7 +196,7 @@ var createScene = async function () {
     altBallMat.baseColor = new BABYLON.Color3(.98, .98, .98);
 
     var watermat = new BABYLON.StandardMaterial('water', scene);
-    watermat.diffuseColor = new BABYLON.Color3(/*.3,.4,.9*/0.8, 0.8, 0.8);
+    watermat.diffuseColor = new BABYLON.Color3(/*.3,.4,.9*/0.1, 0.1, 0.8);
     watermat.specularColor = new BABYLON.Color3(0, 0, 0);
     watermat.specularPower = 0.2;
     watermat.backfaceCulling = false;
@@ -208,7 +208,7 @@ var createScene = async function () {
     shadowmat.specularPower = 0.05;
     shadowmat.alpha = 0.2;
 
-    var water = BABYLON.MeshBuilder.CreateBox('water', { width: 200, height: 0.5, depth: 200 }, scene);
+    var water = BABYLON.MeshBuilder.CreateBox('water', { width: 500, height: 0.5, depth: 500 }, scene);
     //water.scaling = new BABYLON.Vector3(10, .001, 10);
     water.position.y = 0;
     water.material = watermat;
@@ -231,6 +231,10 @@ var createScene = async function () {
 
     assetsManager.autoHideLoadingUI = false;
 
+
+
+    //CREATE RANDOM PATCHES OF BOXES TO SIMULATE LOW POLY GRASSES
+    genBoxes();
 
 
     sessionStorage.setItem('kicks', 3);
@@ -355,6 +359,55 @@ var createScene = async function () {
     }
 
 
+    function genBoxes() {
+        //main holder
+        const invish = BABYLON.MeshBuilder.CreateBox('grassHolder', {width:500, depth:500, height:0.5}, scene);
+        invish.isVisible = false;
+
+        const mat = new BABYLON.StandardMaterial("mat", scene);
+        mat.diffuseColor = new BABYLON.Color3(0.2, 0.7, 0.3); // Solid green
+        box.material = mat;
+
+        // 2. Patch Settings
+        const numPatches = 3;      // Number of groups
+        const boxesPerPatch = 5;   // Boxes per group
+        const fieldSize = 15;       // Total area size
+        const patchRadius = 2.0;    // Size of each patch
+
+        const matrices = [];
+
+        // 3. Generate Patches
+        for (let p = 0; p < numPatches; p++) {
+            // Pick a random center for this patch
+            const patchX = (Math.random() - 0.5) * fieldSize;
+            const patchZ = (Math.random() - 0.5) * fieldSize;
+
+            for (let b = 0; b < boxesPerPatch; b++) {
+                // Random offset inside a circle around the patch center
+                const angle = Math.random() * Math.PI * 2;
+                const dist = Math.random() * patchRadius;
+
+                const x = patchX + Math.cos(angle) * dist;
+                const z = patchZ + Math.sin(angle) * dist;
+                const height = 0 + Math.random() * 0.7; // Random height between 1 and 3.5
+
+                // Create transform matrix (Scale, No Rotation, Position)
+                const matrix = BABYLON.Matrix.Compose(
+                    new BABYLON.Vector3(0.2, height, 0.2),
+                    BABYLON.Quaternion.Identity(),
+                    new BABYLON.Vector3(x, 0, z)
+                );
+
+                matrices.push(matrix);
+            }
+        }
+
+        // 4. Render all boxes in one draw call
+        box.thinInstanceAdd(matrices);
+
+
+    }
+
 
 
     assetsManager.onTaskSuccessObservable.add(async function (task) {
@@ -416,7 +469,7 @@ var createScene = async function () {
                 bby = gM("course").getBoundingInfo().boundingBox.maximumWorld.y;
                 bbz = gM("course").getBoundingInfo().boundingBox.maximumWorld.z;
             }
-            
+
 
             xyz = 0;
             if (bbx > bbz) {
@@ -430,6 +483,7 @@ var createScene = async function () {
             wateragg = new BABYLON.PhysicsAggregate(water, BABYLON.PhysicsShapeType.BOX, { restitution: 0, friction: 15, mass: 0 }, scene);
             wateragg.body.setPrestepType(BABYLON.PhysicsPrestepType.TELEPORT);
             water.position.y = (gM('course').getBoundingInfo().boundingBox.extendSize.y * -1);
+            gM('grassHolder').position.y = (gM('course').getBoundingInfo().boundingBox.extendSize.y * -1);
             helper.ground.position.y = (gM('course').getBoundingInfo().boundingBox.extendSize.y * -1);
 
             //camera.radius = bbxz;
@@ -450,7 +504,7 @@ var createScene = async function () {
                         new BABYLON.PhysicsAggregate(ball, BABYLON.PhysicsShapeType.BOX, phs, scene);
                         break;
                     case "Cylinder":
-                        ball = BABYLON.MeshBuilder.CreateCylinder("ball", { diameter: (startbbx * 2), tessalation: 3, height: 0.2 }, scene);
+                        ball = BABYLON.MeshBuilder.CreateCylinder("ball", { diameter: (startbbx * 2), tessalation: 3, height: (startbbx*0.2) }, scene);
                         new BABYLON.PhysicsAggregate(ball, BABYLON.PhysicsShapeType.CYLINDER, phs, scene);
                         break;
                     case "Sphere":
@@ -1034,7 +1088,7 @@ var createScene = async function () {
                     }
                     //console.log('is movin'+t_v);
                 }
-                
+
                 if (t_v < 5 && t_v > 0.1) {
                     //slows the ball more when it is slow
                     const anlv = ball.physicsBody.getAngularVelocity();
@@ -1296,7 +1350,8 @@ var createScene = async function () {
             console.log('mesh loaded')
         }
         newCOURSE.onError = function (task) {
-            console.log("tis a bust")
+            console.log("tis a bust");
+            showToast('Invalid Link', 2, 3000)
         }
 
         assetsManager.load();
